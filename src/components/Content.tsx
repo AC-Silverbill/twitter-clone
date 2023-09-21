@@ -8,7 +8,7 @@ interface ContentProps extends BasicComponentWithChildren {
 
 const Content = ({ children }: BasicComponentWithChildren) => {
     return (
-        <div className="flex">
+        <div className="">
             <Sidebar />
             {children}
         </div>
