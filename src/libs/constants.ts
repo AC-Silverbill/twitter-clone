@@ -12,4 +12,5 @@ export const routes = {
     NOTIFICATIONS_DIR: "/[user]/notifications",
     BOOKMARKS_DIR: "/[user]/bookmarks",
     PROFILE_DIR: "/[user]",
+    FINISH_SIGNUP: "user/finishSignUp",
 };
