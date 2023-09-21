@@ -1,10 +1,10 @@
 import React from "react";
 import { BasicComponentWithChildren } from "~/types";
 
-interface ExampleProvider extends BasicComponentWithChildren {}
+interface ExampleProviderProps extends BasicComponentWithChildren {}
 
-const ExampleProvider = () => {
-    return <div>ExampleProvider</div>;
+const ExampleProvider = ({ children }: ExampleProviderProps) => {
+    return <>{children}</>;
 };
 
 export default ExampleProvider;
