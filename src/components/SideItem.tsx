@@ -1,16 +1,18 @@
 import React from "react";
+import { ContentComponent } from "~/types";
 
 interface SideItemProps {
-    icon: string;
+    icon: ContentComponent;
     title: string;
+    route: string;
 }
 
 //hooks for when selected
-const SideItem = ({ icon, title }: SideItemProps) => {
+const SideItem = ({ icon, title, route }: SideItemProps) => {
     return (
-        <div className="flex gap-5">
-            <div>icon</div>
-            <div className="text-2xl font-bold">{title}</div>
+        <div className="flex gap-2">
+            <div className="flex justify-center items-center">{icon}</div>
+            <div className="flex justify-center items-center text-2xl font-semibold">{title}</div>
         </div>
     );
 };

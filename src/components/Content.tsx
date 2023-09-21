@@ -10,7 +10,8 @@ const Content = ({ children }: BasicComponentWithChildren) => {
     return (
         <div className="">
             <Sidebar />
-            {children}
+            {/**TODO: fix bandaid fix on sticky position */}
+            <div className="ml-[300px]">{children}</div>
         </div>
     );
 };
