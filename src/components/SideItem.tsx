@@ -10,7 +10,7 @@ interface SideItemProps {
 //hooks for when selected
 const SideItem = ({ icon, title, route }: SideItemProps) => {
     return (
-        <div className="flex gap-2">
+        <div className="flex gap-2 hover:translate-x-2 transition">
             <div className="flex justify-center items-center">{icon}</div>
             <div className="flex justify-center items-center text-2xl font-semibold">{title}</div>
         </div>

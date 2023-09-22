@@ -13,6 +13,6 @@ const categories = {
  * @param constant
  * @returns
  */
-export const getLocal = <T extends keyof typeof categories, K extends keyof (typeof categories)[T]>(category: T, constant: K) => {
+export default function getLocal<T extends keyof typeof categories, K extends keyof (typeof categories)[T]>(category: T, constant: K) {
     return categories[category][constant];
-};
+}

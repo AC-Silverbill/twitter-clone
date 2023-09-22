@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { getLocal } from "~/libs/getLocal";
+import getLocal from "~/utils/getLocal";
 
 import { AiOutlineHome, AiTwotoneHome, AiOutlineBell, AiTwotoneBell } from "react-icons/ai";
 import { BsPerson, BsPersonFill } from "react-icons/bs";
@@ -18,11 +18,11 @@ const Sidebar = () => {
     const BookmarksIcon = router.pathname === "/users" ? FaBookmark : FaRegBookmark;
     const ProfileIcon = router.pathname === "/users" ? BsPersonFill : BsPerson;
 
-    const HomeRoute = getLocal("routes", "HOME_DIR");
-    const ExploreRoute = getLocal("routes", "HOME_DIR");
-    const NotificationeRoute = getLocal("routes", "HOME_DIR");
-    const BookmarkeRoute = getLocal("routes", "HOME_DIR");
-    const ProfileRoute = getLocal("routes", "HOME_DIR");
+    const HomeRoute = getLocal("routes", "YOUR_HOME");
+    const ExploreRoute = getLocal("routes", "YOUR_EXPLORE");
+    const NotificationeRoute = getLocal("routes", "YOUR_NOTIFICATIONS");
+    const BookmarkeRoute = getLocal("routes", "YOUR_BOOKMARKS");
+    const ProfileRoute = getLocal("routes", "YOUR_HOME");
 
     return (
         <div className="fixed flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] min-w-[200px] z-[1]">

@@ -1,0 +1,1 @@
+save for usage on 3rd party functions (example: like emulating the youtube player using the youtube API)
