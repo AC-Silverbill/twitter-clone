@@ -10,10 +10,11 @@ interface TabProps {
 const Tab = ({ title, handleClick }: TabProps) => {
     const highlightedColor = getLocal("colors", "COLOR_HIGHLIGHTED");
     return (
-        <Button className={`group flex-1 hover:bg-[${highlightedColor}] transition p-2`} onClick={handleClick}>
-            <div className="flex-1 h-full">
-                <span>{title}</span>
-            </div>
+        <Button
+            className={`group flex-1 hover:bg-[${highlightedColor}] transition p-2 border-b-4 border-transparent hover:border-blue-500`}
+            onClick={handleClick}
+        >
+            <div className="flex justify-center items-center flex-wrap min-h-full">{title}</div>
         </Button>
     );
 };
