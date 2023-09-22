@@ -37,8 +37,8 @@ export type ContentComponent = React.ReactNode & {};
 export interface TwitterUser {
     id: number;
     email: ValidEmail<string>;
-    username: string;
-    user?: string;
+    user: string;
+    username?: string;
     profileImage?: string;
     bio?: string;
 }

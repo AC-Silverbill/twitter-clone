@@ -11,7 +11,7 @@ import SideItem from "./SideItem";
 
 const Sidebar = () => {
     const router = useRouter();
-    const { user } = useUser();
+    const user = useUser();
     const selectedColor = getLocal("colors", "COLOR_SELECTED");
     const HomeIcon = router.pathname === "/" ? AiTwotoneHome : AiOutlineHome;
     const ExploreIcon = GoHash; //theres no good slightly bolder one
@@ -23,7 +23,7 @@ const Sidebar = () => {
     const ExploreRoute = getLocal("routes", "YOUR_EXPLORE");
     const NotificationeRoute = getLocal("routes", "YOUR_NOTIFICATIONS");
     const BookmarkeRoute = getLocal("routes", "YOUR_BOOKMARKS");
-    const ProfileRoute = getLocal("routes", "USER_HOME")(user);
+    const ProfileRoute = getLocal("routes", "USER_HOME")(user.user);
 
     return (
         <div className="fixed flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] min-w-[200px] z-[1]">

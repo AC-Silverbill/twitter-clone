@@ -1,18 +1,16 @@
-import { signIn, signOut, useSession } from "next-auth/react";
-import Link from "next/link";
-import { api } from "~/utils/api";
+import react from "react";
 import useUser from "~/hooks/useUser";
 
 import Content from "~/components/Content";
 import Layout from "~/components/Layout";
-import UserContent from "../../components/content/UserContent";
+import ExploreContent from "~/components/content/ExploreContent";
 
 export default function Home() {
     const user = useUser();
     return (
         <Layout>
             <Content>
-                <UserContent user={user} />
+                <ExploreContent />
             </Content>
         </Layout>
     );

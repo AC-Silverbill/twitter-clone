@@ -1,8 +1,14 @@
 import React from "react";
-const UserContent = () => {
+import { TwitterUser } from "~/types";
+
+interface UserContent {
+    user: TwitterUser;
+}
+
+const UserContent = ({ user }: UserContent) => {
     return (
         <div className="flex flex-col">
-            <div className="h-[100vh]">asdasd</div>
+            <div className="h-[100vh]">{user.username}</div>
             <div className="h-[100vh]">asdasd</div>
             <div className="h-[100vh]">asdasd</div>
         </div>

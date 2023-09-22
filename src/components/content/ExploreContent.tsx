@@ -1,16 +1,16 @@
 import React from "react";
 import useUser from "~/hooks/useUser";
 
-const HomeContent = () => {
+const ExploreContent = () => {
     const user = useUser();
 
     return (
         <div className="flex flex-col">
-            <div className="h-[100vh]">Home</div>
+            <div className="h-[100vh]">Explore</div>
             <div className="h-[100vh]">asdasd</div>
             <div className="h-[100vh]">asdasd</div>
         </div>
     );
 };
 
-export default HomeContent;
+export default ExploreContent;
