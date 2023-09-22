@@ -3,8 +3,8 @@ import { AnyRoute } from "~/types";
 //some colors are similar cuz we are doing twitter clone,m but if things change we can
 export const colors = {
     COLOR_PRIMARY: "#2596be",
-    COLOR_SECONDARY: "#ffffff",
-    COLOR_SECONDARY_TINT: "#f0ecec",
+    COLOR_BORDER: "#eff3f4",
+    COLOR_HIGHLIGHTED: "#e6e7e7",
     COLOR_SELECTED: "#2596be",
 } as const;
 

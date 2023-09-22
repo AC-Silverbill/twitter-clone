@@ -13,25 +13,25 @@ const Sidebar = () => {
     const router = useRouter();
     const user = useUser();
     const selectedColor = getLocal("colors", "COLOR_SELECTED");
-    const HomeIcon = router.pathname === "/" ? AiTwotoneHome : AiOutlineHome;
-    const ExploreIcon = GoHash; //theres no good slightly bolder one
-    const NotificationsIcon = router.pathname === "/users" ? AiTwotoneBell : AiOutlineBell;
-    const BookmarksIcon = router.pathname === "/users" ? FaBookmark : FaRegBookmark;
-    const ProfileIcon = router.pathname === "/users" ? BsPersonFill : BsPerson;
+    const homeRoute = getLocal("routes", "YOUR_HOME");
+    const exploreRoute = getLocal("routes", "YOUR_EXPLORE");
+    const notificationsRoute = getLocal("routes", "YOUR_NOTIFICATIONS");
+    const bookmarksRoute = getLocal("routes", "YOUR_BOOKMARKS");
+    const profileRoute = getLocal("routes", "USER_HOME")(user.user);
 
-    const HomeRoute = getLocal("routes", "YOUR_HOME");
-    const ExploreRoute = getLocal("routes", "YOUR_EXPLORE");
-    const NotificationeRoute = getLocal("routes", "YOUR_NOTIFICATIONS");
-    const BookmarkeRoute = getLocal("routes", "YOUR_BOOKMARKS");
-    const ProfileRoute = getLocal("routes", "USER_HOME")(user.user);
+    const HomeIcon = router.pathname === homeRoute ? AiTwotoneHome : AiOutlineHome;
+    const ExploreIcon = GoHash; //theres no good slightly bolder one
+    const NotificationsIcon = router.pathname === notificationsRoute ? AiTwotoneBell : AiOutlineBell;
+    const BookmarksIcon = router.pathname === bookmarksRoute ? FaBookmark : FaRegBookmark;
+    const ProfileIcon = router.asPath.includes(profileRoute) ? BsPersonFill : BsPerson;
 
     return (
         <div className="fixed flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] min-w-[200px] z-[1]">
-            <SideItem icon={<HomeIcon />} route={HomeRoute} title="Home" />
-            <SideItem icon={<ExploreIcon />} route={ExploreRoute} title="Explore" />
-            <SideItem icon={<NotificationsIcon />} route={NotificationeRoute} title="Notifications" />
-            <SideItem icon={<BookmarksIcon />} route={BookmarkeRoute} title="Bookmarks" />
-            <SideItem icon={<ProfileIcon />} route={ProfileRoute} title="Profile" />
+            <SideItem icon={<HomeIcon />} route={homeRoute} title="Home" />
+            <SideItem icon={<ExploreIcon />} route={exploreRoute} title="Explore" />
+            <SideItem icon={<NotificationsIcon />} route={notificationsRoute} title="Notifications" />
+            <SideItem icon={<BookmarksIcon />} route={bookmarksRoute} title="Bookmarks" />
+            <SideItem icon={<ProfileIcon />} route={profileRoute} title="Profile" />
         </div>
     );
 };

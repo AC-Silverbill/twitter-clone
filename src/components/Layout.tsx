@@ -3,6 +3,7 @@ import ExampleProvider from "~/providers/ExampleProvider";
 import { api } from "~/utils/api";
 
 import Head from "./Head";
+import Content from "./Content";
 //include providers here when needed
 interface LayoutProps {
     children: React.ReactNode;
