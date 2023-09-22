@@ -1,6 +1,11 @@
+";use client";
+
+import { useRouter } from "next/router";
 import React from "react";
+import useUser from "~/hooks/useUser";
 import useNavigation from "~/navigation";
 import { AnyRoute, ContentComponent } from "~/types";
+import getLocal from "~/utils/getLocal";
 
 interface SideItemProps {
     icon: ContentComponent;
@@ -11,14 +16,28 @@ interface SideItemProps {
 //hooks for when selected
 const SideItem = ({ icon, route, title }: SideItemProps) => {
     const navigator = useNavigation();
+    const router = useRouter();
+    const user = useUser();
+
+    const selectedColor = getLocal("colors", "COLOR_SELECTED");
     const navigateToPage = (route: AnyRoute<string>) => {
         navigator.replace(route);
     };
 
+    const isHighlighted = () => {
+        if (router.asPath.includes(route)) return true;
+        if (route === router.pathname) return true;
+
+        return false;
+    };
+
     return (
-        <div className="flex gap-2 hover:translate-x-2 transition cursor-pointer" onClick={() => navigateToPage(route)}>
+        <div
+            className={`flex gap-2 hover:translate-x-2 transition cursor-pointer ${isHighlighted() ? `text-[${selectedColor}]` : ""}`}
+            onClick={() => navigateToPage(route)}
+        >
             <div className="flex justify-center items-center">{icon}</div>
-            <div className="flex justify-center items-center text-2xl font-semibold">{title}</div>
+            <div className="flex justify-center items-center text-2xl font-semibold">{title ? title : route}</div>
         </div>
     );
 };

@@ -1,4 +1,4 @@
-primarycolor: <div className="text-[#2596be]"></div>
+primarycolor: <div className="text-[#2596be]"></div> <div className="text-[rgb(37,150,190)]"></div>
 
 gray: <div className="text-[#f0ecec]"></div>
 gray: <div className="text-[#f0ecec]"></div>
