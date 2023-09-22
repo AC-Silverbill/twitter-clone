@@ -1,6 +1,7 @@
 import React from "react";
 import { useRouter } from "next/router";
 import getLocal from "~/utils/getLocal";
+import useUser from "~/hooks/useUser";
 
 import { AiOutlineHome, AiTwotoneHome, AiOutlineBell, AiTwotoneBell } from "react-icons/ai";
 import { BsPerson, BsPersonFill } from "react-icons/bs";
@@ -10,7 +11,7 @@ import SideItem from "./SideItem";
 
 const Sidebar = () => {
     const router = useRouter();
-
+    const { user } = useUser();
     const selectedColor = getLocal("colors", "COLOR_SELECTED");
     const HomeIcon = router.pathname === "/" ? AiTwotoneHome : AiOutlineHome;
     const ExploreIcon = GoHash; //theres no good slightly bolder one
@@ -22,7 +23,7 @@ const Sidebar = () => {
     const ExploreRoute = getLocal("routes", "YOUR_EXPLORE");
     const NotificationeRoute = getLocal("routes", "YOUR_NOTIFICATIONS");
     const BookmarkeRoute = getLocal("routes", "YOUR_BOOKMARKS");
-    const ProfileRoute = getLocal("routes", "YOUR_HOME");
+    const ProfileRoute = getLocal("routes", "USER_HOME")(user);
 
     return (
         <div className="fixed flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] min-w-[200px] z-[1]">

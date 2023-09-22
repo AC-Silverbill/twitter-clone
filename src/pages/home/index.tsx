@@ -4,7 +4,7 @@ import { api } from "~/utils/api";
 
 import Content from "~/components/Content";
 import Layout from "~/components/Layout";
-import UserContent from "../../components/content/UserContent";
+import UserContent from "~/components/content/UserContent";
 
 export default function Home() {
     return (
