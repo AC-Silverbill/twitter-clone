@@ -3,6 +3,7 @@ import useUser from "~/hooks/useUser";
 
 import Tab from "../Tab";
 import ContentTitle from "../ContentTitle";
+import Tweet from "../Tweet";
 
 const HomeContent = () => {
     const user = useUser();
@@ -16,7 +17,7 @@ const HomeContent = () => {
                     <Tab title="Following" handleClick={() => {}} />
                 </div>
             </div>
-            <div className="h-[100vh]">asdasd</div>
+            <Tweet />
             <div className="h-[100vh]">asdasd</div>
         </div>
     );
