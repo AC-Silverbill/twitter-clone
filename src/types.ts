@@ -33,7 +33,7 @@ export type ContentComponent = React.ReactNode & {};
  * @param email: string, that includes '@'
  * @param username: string
  * @param user: string
- * @param profileImage: string
+ * @param profileImageID: number
  * @param bio: string
  */
 export interface TwitterUser {
@@ -41,7 +41,7 @@ export interface TwitterUser {
     email: AnyEmail<string>;
     user: string;
     username?: string;
-    profileImage?: string;
+    profileImageID?: number;
     bio?: string;
 }
 
