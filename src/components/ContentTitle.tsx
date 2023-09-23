@@ -4,7 +4,11 @@ interface ContentTitleProps {
     title: string;
 }
 const ContentTitle = ({ title }: ContentTitleProps) => {
-    return <h1 className="p-2 font-bold text-xl">{title}</h1>;
+    return (
+        <div className="p-2 font-bold text-xl">
+            <h1 className="p-2">{title}</h1>
+        </div>
+    );
 };
 
 export default ContentTitle;
