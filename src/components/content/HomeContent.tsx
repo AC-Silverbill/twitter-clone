@@ -8,6 +8,15 @@ import Tweet from "../Tweet";
 const HomeContent = () => {
     const user = useUser();
 
+    const exampleTweet: Tweet = {
+        id: 1,
+        authorId: 21,
+        postId: 4,
+        content: "hello everyone!",
+        likes: [43],
+        retweets: [],
+    };
+
     return (
         <div className="flex flex-col">
             <div id="heading" className="border-b-[1px] border-[#000000]">
@@ -17,7 +26,7 @@ const HomeContent = () => {
                     <Tab title="Following" handleClick={() => {}} />
                 </div>
             </div>
-            <Tweet />
+            <Tweet tweet={exampleTweet} />
             <div className="h-[100vh]">asdasd</div>
         </div>
     );

@@ -5,8 +5,9 @@ interface TweetProps {
     tweet: Tweet;
 }
 
-const Tweet = () => {
-    return <div>Tweet</div>;
+const Tweet = ({ tweet: { id, authorId, postId, content, likes, retweets } }: TweetProps) => {
+    //TODO: refactor into fetching the author's pfp
+    return <div>{id}</div>;
 };
 
 export default Tweet;
