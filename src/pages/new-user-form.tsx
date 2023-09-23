@@ -3,6 +3,7 @@ import getLocal from "~/utils/getLocal";
 import { api } from "~/utils/api";
 
 export default function NewUserForm() {
+    // todo: if the user is already signed up or doesn't have a session, they aren't permitted to be here
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
     const { mutate: finishSignUp } = api.user.finishSignUp.useMutation();
     return (
@@ -13,7 +14,6 @@ export default function NewUserForm() {
             <Button
                 onClick={() => {
                     finishSignUp({
-                        id: "1",
                         name: "Kat",
                         username: "PrettyKat",
                     });

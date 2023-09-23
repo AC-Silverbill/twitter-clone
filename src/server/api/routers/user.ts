@@ -6,16 +6,15 @@ export const userRouter = createTRPCRouter({
     finishSignUp: publicProcedure
         .input(
             z.object({
-                id: z.string(),
                 name: z.string(),
                 username: z.string(),
             })
         )
         .mutation(async ({ ctx, input }) => {
-            const { id, name, username } = input;
+            const { name, username } = input;
             await ctx.db.user.update({
                 where: {
-                    id,
+                    id: ctx.session?.user.id,
                 },
                 data: {
                     name,
