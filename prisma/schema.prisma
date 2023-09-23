@@ -52,12 +52,14 @@ model Session {
 
 model User {
   id              String    @id @default(cuid())
-  name            String?
-  email           String?   @unique
+  name            String    @default("")
+  email           String    @unique
   emailVerified   DateTime?
   image           String?
   isAuthenticated Boolean   @default(false)
   username        String?   @unique
+  bio             String?
+  joinedAt        DateTime  @default(now())
   accounts        Account[]
   sessions        Session[]
 }

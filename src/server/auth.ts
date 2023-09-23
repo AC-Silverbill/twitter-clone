@@ -5,6 +5,7 @@ import DiscordProvider from "next-auth/providers/discord";
 
 import { env } from "~/env.mjs";
 import { db } from "~/server/db";
+import { TwitterUser } from "~/types";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -14,21 +15,10 @@ import { db } from "~/server/db";
  */
 declare module "next-auth" {
     interface Session {
-        user: {
-            isAuthenticated: boolean;
-            username: string;
-        } & DefaultSession["user"];
+        user: User;
     }
 
-    interface User {
-        id: string;
-        name?: string;
-        email?: string;
-        emailVerified?: string;
-        image?: string;
-        isAuthenticated: boolean;
-        username?: string;
-    }
+    interface User extends TwitterUser {}
 }
 
 /**

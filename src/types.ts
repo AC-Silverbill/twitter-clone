@@ -31,18 +31,25 @@ export type ContentComponent = React.ReactNode & {};
  * @interface TwitterUser
  * @param id: number
  * @param email: string, that includes '@'
+ * @param name: string
  * @param username: string
  * @param user: string
- * @param profileImageID: number
+ * @param image?: string
+ * @param isAuthenticated: boolean
+ * @param emailVerified?: Date
  * @param bio: string
+ * @param joinedAt: Date
  */
 export interface TwitterUser {
     id: number;
     email: AnyEmail<string>;
-    user: string;
-    username?: string;
-    profileImageID?: number;
+    name: string;
+    username: string;
+    image?: string;
+    isAuthenticated: boolean;
+    emailVerified?: Date;
     bio?: string;
+    joinedAt: Date;
 }
 
 /**
