@@ -19,19 +19,19 @@ export default function Home() {
     const resetMut = api.user.resetDB.useMutation();
 
     //TODO: make the signin a popup modal similar to twitter itself
-    const SignInComponent = () => (
-        <form className={`transition flex flex-col gap-1 ${formVisibility ? "visible" : "invisible"}`}>
-            <input className="border rounded-md border-gray-400 outline-none p-2" type="email" placeholder="email" />
-            <input className="border rounded-md border-gray-400 outline-none p-2" type="text" placeholder="username" />
-            <input className="border rounded-md border-gray-400 outline-none p-2" type="password" placeholder="password" />
-            <Button
-                onClick={() => signIn("apple", { username: "asdasjd", password: "123" })}
-                className={`bg-[${primaryColor}] text-white p-2 rounded-2xl font-bold`}
-            >
-                Sign In
-            </Button>
-        </form>
-    );
+    // const SignInComponent = () => (
+    //     <form className={`transition flex flex-col gap-1 ${formVisibility ? "visible" : "invisible"}`}>
+    //         <input className="border rounded-md border-gray-400 outline-none p-2" type="email" placeholder="email" />
+    //         <input className="border rounded-md border-gray-400 outline-none p-2" type="text" placeholder="username" />
+    //         <input className="border rounded-md border-gray-400 outline-none p-2" type="password" placeholder="password" />
+    //         <Button
+    //             onClick={() => signIn("apple", { username: "asdasjd", password: "123" })}
+    //             className={`bg-[${primaryColor}] text-white p-2 rounded-2xl font-bold`}
+    //         >
+    //             Sign In
+    //         </Button>
+    //     </form>
+    // );
 
     return (
         <div className="flex flex-col h-screen">
@@ -52,7 +52,9 @@ export default function Home() {
                         <Button
                             className="border-2 rounded-xl p-2 w-full"
                             onClick={() => {
-                                signIn("discord");
+                                signIn("discord", {
+                                    callbackUrl: "/home",
+                                });
                             }}
                         >
                             Sign in with Discord
@@ -64,7 +66,7 @@ export default function Home() {
                                 resetMut.mutate();
                             }}
                         >
-                            Sign up with Google
+                            Sign up with Google (this resets the db for now lol)
                         </Button>
                         {/*<div>-----or-----</div>*/}
                         {/*<Button className={`border-[1px] rounded-xl p-2 w-full bg-[${primaryColor}] text-white font-extrabold`}>*/}
@@ -82,7 +84,7 @@ export default function Home() {
                         {/*</Button>*/}
                     </div>
                 </div>
-                <SignInComponent />
+                {/*<SignInComponent />*/}
             </div>
             <Footer />
         </div>
