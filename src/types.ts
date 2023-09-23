@@ -59,10 +59,12 @@ export interface TwitterUser {
 export interface Tweet {
     id: number;
     authorId: number;
+    author: TwitterUser;
     postId: number;
     content: string;
     attachments?: string;
     likes: number[]; // userIDs
     retweets: number[]; // tweetIDs
     reference?: Tweet;
+    timeCreated: string;
 }

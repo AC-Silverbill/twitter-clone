@@ -5,9 +5,9 @@ const useUser = (): TwitterUser => {
     return {
         id: 123821,
         email: "dsjadja@gmail.com",
-        username: "Aerys",
+        username: "Kat",
         user: "aerys1",
-        profileImageID: "~/../public/images/test1.png",
+        profileImageID: 12312,
         bio: "sup",
     };
 };

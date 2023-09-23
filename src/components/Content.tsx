@@ -13,7 +13,7 @@ const Content = ({ children }: BasicComponentWithChildren) => {
     return (
         <div className="flex">
             <Sidebar />
-            <div className="ml-[300px] flex w-[990px]">
+            <div className="ml-[270px] flex w-[990px]">
                 {/**TODO: fix bandaid fix on sticky position */}
                 <div className="flex-[3]">{children}</div>
                 <Discovery />

@@ -3,10 +3,21 @@ import useUser from "~/hooks/useUser";
 
 import Tab from "../Tab";
 import ContentTitle from "../ContentTitle";
+import Tweet from "../Tweet";
 
 const ExploreContent = () => {
     const user = useUser();
 
+    const exampleTweet: Tweet = {
+        id: 1,
+        authorId: 21,
+        author: user,
+        postId: 4,
+        content: "hello everyone!",
+        likes: [43],
+        retweets: [],
+        timeCreated: "asdasd",
+    };
     return (
         <>
             <div id="content" className="flex-[3] flex flex-col">
@@ -20,8 +31,8 @@ const ExploreContent = () => {
                         <Tab title="Entertainment" handleClick={() => {}} />
                     </div>
                 </div>
-                <div className="h-[100vh]">asdasd</div>
-                <div className="h-[100vh]">asdasd</div>
+                <Tweet tweet={exampleTweet} />
+                <Tweet tweet={exampleTweet} />
             </div>
             <div id="discovery"></div>
         </>

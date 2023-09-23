@@ -11,10 +11,12 @@ const HomeContent = () => {
     const exampleTweet: Tweet = {
         id: 1,
         authorId: 21,
+        author: user,
         postId: 4,
         content: "hello everyone!",
         likes: [43],
         retweets: [],
+        timeCreated: "asdasd",
     };
 
     return (
@@ -27,7 +29,7 @@ const HomeContent = () => {
                 </div>
             </div>
             <Tweet tweet={exampleTweet} />
-            <div className="h-[100vh]">asdasd</div>
+            <Tweet tweet={exampleTweet} />
         </div>
     );
 };
