@@ -1,17 +1,35 @@
-import { signIn, signOut, useSession } from "next-auth/react";
+import react from "react";
+import { useState } from "react";
+import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import Button from "~/components/Button";
-import Footer from "~/components/Footer";
-
 import { api } from "~/utils/api";
 import getLocal from "~/utils/getLocal";
 
+import Button from "~/components/Button";
+import Footer from "~/components/Footer";
+
 export default function Home() {
+    const [formVisibility, setFormVisibility] = useState(false);
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
     const highlightedColor = getLocal("colors", "COLOR_HIGHLIGHTED");
     const hello = api.example.hello.useQuery({ text: "from tRPC" });
+
+    //TODO: make the signin a popup modal similar to twitter itself
+    const SignInComponent = () => (
+        <form className={`transition flex flex-col gap-1 ${formVisibility ? "visible" : "invisible"}`}>
+            <input className="border rounded-md border-gray-400 outline-none p-2" type="email" placeholder="email" />
+            <input className="border rounded-md border-gray-400 outline-none p-2" type="text" placeholder="username" />
+            <input className="border rounded-md border-gray-400 outline-none p-2" type="password" placeholder="password" />
+            <Button
+                onClick={() => signIn("apple", { username: "asdasjd", password: "123" })}
+                className={`bg-[${primaryColor}] text-white p-2 rounded-2xl font-bold`}
+            >
+                Sign In
+            </Button>
+        </form>
+    );
 
     return (
         <div className="flex flex-col h-screen">
@@ -41,11 +59,13 @@ export default function Home() {
                         <h3 className="font-bold text-2xl self-start">Already have an account?</h3>
                         <Button
                             className={`border-[1px] rounded-xl p-2 w-full text-[${primaryColor}] bg-white font-extrabold hover:bg-[${highlightedColor}] transition`}
+                            onClick={() => setFormVisibility(true)}
                         >
                             Sign In
                         </Button>
                     </div>
                 </div>
+                <SignInComponent />
             </div>
             <Footer />
         </div>
