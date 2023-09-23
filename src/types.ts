@@ -54,6 +54,7 @@ export interface TwitterUser {
  * @param attachments?: string -
  * @param likes: number[], that are userIDs
  * @param retweets: number[], that are tweetIDs
+ * @param reference: Tweet, which isn't the current one
  */
 export interface Tweet {
     id: number;
@@ -63,12 +64,5 @@ export interface Tweet {
     attachments?: string;
     likes: number[]; // userIDs
     retweets: number[]; // tweetIDs
-}
-
-/**
- * @interface Retweet
- * @param ref: Tweet, which isn't the current one
- */
-export interface Retweet extends Tweet {
-    ref: Tweet;
+    reference?: Tweet;
 }
