@@ -1,5 +1,6 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
+import { resetDB } from "~/test/helpers/reset-db";
 
 export const userRouter = createTRPCRouter({
     finishSignUp: publicProcedure
@@ -23,4 +24,7 @@ export const userRouter = createTRPCRouter({
                 },
             });
         }),
+    resetDB: publicProcedure.mutation(async () => {
+        await resetDB();
+    }),
 });

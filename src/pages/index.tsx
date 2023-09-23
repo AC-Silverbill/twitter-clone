@@ -16,6 +16,8 @@ export default function Home() {
     const highlightedColor = getLocal("colors", "COLOR_HIGHLIGHTED");
     const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
+    const resetMut = api.user.resetDB.useMutation();
+
     //TODO: make the signin a popup modal similar to twitter itself
     const SignInComponent = () => (
         <form className={`transition flex flex-col gap-1 ${formVisibility ? "visible" : "invisible"}`}>
@@ -47,22 +49,37 @@ export default function Home() {
                             <h1 className="text-[80px] font-bold">Twitter Clone</h1>
                             <h2 className="text-[40px] font-bold">(wow!)</h2>
                         </div>
-                        <Button className="border-2 rounded-xl p-2 w-full">Sign in as (placeholder)</Button>
-                        <Button className="border-2 rounded-xl p-2 w-full">Sign up with Apple (placeholder)</Button>
-                        <div>-----or-----</div>
-                        <Button className={`border-[1px] rounded-xl p-2 w-full bg-[${primaryColor}] text-white font-extrabold`}>
-                            Create Account
-                        </Button>
-                        <span className="text-xs p-1 pb-16">
-                            By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use.
-                        </span>
-                        <h3 className="font-bold text-2xl self-start">Already have an account?</h3>
                         <Button
-                            className={`border-[1px] rounded-xl p-2 w-full text-[${primaryColor}] bg-white font-extrabold hover:bg-[${highlightedColor}] transition`}
-                            onClick={() => setFormVisibility(true)}
+                            className="border-2 rounded-xl p-2 w-full"
+                            onClick={() => {
+                                signIn("discord");
+                            }}
                         >
-                            Sign In
+                            Sign in with Discord
                         </Button>
+                        <Button
+                            className="border-2 rounded-xl p-2 w-full"
+                            onClick={() => {
+                                // todo: get google keys
+                                resetMut.mutate();
+                            }}
+                        >
+                            Sign up with Google
+                        </Button>
+                        {/*<div>-----or-----</div>*/}
+                        {/*<Button className={`border-[1px] rounded-xl p-2 w-full bg-[${primaryColor}] text-white font-extrabold`}>*/}
+                        {/*    Create Account*/}
+                        {/*</Button>*/}
+                        {/*<span className="text-xs p-1 pb-16">*/}
+                        {/*    By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use.*/}
+                        {/*</span>*/}
+                        {/*<h3 className="font-bold text-2xl self-start">Already have an account?</h3>*/}
+                        {/*<Button*/}
+                        {/*    className={`border-[1px] rounded-xl p-2 w-full text-[${primaryColor}] bg-white font-extrabold hover:bg-[${highlightedColor}] transition`}*/}
+                        {/*    onClick={() => setFormVisibility(true)}*/}
+                        {/*>*/}
+                        {/*    Sign In*/}
+                        {/*</Button>*/}
                     </div>
                 </div>
                 <SignInComponent />
