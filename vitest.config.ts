@@ -3,7 +3,8 @@ import * as path from "path";
 
 export default defineConfig({
     test: {
-        globalSetup: "./src/test/globalSetup.ts",
+        setupFiles: "./src/test/helpers/setup.ts",
+        globalSetup: "./src/test/helpers/global-setup.ts",
     },
     resolve: {
         alias: [{ find: "~", replacement: path.resolve(__dirname, "src") }],
