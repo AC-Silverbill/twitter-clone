@@ -1,4 +1,4 @@
-import react from "react";
+import react, { useEffect } from "react";
 import { useState } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
 import Head from "next/head";
@@ -6,32 +6,50 @@ import Image from "next/image";
 import Link from "next/link";
 import { api } from "~/utils/api";
 import getLocal from "~/utils/getLocal";
-
+import useNavigation from "~/navigation";
 import Button from "~/components/Button";
 import Footer from "~/components/Footer";
 
 export default function Home() {
+    const { data: sessionData, update: updateSessionData } = useSession();
     const [formVisibility, setFormVisibility] = useState(false);
+    const navigator = useNavigation();
+    const { mutate: resetMutation } = api.user.resetDB.useMutation();
+    const { mutate: finishSignUp } = api.user.finishSignUp.useMutation();
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
     const highlightedColor = getLocal("colors", "COLOR_HIGHLIGHTED");
     const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
-    const resetMut = api.user.resetDB.useMutation();
+    useEffect(() => {
+        // todo: this takes a while to be checked, need a loading page
+        if (sessionData?.user.isAuthenticated === true) {
+            navigator.push("/home");
+        } else if (sessionData?.user.isAuthenticated === false) {
+            setFormVisibility(true);
+        }
+    }, [navigator, sessionData]);
 
-    //TODO: make the signin a popup modal similar to twitter itself
-    // const SignInComponent = () => (
-    //     <form className={`transition flex flex-col gap-1 ${formVisibility ? "visible" : "invisible"}`}>
-    //         <input className="border rounded-md border-gray-400 outline-none p-2" type="email" placeholder="email" />
-    //         <input className="border rounded-md border-gray-400 outline-none p-2" type="text" placeholder="username" />
-    //         <input className="border rounded-md border-gray-400 outline-none p-2" type="password" placeholder="password" />
-    //         <Button
-    //             onClick={() => signIn("apple", { username: "asdasjd", password: "123" })}
-    //             className={`bg-[${primaryColor}] text-white p-2 rounded-2xl font-bold`}
-    //         >
-    //             Sign In
-    //         </Button>
-    //     </form>
-    // );
+    // TODO: make the signin a popup modal similar to twitter itself
+    const SignInComponent = () => (
+        <form className={`transition flex flex-col gap-1 ${formVisibility ? "visible" : "invisible"}`}>
+            <input className="border rounded-md border-gray-400 outline-none p-2" type="email" placeholder="email" />
+            <input className="border rounded-md border-gray-400 outline-none p-2" type="text" placeholder="username" />
+            <input className="border rounded-md border-gray-400 outline-none p-2" type="password" placeholder="password" />
+            <Button
+                onClick={() => {
+                    finishSignUp({
+                        name: "Kat",
+                        username: "PrettyKat",
+                    });
+                    // todo: this one needs the loading too
+                    void updateSessionData();
+                }}
+                className={`bg-[${primaryColor}] text-white p-2 rounded-2xl font-bold`}
+            >
+                Sign In
+            </Button>
+        </form>
+    );
 
     return (
         <div className="flex flex-col h-screen">
@@ -52,9 +70,7 @@ export default function Home() {
                         <Button
                             className="border-2 rounded-xl p-2 w-full"
                             onClick={() => {
-                                signIn("discord", {
-                                    callbackUrl: "/home",
-                                });
+                                void signIn("discord");
                             }}
                         >
                             Sign in with Discord
@@ -63,7 +79,7 @@ export default function Home() {
                             className="border-2 rounded-xl p-2 w-full"
                             onClick={() => {
                                 // todo: get google keys
-                                resetMut.mutate();
+                                resetMutation();
                             }}
                         >
                             Sign up with Google (this resets the db for now lol)
@@ -84,7 +100,7 @@ export default function Home() {
                         {/*</Button>*/}
                     </div>
                 </div>
-                {/*<SignInComponent />*/}
+                {formVisibility && <SignInComponent />}
             </div>
             <Footer />
         </div>
