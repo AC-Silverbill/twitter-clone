@@ -5,16 +5,17 @@ import { type AppType } from "next/app";
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
+import UserProvider from "~/providers/UserProvider";
 
-const MyApp: AppType<{ session: Session | null }> = ({
-  Component,
-  pageProps: { session, ...pageProps },
-}) => {
-  return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
-  );
+//include providers here when needed
+const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps: { session, ...pageProps } }) => {
+    return (
+        <SessionProvider session={session}>
+            <UserProvider>
+                <Component {...pageProps} />
+            </UserProvider>
+        </SessionProvider>
+    );
 };
 
 export default api.withTRPC(MyApp);

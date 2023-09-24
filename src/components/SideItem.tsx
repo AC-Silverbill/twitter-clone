@@ -1,4 +1,4 @@
-";use client";
+"use client";
 
 import { useRouter } from "next/router";
 import React from "react";
@@ -17,7 +17,6 @@ interface SideItemProps {
 const SideItem = ({ icon, route, title }: SideItemProps) => {
     const navigator = useNavigation();
     const router = useRouter();
-    const user = useUser();
 
     const borderColor = getLocal("colors", "COLOR_BORDER");
     const selectedColor = getLocal("colors", "COLOR_SELECTED");

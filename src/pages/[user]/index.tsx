@@ -4,19 +4,16 @@ import { useRouter } from "next/router";
 
 import Content from "~/components/Content";
 import Layout from "~/components/Layout";
-import UserContent from "~/components/content/UserContent";
+import UserFeed from "~/components/feed/UserFeed";
 import Discovery from "~/components/Discovery";
 import Custom404 from "../404";
 
 export default function Home() {
     const router = useRouter();
-    const user = useUser();
-
+    const { twitterUser } = useUser();
     return (
-        <Layout>
-            <Content>
-                <UserContent user={user} />
-            </Content>
-        </Layout>
+        <Content>
+            <UserFeed twitterUser={twitterUser} />
+        </Content>
     );
 }

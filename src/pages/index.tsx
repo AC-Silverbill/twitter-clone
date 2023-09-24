@@ -9,17 +9,17 @@ import getLocal from "~/utils/getLocal";
 import useNavigation from "~/navigation";
 import Button from "~/components/Button";
 import Footer from "~/components/Footer";
+import useUser from "~/hooks/useUser";
 
 export default function Home() {
     const { data: sessionData, update: updateSessionData } = useSession();
-    const [formVisibility, setFormVisibility] = useState(false);
+    const [formVisibility, setFormVisibility] = useState(true);
     const navigator = useNavigation();
     const { mutate: resetMutation } = api.user.resetDB.useMutation();
     const { mutate: finishSignUp } = api.user.finishSignUp.useMutation();
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
     const highlightedColor = getLocal("colors", "COLOR_HIGHLIGHTED");
     const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
     useEffect(() => {
         // todo: this takes a while to be checked, need a loading page
         if (sessionData?.user.isAuthenticated === true) {
@@ -41,7 +41,7 @@ export default function Home() {
                         name: "Kat",
                         username: "PrettyKat",
                     });
-                    // todo: this one needs the loading too
+                    // TODO: this one needs the loading too
                     void updateSessionData();
                 }}
                 className={`bg-[${primaryColor}] text-white p-2 rounded-2xl font-bold`}
@@ -103,30 +103,6 @@ export default function Home() {
                 {formVisibility && <SignInComponent />}
             </div>
             <Footer />
-        </div>
-    );
-}
-
-function AuthShowcase() {
-    const { data: sessionData } = useSession();
-
-    const { data: secretMessage } = api.example.getSecretMessage.useQuery(
-        undefined, // no input
-        { enabled: sessionData?.user !== undefined }
-    );
-
-    return (
-        <div className="flex flex-col items-center justify-center gap-4">
-            <p className="text-center text-2xl text-white">
-                {sessionData && <span>Logged in as {sessionData.user?.name}</span>}
-                {secretMessage && <span> - {secretMessage}</span>}
-            </p>
-            <button
-                className="rounded-full bg-white/10 px-10 py-3 font-semibold text-white no-underline transition hover:bg-white/20"
-                onClick={sessionData ? () => void signOut() : () => void signIn()}
-            >
-                {sessionData ? "Sign out" : "Sign in"}
-            </button>
         </div>
     );
 }

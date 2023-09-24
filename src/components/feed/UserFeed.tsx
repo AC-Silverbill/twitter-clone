@@ -2,17 +2,17 @@ import React from "react";
 import { TwitterUser } from "~/types";
 
 interface UserContent {
-    user: TwitterUser;
+    twitterUser: TwitterUser;
 }
 
-const UserContent = ({ user }: UserContent) => {
+const UserFeed = ({ twitterUser }: UserContent) => {
     return (
         <div className="flex flex-col">
-            <div className="h-[100vh]">{user.username} is here</div>
+            <div className="h-[100vh]">{twitterUser.username} is here</div>
             <div className="h-[100vh]">asdasd</div>
             <div className="h-[100vh]">asdasd</div>
         </div>
     );
 };
 
-export default UserContent;
+export default UserFeed;
