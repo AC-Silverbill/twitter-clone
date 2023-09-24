@@ -1,5 +1,5 @@
 import React from "react";
-import ExampleProvider from "~/providers/ExampleProvider";
+import UserProvider from "~/providers/UserProvider";
 import { api } from "~/utils/api";
 
 import Head from "./Head";
@@ -15,7 +15,7 @@ const Layout = ({ children }: LayoutProps) => {
     return (
         <>
             <Head></Head>
-            <ExampleProvider>{children}</ExampleProvider>
+            <UserProvider>{children}</UserProvider>
         </>
     );
 };

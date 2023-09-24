@@ -1,12 +1,12 @@
 import Content from "~/components/Content";
 import Layout from "~/components/Layout";
-import NotificationsContent from "~/components/content/NotificationsContent";
+import NotificationsFeed from "~/components/feed/NotificationsFeed";
 
 export default function Home() {
     return (
         <Layout>
             <Content>
-                <NotificationsContent />
+                <NotificationsFeed />
             </Content>
         </Layout>
     );

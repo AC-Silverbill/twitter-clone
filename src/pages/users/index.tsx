@@ -5,14 +5,13 @@ import useUser from "~/hooks/useUser";
 
 import Content from "~/components/Content";
 import Layout from "~/components/Layout";
-import UserContent from "../../components/content/UserContent";
+import UserFeed from "../../components/feed/UserFeed";
 
 export default function Home() {
-    const { twitterUser } = useUser();
     return (
         <Layout>
             <Content>
-                <UserContent twitterUser={twitterUser} />
+                <UserFeed twitterUser={twitterUser} />
             </Content>
         </Layout>
     );

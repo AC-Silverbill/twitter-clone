@@ -4,9 +4,7 @@ import useUser from "~/hooks/useUser";
 import ContentTitle from "../ContentTitle";
 import Tab from "../Tab";
 
-const NotificationsContent = () => {
-    const user = useUser();
-
+const NotificationsFeed = () => {
     return (
         <div className="flex flex-col">
             <div id="heading" className="border-b-[1px] border-[#000000]">
@@ -23,4 +21,4 @@ const NotificationsContent = () => {
     );
 };
 
-export default NotificationsContent;
+export default NotificationsFeed;

@@ -11,3 +11,6 @@ apparently we need to add tailwind custom colors that require a variable (despit
 #####PATHS EQUIVALENT CHECKS WITH USER#####
 right now if u do `useRouter().pathname`, this would be the correct way to check if the path (without queries) matches an existing route. however, i think nextjs just uses ur folder name isnt of actually checking the url, so if u did this on the users page, you would get `/[username]` literally. my current workaround is using `useRouter().asPath` but this uses queries also, unless you regex it.
 no mistakes yet from this, but potentially, so be careful.
+
+#####signIn nextAuth QUIRKS#####
+if, in a `signIn('provider', {options})` the provider exists, but the options are invalid, it will get a error. however, if the provider doesnt exist, it will always fallback onto the default signIn page

@@ -33,7 +33,6 @@ export type ContentComponent = React.ReactNode & {};
  * @param email: string, that includes '@'
  * @param name: string
  * @param username: string
- * @param user: string
  * @param image?: string
  * @param isAuthenticated: boolean
  * @param emailVerified?: Date
@@ -58,10 +57,11 @@ export interface TwitterUser {
  * @param authorId: number
  * @param postId: number
  * @param content: string
- * @param attachments?: string -
+ * @param attachments?: string[]
  * @param likes: number[], that are userIDs
  * @param retweets: number[], that are tweetIDs
  * @param reference: Tweet, which isn't the current one
+ * @param timeCreated: Date
  */
 export interface Tweet {
     id: number;

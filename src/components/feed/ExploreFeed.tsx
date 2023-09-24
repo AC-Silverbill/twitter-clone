@@ -5,13 +5,13 @@ import Tab from "../Tab";
 import ContentTitle from "../ContentTitle";
 import Tweet from "../Tweet";
 
-const ExploreContent = () => {
-    const user = useUser();
+const ExploreFeed = () => {
+    const { twitterUser } = useUser();
 
     const exampleTweet: Tweet = {
         id: 1,
         authorId: 21,
-        author: user,
+        author: twitterUser,
         postId: 4,
         content: "hello everyone!",
         likes: [43],
@@ -39,4 +39,4 @@ const ExploreContent = () => {
     );
 };
 
-export default ExploreContent;
+export default ExploreFeed;

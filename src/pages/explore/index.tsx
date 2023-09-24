@@ -3,14 +3,13 @@ import useUser from "~/hooks/useUser";
 
 import Content from "~/components/Content";
 import Layout from "~/components/Layout";
-import ExploreContent from "~/components/content/ExploreContent";
+import ExploreFeed from "~/components/feed/ExploreFeed";
 
 export default function Home() {
-    const user = useUser();
     return (
         <Layout>
             <Content>
-                <ExploreContent />
+                <ExploreFeed />
             </Content>
         </Layout>
     );
