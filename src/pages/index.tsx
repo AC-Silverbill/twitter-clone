@@ -9,17 +9,17 @@ import getLocal from "~/utils/getLocal";
 import useNavigation from "~/navigation";
 import Button from "~/components/Button";
 import Footer from "~/components/Footer";
+import useUser from "~/hooks/useUser";
 
 export default function Home() {
     const { data: sessionData, update: updateSessionData } = useSession();
-    const [formVisibility, setFormVisibility] = useState(false);
+    const [formVisibility, setFormVisibility] = useState(true);
     const navigator = useNavigation();
     const { mutate: resetMutation } = api.user.resetDB.useMutation();
     const { mutate: finishSignUp } = api.user.finishSignUp.useMutation();
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
     const highlightedColor = getLocal("colors", "COLOR_HIGHLIGHTED");
     const hello = api.example.hello.useQuery({ text: "from tRPC" });
-
     useEffect(() => {
         // todo: this takes a while to be checked, need a loading page
         if (sessionData?.user.isAuthenticated === true) {

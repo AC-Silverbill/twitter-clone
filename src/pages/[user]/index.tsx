@@ -10,13 +10,10 @@ import Custom404 from "../404";
 
 export default function Home() {
     const router = useRouter();
-    // const { twitterUser } = useUser();
-
+    const { twitterUser } = useUser();
     return (
-        <Layout>
-            <Content>
-                <UserFeed twitterUser={twitterUser} />
-            </Content>
-        </Layout>
+        <Content>
+            <UserFeed twitterUser={twitterUser} />
+        </Content>
     );
 }

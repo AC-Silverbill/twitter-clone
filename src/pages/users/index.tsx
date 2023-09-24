@@ -8,6 +8,7 @@ import Layout from "~/components/Layout";
 import UserFeed from "../../components/feed/UserFeed";
 
 export default function Home() {
+    const { twitterUser } = useUser();
     return (
         <Layout>
             <Content>
