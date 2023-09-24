@@ -8,11 +8,11 @@ import Layout from "~/components/Layout";
 import UserContent from "../../components/content/UserContent";
 
 export default function Home() {
-    const user = useUser();
+    const { twitterUser } = useUser();
     return (
         <Layout>
             <Content>
-                <UserContent user={user} />
+                <UserContent twitterUser={twitterUser} />
             </Content>
         </Layout>
     );
