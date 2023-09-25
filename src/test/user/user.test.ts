@@ -39,6 +39,18 @@ describe("User Test", () => {
                 id: ctx.session?.user.id,
             },
         });
+        const profile = await db.profile.count({
+            where: {
+                userId: user?.id,
+            },
+        });
         expect(user?.isAuthenticated).toBeTruthy();
+        expect(profile).toBe(1);
     });
+
+    it("should throw if the username already exists", function () {});
+
+    it("shouldn't allow users to create more than 1 profile", function () {});
+
+    it("should check for the length of input", function () {});
 });
