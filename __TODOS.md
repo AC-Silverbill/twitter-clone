@@ -6,4 +6,5 @@ when done, just add 2 ~~ on each side of title
 
 #####ADD UserProvider#####
 
-#####
+#####<Discover/> component#####
+#####<CreateTweet/> component#####

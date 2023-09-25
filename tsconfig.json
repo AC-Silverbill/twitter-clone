@@ -20,7 +20,8 @@
         "paths": {
             "~/*": ["./src/*"],
             "next/navigation": [".src/navigation.ts"]
-        }
+        },
+        "sourceMap": true
     },
     "include": [".eslintrc.cjs", "next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.cjs", "**/*.mjs"],
     "exclude": ["node_modules"]

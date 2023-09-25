@@ -13,4 +13,4 @@ right now if u do `useRouter().pathname`, this would be the correct way to check
 no mistakes yet from this, but potentially, so be careful.
 
 #####signIn nextAuth QUIRKS#####
-if, in a `signIn('provider', {options})` the provider exists, but the options are invalid, it will get a error. however, if the provider doesnt exist, it will always fallback onto the default signIn page
+if, in a `signIn('provider', {options})` the provider exists, but the options are invalid, it will give a error. however, if the provider doesnt exist, it will always fallback onto the default signIn page
