@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import useAuthModal, { authModalHeadersType } from "~/hooks/useAuthModal";
 import { IconType } from "react-icons";
 import getLocal from "~/utils/getLocal";
@@ -19,8 +19,14 @@ interface ModalAuthHeaderProps {
     description: string;
 }
 
+interface ProviderButtonProps {
+    provider: string;
+    onClick: () => void;
+}
+
 const ModalAuth = () => {
     const { isOpen, headerType, openAuthModal, closeAuthModal } = useAuthModal();
+    const [viewAuths, setViewAuths] = useState(false);
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
     const primaryHighlighted = getLocal("colors", "COLOR_PRIMARY_HIGHLIGHTED");
     const whiteHighlighted = getLocal("colors", "COLOR_WHITE_HIGHLIGHTED");
@@ -77,21 +83,52 @@ const ModalAuth = () => {
         ),
     };
 
+    const handleSignIn = () => {
+        setViewAuths(true);
+    };
+
+    const ProviderButton = ({ onClick, provider }: ProviderButtonProps) => (
+        <Button>
+            <div className={`flex border w-[200px] p-2 gap-1 rounded-3xl hover:bg-[${whiteHighlighted}] transition`}>
+                <div className="flex items-center justify-center">
+                    <Image
+                        className="object-contain"
+                        src={`/images/${provider.toLowerCase()}.png`}
+                        width={20}
+                        height={20}
+                        alt={`${provider} Logo`}
+                    />
+                </div>
+                <span className="font-bold">{`Login with ${provider}`}</span>
+            </div>
+        </Button>
+    );
     return (
         <Modal isOpen={isOpen} onChange={() => closeAuthModal()}>
-            <div className="flex flex-col justify-center items-center gap-2">
-                {headers[headerType]}
-                <Button
-                    className={`w-[300px] p-3 border rounded-3xl font-bold bg-[${primaryColor}] text-white hover:bg-[${primaryHighlighted}] hover:scale-105 transition`}
-                >
-                    Log in
-                </Button>
-                <Button
-                    className={`w-[300px] p-3 border rounded-3xl font-bold bg-white text-[${primaryColor}] hover:bg-[${whiteHighlighted}] hover:scale-105 transition`}
-                >
-                    Sign up
-                </Button>
-            </div>
+            {viewAuths && (
+                <div className="flex flex-col justify-center items-center p-2 gap-2">
+                    <ProviderButton key={"Discord"} provider="Discord" onClick={() => {}} />
+                    <ProviderButton key={"Github"} provider="Github" onClick={() => {}} />
+                    <ProviderButton key={"Google"} provider="Google" onClick={() => {}} />
+                </div>
+            )}
+            {!viewAuths && (
+                <div className="flex flex-col justify-center items-center gap-2">
+                    {headers[headerType]}
+                    <Button
+                        onClick={handleSignIn}
+                        className={`w-[300px] p-3 border rounded-3xl font-bold bg-[${primaryColor}] text-white hover:bg-[${primaryHighlighted}] hover:scale-105 transition`}
+                    >
+                        Log in
+                    </Button>
+                    <Button
+                        onClick={handleSignIn}
+                        className={`w-[300px] p-3 border rounded-3xl font-bold bg-white text-[${primaryColor}] hover:bg-[${whiteHighlighted}] hover:scale-105 transition`}
+                    >
+                        Sign up
+                    </Button>
+                </div>
+            )}
         </Modal>
     );
 };
