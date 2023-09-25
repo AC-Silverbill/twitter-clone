@@ -15,19 +15,23 @@ import Redirect from "~/components/Redirect";
 
 export default function Home() {
     const { data: sessionData, update: updateSessionData, status } = useSession();
-    const navigator = useNavigation();
+    const navigation = useNavigation();
     const [formVisibility, setFormVisibility] = useState(true);
     const { mutate: resetMutation } = api.user.resetDB.useMutation();
     const { mutate: finishSignUp } = api.user.finishSignUp.useMutation();
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
     const highlightedColor = getLocal("colors", "COLOR_HIGHLIGHTED");
-    const YOUR_HOME = getLocal("routes", "YOUR_HOME");
-    let isRedirected = false;
+    const YOUR_HOME_DIR = getLocal("routes", "YOUR_HOME");
+    let isRedirected = true;
 
-    if (status === "authenticated") {
-        isRedirected = true;
-        navigator.replace(YOUR_HOME);
-    }
+    useEffect(() => {
+        if (sessionData && sessionData.user.isAuthenticated) {
+            isRedirected = true;
+            navigation.push(YOUR_HOME_DIR);
+        } else {
+            isRedirected = false;
+        }
+    }, [sessionData?.user.isAuthenticated]);
 
     // TODO: make the signin a popup modal similar to twitter itself
     const SignInComponent = () => (

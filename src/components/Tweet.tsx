@@ -30,8 +30,8 @@ const Tweet = ({ tweet: { id, authorId, author, postId, content, likes, retweets
 
             <div className="flex flex-col p-4 pt-0 flex-1">
                 <div className="flex gap-2">
-                    <h2 className="font-bold cursor-pointer">{author.username ?? author.user}</h2>
-                    <span className={`text-[${secondaryColor}] cursor-pointer`}>{`@${author.user}`}</span>
+                    <h2 className="font-bold cursor-pointer">{author.username ?? author.name}</h2>
+                    <span className={`text-[${secondaryColor}] cursor-pointer`}>{`@${author.name}`}</span>
                     <div>·</div>
                     <div>1hr</div>
                 </div>
