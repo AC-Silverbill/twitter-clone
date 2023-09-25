@@ -1,13 +1,15 @@
+"use client";
+
 import React from "react";
 import useUser from "~/hooks/useUser";
 
 import Tab from "../Tab";
 import ContentTitle from "../ContentTitle";
 import Tweet from "../Tweet";
+import Feed from "./Feed";
 
 const HomeFeed = () => {
     const { twitterUser } = useUser();
-
     const exampleTweet: Tweet = {
         id: 1,
         authorId: 21,
@@ -20,7 +22,7 @@ const HomeFeed = () => {
     };
 
     return (
-        <div className="flex flex-col">
+        <Feed>
             <div id="heading" className="border-b-[1px] border-[#000000]">
                 <ContentTitle title="Home" />
                 <div className="flex">
@@ -30,7 +32,7 @@ const HomeFeed = () => {
             </div>
             <Tweet tweet={exampleTweet} />
             <Tweet tweet={exampleTweet} />
-        </div>
+        </Feed>
     );
 };
 

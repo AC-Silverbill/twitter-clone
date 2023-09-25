@@ -24,14 +24,12 @@ export default function Home() {
     const YOUR_HOME_DIR = getLocal("routes", "YOUR_HOME");
     let isRedirected = true;
 
-    useEffect(() => {
-        if (sessionData && sessionData.user.isAuthenticated) {
-            isRedirected = true;
-            navigation.push(YOUR_HOME_DIR);
-        } else {
-            isRedirected = false;
-        }
-    }, [sessionData?.user.isAuthenticated]);
+    if (sessionData && sessionData.user.isAuthenticated) {
+        isRedirected = true;
+        navigation.push(YOUR_HOME_DIR);
+    } else {
+        isRedirected = false;
+    }
 
     // TODO: make the signin a popup modal similar to twitter itself
     const SignInComponent = () => (

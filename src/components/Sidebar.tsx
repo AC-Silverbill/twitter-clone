@@ -10,6 +10,7 @@ import { BsPerson, BsPersonFill } from "react-icons/bs";
 import { GoHash } from "react-icons/go";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
 import SideItem from "./SideItem";
+import Signout from "./Signout";
 
 const Sidebar = () => {
     const router = useRouter();
@@ -34,6 +35,7 @@ const Sidebar = () => {
             <SideItem icon={<NotificationsIcon />} route={notificationsRoute} title="Notifications" />
             <SideItem icon={<BookmarksIcon />} route={bookmarksRoute} title="Bookmarks" />
             <SideItem icon={<ProfileIcon />} route={profileRoute} title="Profile" />
+            <Signout />
         </div>
     );
 };
