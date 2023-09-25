@@ -4,7 +4,7 @@ import AuthModal from "~/components/AuthModal";
 
 const ModalProvider = () => {
     const [mountedOnce, setMountedOnce] = useState(false);
-
+    console.log("hi");
     useEffect(() => {
         setMountedOnce(true);
     }, []);

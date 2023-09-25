@@ -14,7 +14,7 @@ const MyApp: AppType<{ session: Session | null }> = ({ Component, pageProps: { s
     return (
         <SessionProvider session={session}>
             <UserProvider>
-                <ModalProvider />
+                {/* <ModalProvider /> */}
                 <Component {...pageProps} />
             </UserProvider>
         </SessionProvider>

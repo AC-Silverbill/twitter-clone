@@ -12,8 +12,8 @@ interface FeedProps extends BasicComponentWithChildren {}
 
 const Feed = ({ children, className }: FeedProps) => {
     const { data } = useSession();
-    const { openAuthModal } = useAuthModal();
-    if (!data || data.user) {
+    const { isOpen, openAuthModal } = useAuthModal();
+    if (!isOpen && (!data || !data.user)) {
         openAuthModal();
     }
 
