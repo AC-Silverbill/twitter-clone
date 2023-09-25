@@ -30,7 +30,10 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
     callbacks: {
-        session: ({ session, user }) => {
+        session: ({ session, user, trigger, newSession }) => {
+            if (trigger === "update") {
+                user.isAuthenticated = true;
+            }
             return {
                 ...session,
                 user: {
