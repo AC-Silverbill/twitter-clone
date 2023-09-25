@@ -12,22 +12,23 @@ export const userRouter = createTRPCRouter({
         )
         .mutation(async ({ ctx, input }) => {
             const { name, username } = input;
-            await ctx.db.profile.create({
-                data: {
-                    userId: ctx.session?.user.id,
-                    email: ctx.session?.user.email,
-                    name,
-                    username,
-                },
-            });
-            await ctx.db.user.update({
-                where: {
-                    id: ctx.session?.user.id,
-                },
-                data: {
-                    isAuthenticated: true,
-                },
-            });
+            await ctx.db.$transaction([
+                ctx.db.profile.create({
+                    data: {
+                        userId: ctx.session?.user.id,
+                        name,
+                        username,
+                    },
+                }),
+                ctx.db.user.update({
+                    where: {
+                        id: ctx.session?.user.id,
+                    },
+                    data: {
+                        isAuthenticated: true,
+                    },
+                }),
+            ]);
         }),
     resetDB: publicProcedure.mutation(async () => {
         await resetDB();

@@ -51,8 +51,8 @@ model VerificationToken {
 
 model User {
   id              String    @id @default(cuid())
-  name            String?
-  email           String?   @unique
+  name            String
+  email           String    @unique
   emailVerified   DateTime?
   image           String?
   isAuthenticated Boolean   @default(false)
@@ -70,7 +70,6 @@ model Profile {
   userId   String   @unique
   name     String
   username String   @unique
-  email    String   @unique
   image    String?
   bio      String?
   joinedAt DateTime @default(now())
