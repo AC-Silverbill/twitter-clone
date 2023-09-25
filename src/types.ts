@@ -28,24 +28,38 @@ export interface BasicComponentWithChildren {
 
 /**
  * @interface TwitterUser
- * @param id: number
+ * @param id: string
  * @param email: string, that includes '@'
  * @param name: string
- * @param username: string
  * @param image?: string
  * @param isAuthenticated: boolean
  * @param emailVerified?: Date
- * @param bio: string
- * @param joinedAt: Date
  */
 export interface TwitterUser {
-    id: number;
+    id: string;
     email: AnyEmail<string>;
     name: string;
-    username: string;
     image?: string;
     isAuthenticated: boolean;
     emailVerified?: Date;
+}
+
+/**
+ * @interface Profile
+ * @param id: string
+ * @param userId: string
+ * @param name: string
+ * @param username: string
+ * @param image?: string
+ * @param bio?: string
+ * @param joinedAt?: Date
+ */
+export interface Profile {
+    id: string;
+    userId: string;
+    name: string;
+    username: string;
+    image?: string;
     bio?: string;
     joinedAt: Date;
 }
