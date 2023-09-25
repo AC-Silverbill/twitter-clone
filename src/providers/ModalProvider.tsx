@@ -1,10 +1,9 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import AuthModal from "~/components/AuthModal";
+import ModalAuth from "~/components/ModalAuth";
 
 const ModalProvider = () => {
     const [mountedOnce, setMountedOnce] = useState(false);
-    console.log("hi");
     useEffect(() => {
         setMountedOnce(true);
     }, []);
@@ -15,7 +14,7 @@ const ModalProvider = () => {
 
     return (
         <>
-            <AuthModal />
+            <ModalAuth />
         </>
     );
 };

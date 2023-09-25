@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useSession } from "next-auth/react";
 import useAuthModal from "~/hooks/useAuthModal";
 import useNavigation from "~/navigation";
@@ -13,9 +13,12 @@ interface FeedProps extends BasicComponentWithChildren {}
 const Feed = ({ children, className }: FeedProps) => {
     const { data } = useSession();
     const { isOpen, openAuthModal } = useAuthModal();
-    if (!isOpen && (!data || !data.user)) {
-        openAuthModal();
-    }
+    console.log(data);
+    useEffect(() => {
+        if (!data || !data.user) {
+            openAuthModal("like");
+        }
+    }, [data, data?.user]);
 
     return <div className={twMerge(`flex flex-col`, className)}>{children}</div>;
 };
