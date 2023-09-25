@@ -8,9 +8,10 @@ import Modal from "./Modal";
 const ModalTweet = () => {
     const { isOpen, openTweetModal, closeTweetModal } = useTweetModal();
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
+
     return (
         <Modal isOpen={isOpen} onChange={() => closeTweetModal()}>
-            <Button className={`rounded-lg bg-[${primaryColor}] text-white`}></Button>
+            remove later
         </Modal>
     );
 };

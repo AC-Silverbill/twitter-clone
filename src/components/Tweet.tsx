@@ -4,7 +4,7 @@ import { Tweet } from "~/types";
 import getLocal from "~/utils/getLocal";
 
 import { FaRegMessage } from "react-icons/fa6";
-import { HiArrowPath } from "react-icons/hi2";
+import { HiOutlineArrowPathRoundedSquare } from "react-icons/hi2";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsFillBarChartFill } from "react-icons/bs";
 
@@ -38,7 +38,7 @@ const Tweet = ({ tweet: { id, authorId, author, postId, content, likes, retweets
                 <div className="flex">{content}</div>
                 <div className="icons pt-2 flex w-full">
                     <FaRegMessage className="transform -scale-x-100 flex-1" />
-                    <HiArrowPath className="transform flex-1 scale-110" />
+                    <HiOutlineArrowPathRoundedSquare className="transform flex-1 scale-110" />
                     <AiOutlineHeart className="transform flex-1" />
                     <BsFillBarChartFill className="transform flex-1" />
                 </div>

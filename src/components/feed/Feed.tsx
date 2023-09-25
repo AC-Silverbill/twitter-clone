@@ -16,7 +16,7 @@ const Feed = ({ children, className }: FeedProps) => {
     console.log(data);
     useEffect(() => {
         if (!data || !data.user) {
-            openAuthModal("like");
+            openAuthModal("follow");
         }
     }, [data, data?.user]);
 

@@ -20,7 +20,6 @@ export default function Home() {
     const { mutate: resetMutation } = api.user.resetDB.useMutation();
     const { mutate: createProfile } = api.user.createProfile.useMutation();
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
-    const highlightedColor = getLocal("colors", "COLOR_HIGHLIGHTED");
     const YOUR_HOME_DIR = getLocal("routes", "YOUR_HOME");
     let isRedirected = true;
 

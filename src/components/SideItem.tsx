@@ -18,7 +18,7 @@ const SideItem = ({ icon, route, title }: SideItemProps) => {
     const navigator = useNavigation();
     const router = useRouter();
 
-    const borderColor = getLocal("colors", "COLOR_BORDER");
+    const highlightedColor = getLocal("colors", "COLOR_WHITE_HIGHLIGHTED_DARKER");
     const selectedColor = getLocal("colors", "COLOR_SELECTED");
     const navigateToPage = (route: AnyRoute<string>) => {
         navigator.replace(route);
@@ -33,7 +33,7 @@ const SideItem = ({ icon, route, title }: SideItemProps) => {
 
     return (
         <div
-            className={`flex gap-2 p-2 hover:translate-x-2 hover:bg-[${borderColor}]  transition cursor-pointer ${
+            className={`flex gap-2 p-2 hover:translate-x-2 hover:bg-[${highlightedColor}]  transition cursor-pointer ${
                 isHighlighted() ? `text-[${selectedColor}]` : ""
             }`}
             onClick={() => navigateToPage(route)}

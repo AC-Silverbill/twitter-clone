@@ -35,7 +35,7 @@ const Sidebar = () => {
             <SideItem icon={<NotificationsIcon />} route={notificationsRoute} title="Notifications" />
             <SideItem icon={<BookmarksIcon />} route={bookmarksRoute} title="Bookmarks" />
             <SideItem icon={<ProfileIcon />} route={profileRoute} title="Profile" />
-            <Signout />
+            <Signout className="mt-2" />
         </div>
     );
 };
