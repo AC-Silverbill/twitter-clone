@@ -18,7 +18,7 @@ export default function Home() {
     const navigation = useNavigation();
     const [formVisibility, setFormVisibility] = useState(true);
     const { mutate: resetMutation } = api.user.resetDB.useMutation();
-    const { mutate: finishSignUp } = api.user.finishSignUp.useMutation();
+    const { mutate: createProfile } = api.user.createProfile.useMutation();
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
     const highlightedColor = getLocal("colors", "COLOR_HIGHLIGHTED");
     const YOUR_HOME_DIR = getLocal("routes", "YOUR_HOME");
@@ -39,7 +39,7 @@ export default function Home() {
             <input className="border rounded-md border-gray-400 outline-none p-2" type="password" placeholder="password" />
             <Button
                 onClick={() => {
-                    finishSignUp({
+                    createProfile({
                         name: "Kat",
                         username: "PrettyKat",
                     });
@@ -54,7 +54,7 @@ export default function Home() {
         </form>
     );
 
-    if (isRedirected === true) {
+    if (isRedirected) {
         return <Redirect />;
     } else {
         return (

@@ -3,7 +3,7 @@ import { z } from "zod";
 import { resetDB } from "~/test/helpers/reset-db";
 
 export const userRouter = createTRPCRouter({
-    finishSignUp: publicProcedure
+    createProfile: publicProcedure
         .input(
             z.object({
                 name: z.string(),
@@ -12,13 +12,19 @@ export const userRouter = createTRPCRouter({
         )
         .mutation(async ({ ctx, input }) => {
             const { name, username } = input;
+            await ctx.db.profile.create({
+                data: {
+                    userId: ctx.session?.user.id,
+                    email: ctx.session?.user.email,
+                    name,
+                    username,
+                },
+            });
             await ctx.db.user.update({
                 where: {
                     id: ctx.session?.user.id,
                 },
                 data: {
-                    name,
-                    username,
                     isAuthenticated: true,
                 },
             });

@@ -51,20 +51,30 @@ model VerificationToken {
 
 model User {
   id              String    @id @default(cuid())
-  name            String    @default("")
-  email           String    @unique
+  name            String?
+  email           String?   @unique
   emailVerified   DateTime?
   image           String?
   isAuthenticated Boolean   @default(false)
-  username        String?   @unique
-  bio             String?
-  joinedAt        DateTime  @default(now())
   accounts        Account[]
   sessions        Session[]
   tweets          Tweet[]
   replies         Reply[]
   retweets        Retweet[]
   likes           Like[]
+  profile         Profile?
+}
+
+model Profile {
+  id       String   @id @default(cuid())
+  userId   String   @unique
+  name     String
+  username String   @unique
+  email    String   @unique
+  image    String?
+  bio      String?
+  joinedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Tweet {

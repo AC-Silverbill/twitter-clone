@@ -1,6 +1,6 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { type GetServerSidePropsContext } from "next";
-import { getServerSession, type DefaultSession, type NextAuthOptions } from "next-auth";
+import { getServerSession, type DefaultSession, type NextAuthOptions, DefaultUser } from "next-auth";
 import DiscordProvider from "next-auth/providers/discord";
 
 import { env } from "~/env.mjs";
@@ -18,7 +18,9 @@ declare module "next-auth" {
         user: User;
     }
 
-    interface User extends TwitterUser {}
+    interface User {
+        isAuthenticated: boolean;
+    }
 }
 
 /**
@@ -34,7 +36,6 @@ export const authOptions: NextAuthOptions = {
                 user: {
                     ...session.user,
                     id: user.id,
-                    username: user.username,
                     isAuthenticated: user.isAuthenticated,
                 },
             };
