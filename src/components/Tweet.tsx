@@ -2,6 +2,8 @@ import Image from "next/image";
 import React from "react";
 import { Tweet } from "~/types";
 import getLocal from "~/utils/getLocal";
+import useAuthModal from "~/hooks/useAuthModal";
+import useMiscModal from "~/hooks/useMiscModal";
 
 import { FaRegMessage } from "react-icons/fa6";
 import { HiOutlineArrowPathRoundedSquare } from "react-icons/hi2";
@@ -17,6 +19,9 @@ const Tweet = ({ tweet: { id, authorId, author, postId, content, likes, retweets
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
     const secondaryColor = getLocal("colors", "COLOR_SECONDARY");
     const borderColor = getLocal("colors", "COLOR_BORDER");
+    const { openAuthModal } = useAuthModal();
+    const { openMiscModal } = useMiscModal();
+
     //TODO: refactor into fetching the author's pfp
     return (
         <div className={`p-2 pl-4 flex border-b-[1px] border-${borderColor} w-full`}>
@@ -39,16 +44,16 @@ const Tweet = ({ tweet: { id, authorId, author, postId, content, likes, retweets
                 </div>
                 <div className="flex justify-self-end">{content}</div>
                 <div className="icons pt-2 flex justify-evenly w-full">
-                    <Icon key={"reply"}>
+                    <Icon key={"reply"} onClick={() => openAuthModal("reply")}>
                         <FaRegMessage className={`transform -scale-x-100 group-hover:text-${primaryColor}`} />
                     </Icon>
-                    <Icon key={"retweet"}>
+                    <Icon key={"retweet"} onClick={() => openAuthModal("retweet")}>
                         <HiOutlineArrowPathRoundedSquare className="transform flex-1 scale-110" />
                     </Icon>
-                    <Icon key={"like"}>
+                    <Icon key={"like"} onClick={() => openAuthModal("like")}>
                         <AiOutlineHeart className="transform flex-1" />
                     </Icon>
-                    <Icon key={"stats"}>
+                    <Icon key={"stats"} onClick={() => openMiscModal("stats")}>
                         <BsFillBarChartFill className="transform flex-1" />
                     </Icon>
                 </div>

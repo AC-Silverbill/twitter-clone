@@ -5,7 +5,7 @@ import getLocal from "~/utils/getLocal";
 import Image from "next/image";
 
 import Modal from "./Modal";
-import Button from "./Button";
+import Button from "../Button";
 import { AiFillHeart } from "react-icons/ai";
 import { FaMessage } from "react-icons/fa6";
 import { HiArrowPathRoundedSquare } from "react-icons/hi2";
@@ -24,14 +24,14 @@ interface ProviderButtonProps {
     onClick: () => void;
 }
 
-const ModalAuth = () => {
+const AuthModal = () => {
     const { isOpen, headerType, openAuthModal, closeAuthModal } = useAuthModal();
     const [viewAuths, setViewAuths] = useState(false);
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
     const primaryHighlighted = getLocal("colors", "COLOR_PRIMARY_HIGHLIGHTED");
     const whiteHighlighted = getLocal("colors", "COLOR_WHITE_HIGHLIGHTED");
 
-    const ModalAuthHeader = ({ Icon, imageSrc, className, header, description }: ModalAuthHeaderProps) => {
+    const AuthModalHeader = ({ Icon, imageSrc, className, header, description }: ModalAuthHeaderProps) => {
         return (
             <div className="flex flex-col justify-center">
                 <div className="p-8 flex justify-center items-center">
@@ -46,28 +46,28 @@ const ModalAuth = () => {
 
     const headers: { [name in authModalHeadersType]: React.ReactNode } = {
         default: (
-            <ModalAuthHeader
+            <AuthModalHeader
                 imageSrc="/images/logo.svg"
                 header="Don’t miss what’s happening."
                 description={`People on X are the first to know.`}
             />
         ),
         reply: (
-            <ModalAuthHeader
+            <AuthModalHeader
                 Icon={FaMessage}
                 header="Reply to join the conversation."
                 description={`Once you join twitter, you can reply to ${"test"}'s post.`}
             />
         ),
         retweet: (
-            <ModalAuthHeader
+            <AuthModalHeader
                 Icon={HiArrowPathRoundedSquare}
                 header="Repost to spread the word."
                 description={`When you join X, you can share ${"test"}'s post with your followers.`}
             />
         ),
         like: (
-            <ModalAuthHeader
+            <AuthModalHeader
                 Icon={AiFillHeart}
                 className="fill-pink-400"
                 header="Like a post to share the love."
@@ -75,7 +75,7 @@ const ModalAuth = () => {
             />
         ),
         follow: (
-            <ModalAuthHeader
+            <AuthModalHeader
                 Icon={FiUserPlus}
                 header={`Follow ${"test"} to see what they share on X.`}
                 description="Sign up so you never miss their posts."
@@ -133,4 +133,4 @@ const ModalAuth = () => {
     );
 };
 
-export default ModalAuth;
+export default AuthModal;
