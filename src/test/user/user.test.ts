@@ -75,7 +75,24 @@ describe("User Test", () => {
         );
     });
 
-    it("shouldn't allow users to create more than 1 profile", function () {});
+    it("shouldn't allow users to create more than 1 profile", async () => {
+        const api = appRouter.user.createCaller(ctx1);
+        await api.createProfile({
+            name: "Kat",
+            username: "KattyKat",
+        });
+        await expect(
+            api.createProfile({
+                name: "Kat",
+                username: "KattyKat",
+            })
+        ).rejects.toThrow(
+            new TRPCError({
+                code: "CONFLICT",
+                message: "username already used",
+            })
+        );
+    });
 
     it("should check for the length of input", function () {});
 });

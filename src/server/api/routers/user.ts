@@ -1,7 +1,7 @@
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { resetDB } from "~/test/helpers/reset-db";
-import { Profile } from "~/types";
+import { type Profile } from "~/types";
 import { type PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
 
@@ -64,10 +64,6 @@ export const userRouter = createTRPCRouter({
 
     resetDB: publicProcedure.mutation(async () => {
         await resetDB();
-    }),
-
-    test: publicProcedure.query(async () => {
-        throw new Error("pedaret");
     }),
 });
 
