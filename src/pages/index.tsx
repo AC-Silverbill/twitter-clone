@@ -46,7 +46,7 @@ export default function Home() {
                     // TODO: this one needs the loading too
                     void updateSessionData();
                 }}
-                className={`bg-[${primaryColor}] text-white p-2 rounded-2xl font-bold`}
+                className={`bg-${primaryColor} text-white p-2 rounded-2xl font-bold`}
             >
                 Sign In
             </Button>
@@ -89,20 +89,6 @@ export default function Home() {
                             >
                                 Sign up with Google (this resets the db for now lol)
                             </Button>
-                            {/*<div>-----or-----</div>*/}
-                            {/*<Button className={`border-[1px] rounded-xl p-2 w-full bg-[${primaryColor}] text-white font-extrabold`}>*/}
-                            {/*    Create Account*/}
-                            {/*</Button>*/}
-                            {/*<span className="text-xs p-1 pb-16">*/}
-                            {/*    By signing up, you agree to the Terms of Service and Privacy Policy, including Cookie Use.*/}
-                            {/*</span>*/}
-                            {/*<h3 className="font-bold text-2xl self-start">Already have an account?</h3>*/}
-                            {/*<Button*/}
-                            {/*    className={`border-[1px] rounded-xl p-2 w-full text-[${primaryColor}] bg-white font-extrabold hover:bg-[${highlightedColor}] transition`}*/}
-                            {/*    onClick={() => setFormVisibility(true)}*/}
-                            {/*>*/}
-                            {/*    Sign In*/}
-                            {/*</Button>*/}
                         </div>
                     </div>
                     {formVisibility && <SignInComponent />}

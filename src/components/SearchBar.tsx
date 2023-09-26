@@ -15,7 +15,7 @@ const SearchBar = () => {
     return (
         <div className="p-2">
             <div
-                className={`group flex items-center bg-[${secondaryColor}] rounded-2xl p-2 focus-within:bg-white focus:translate-x-2 border-2 border-transparent focus-within:border-black`}
+                className={`group flex items-center bg-${secondaryColor} rounded-2xl p-2 focus-within:bg-white focus:translate-x-2 border-2 border-transparent focus-within:border-black`}
                 onClick={setFocus}
             >
                 <BsSearch className="w-10" />

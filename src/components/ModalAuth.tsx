@@ -89,7 +89,7 @@ const ModalAuth = () => {
 
     const ProviderButton = ({ onClick, provider }: ProviderButtonProps) => (
         <Button>
-            <div className={`flex border w-[200px] p-2 gap-1 rounded-3xl hover:bg-[${whiteHighlighted}] transition`}>
+            <div className={`flex border w-[200px] p-2 gap-1 rounded-3xl hover:bg-${whiteHighlighted} transition`}>
                 <div className="flex items-center justify-center">
                     <Image
                         className="object-contain"
@@ -117,13 +117,13 @@ const ModalAuth = () => {
                     {headers[headerType]}
                     <Button
                         onClick={handleSignIn}
-                        className={`w-[300px] p-3 border rounded-3xl font-bold bg-[${primaryColor}] text-white hover:bg-[${primaryHighlighted}] hover:scale-105 transition`}
+                        className={`w-[300px] p-3 border rounded-3xl font-bold bg-${primaryColor} text-white hover:bg-${primaryHighlighted} hover:scale-105 transition`}
                     >
                         Log in
                     </Button>
                     <Button
                         onClick={handleSignIn}
-                        className={`w-[300px] p-3 border rounded-3xl font-bold bg-white text-[${primaryColor}] hover:bg-[${whiteHighlighted}] hover:scale-105 transition`}
+                        className={`w-[300px] p-3 border rounded-3xl font-bold bg-white text-${primaryColor} hover:bg-${whiteHighlighted} hover:scale-105 transition`}
                     >
                         Sign up
                     </Button>

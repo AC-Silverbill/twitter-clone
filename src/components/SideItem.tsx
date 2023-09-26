@@ -33,8 +33,8 @@ const SideItem = ({ icon, route, title }: SideItemProps) => {
 
     return (
         <div
-            className={`flex gap-2 p-2 hover:translate-x-2 hover:bg-[${highlightedColor}]  transition cursor-pointer ${
-                isHighlighted() ? `text-[${selectedColor}]` : ""
+            className={`flex gap-2 p-2 hover:translate-x-2 hover:bg-${highlightedColor}  transition cursor-pointer ${
+                isHighlighted() ? `text-${selectedColor}` : ""
             }`}
             onClick={() => navigateToPage(route)}
         >
