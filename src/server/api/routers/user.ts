@@ -1,7 +1,7 @@
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { resetDB } from "~/test/helpers/reset-db";
-import { TwitterUser } from "~/types";
+import { Profile } from "~/types";
 
 export const userRouter = createTRPCRouter({
     createProfile: publicProcedure

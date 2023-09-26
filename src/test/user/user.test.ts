@@ -4,18 +4,20 @@ import { appRouter } from "~/server/api/root";
 import { createInnerTRPCContext } from "~/server/api/trpc";
 import { type Session } from "next-auth";
 import { type PrismaClient } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 
 describe("User Test", () => {
-    let ctx: { session: Session | null; db: PrismaClient };
+    let ctx1: { session: Session | null; db: PrismaClient };
+    let ctx2: { session: Session | null; db: PrismaClient };
 
-    beforeEach(async () => {
-        const { id, name, email, isAuthenticated } = await db.user.create({
+    const createUserContext = async (name: string, email: string) => {
+        const { id, isAuthenticated } = await db.user.create({
             data: {
-                name: "Kat",
-                email: "Kat@Kat.com",
+                name,
+                email,
             },
         });
-        ctx = createInnerTRPCContext({
+        return createInnerTRPCContext({
             session: {
                 user: {
                     id,
@@ -26,17 +28,22 @@ describe("User Test", () => {
                 expires: "",
             },
         });
+    };
+
+    beforeEach(async () => {
+        ctx1 = await createUserContext("Kat", "Kat@Kat.com");
+        ctx2 = await createUserContext("Aerys", "Aerys@Aerys.com");
     });
 
     it("should create a profile for a new user", async () => {
-        const api = appRouter.user.createCaller(ctx);
+        const api = appRouter.user.createCaller(ctx1);
         await api.createProfile({
             name: "Kat",
             username: "KattyKat",
         });
         const user = await db.user.findUnique({
             where: {
-                id: ctx.session?.user.id,
+                id: ctx1.session?.user.id,
             },
         });
         const profile = await db.profile.count({
@@ -48,7 +55,25 @@ describe("User Test", () => {
         expect(profile).toBe(1);
     });
 
-    it("should throw if the username already exists", function () {});
+    it("should throw if the username already exists", async () => {
+        const api1 = appRouter.user.createCaller(ctx1);
+        const api2 = appRouter.user.createCaller(ctx2);
+        await api1.createProfile({
+            name: "Kat",
+            username: "KattyKat",
+        });
+        await expect(
+            api2.createProfile({
+                name: "Aerys",
+                username: "KattyKat",
+            })
+        ).rejects.toThrow(
+            new TRPCError({
+                code: "CONFLICT",
+                message: "username already used",
+            })
+        );
+    });
 
     it("shouldn't allow users to create more than 1 profile", function () {});
 
