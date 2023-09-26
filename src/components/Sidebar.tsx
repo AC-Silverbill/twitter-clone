@@ -14,13 +14,13 @@ import Signout from "./Signout";
 
 const Sidebar = () => {
     const router = useRouter();
-    const { twitterUser } = useUser();
+    const { twitterProfile } = useUser();
     const selectedColor = getLocal("colors", "COLOR_SELECTED");
     const homeRoute = getLocal("routes", "YOUR_HOME");
     const exploreRoute = getLocal("routes", "YOUR_EXPLORE");
     const notificationsRoute = getLocal("routes", "YOUR_NOTIFICATIONS");
     const bookmarksRoute = getLocal("routes", "YOUR_BOOKMARKS");
-    const profileRoute = getLocal("routes", "USER_HOME")(twitterUser.name);
+    const profileRoute = getLocal("routes", "USER_HOME")(twitterProfile.name);
 
     const HomeIcon = router.pathname === homeRoute ? AiTwotoneHome : AiOutlineHome;
     const ExploreIcon = GoHash; //theres no good slightly bolder one

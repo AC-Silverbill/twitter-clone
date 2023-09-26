@@ -1,10 +1,10 @@
 import { getSession, useSession } from "next-auth/react";
 import { createContext, use, useContext } from "react";
-import { TwitterUser } from "~/types";
-import { getTwitterTest } from "~/utils/getTwitterUser";
+import { Profile } from "~/types";
+import { getTwitterProfile } from "~/utils/getTwitterUser";
 
 export type UserContextType = {
-    twitterUser: TwitterUser;
+    twitterProfile: Profile;
     isLoading: boolean;
 };
 
@@ -20,9 +20,9 @@ export const UserContextProvider = (props: Props) => {
         //TODO: add case for unauthenticated
     }
 
-    const testUser = getTwitterTest();
+    const testUser = getTwitterProfile("one");
     const value: UserContextType = {
-        twitterUser: testUser,
+        twitterProfile: testUser,
         isLoading: false,
     };
 

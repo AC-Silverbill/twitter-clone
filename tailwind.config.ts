@@ -11,13 +11,14 @@ export default {
                 "#eff3f4": "#eff3f4",
                 "#e8f5fe": "#e8f5fe",
                 "#e6e7e7": "#e6e7e7",
+                "#3fc99b": "#3fc99b",
             },
         },
     },
     plugins: [],
     safelist: [
         {
-            pattern: /(hover\:)?(bg|text|border)-(\#2596be|\#1A8cd8|\#849099|\#eff3f4|\#e8f5fe|\#e6e7e7)/,
+            pattern: /(hover\:)?(bg|text|border)-(\#2596be|\#1A8cd8|\#849099|\#eff3f4|\#e8f5fe|\#e6e7e7|\#3fc99b|pink-400)/,
             variants: ["lg", "hover", "focus", "lg:hover", "group-hover"],
         },
     ],

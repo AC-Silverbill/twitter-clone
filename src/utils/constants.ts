@@ -5,6 +5,8 @@ export const colors = {
     COLOR_PRIMARY: "#2596be",
     COLOR_PRIMARY_HIGHLIGHTED: "#1a8cd8",
     COLOR_SECONDARY: "#849099",
+    COLOR_TERTIARY: "#3fc99b",
+    COLOR_PINK: "pink-400",
     COLOR_BORDER: "#eff3f4",
     COLOR_WHITE_HIGHLIGHTED: "#e8f5fe",
     COLOR_WHITE_HIGHLIGHTED_DARKER: "#e6e7e7",

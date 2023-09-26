@@ -3,6 +3,8 @@ if you have tailwind vscode extension, you will be able to see the colors
 COLOR_PRIMARY: <div className="text-#2596be"></div>
 COLOR_PRIMARY_HIGHLIGHTED: <div className="text-#1a8cd8"></div>
 COLOR_SECONDARY: <div className="text-#849099"></div>
+COLOR_TERTIARY:<div className="text-#3fc99b"></div>
+COLOR_PINK: <div className="text-pink-400"></div>
 COLOR_BORDER: <div className="text-#eff3f4"></div>
 COLOR_WHITE_HIGHLIGHTED: <div className="text-#e8f5fe"></div>
 COLOR_WHITE_HIGHLIGHTED_DARKER: <div className="text-#e6e7e7"></div>

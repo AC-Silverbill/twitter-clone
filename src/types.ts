@@ -68,6 +68,7 @@ export interface Profile {
  * @interface Tweet
  * @param id: number
  * @param authorId: number
+ * @param author: Profile
  * @param postId: number
  * @param content: string
  * @param attachments?: string[]
@@ -79,7 +80,7 @@ export interface Profile {
 export interface Tweet {
     id: number;
     authorId: number;
-    author: TwitterUser;
+    author: Profile;
     postId: number;
     content: string;
     attachments?: string;
