@@ -2,6 +2,8 @@ import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/
 import { z } from "zod";
 import { resetDB } from "~/test/helpers/reset-db";
 import { Profile } from "~/types";
+import { type PrismaClient } from "@prisma/client";
+import { TRPCError } from "@trpc/server";
 
 export const userRouter = createTRPCRouter({
     createProfile: publicProcedure
@@ -13,6 +15,12 @@ export const userRouter = createTRPCRouter({
         )
         .mutation(async ({ ctx, input }) => {
             const { name, username } = input;
+            if (await usernameExists(ctx.db, username)) {
+                throw new TRPCError({
+                    code: "CONFLICT",
+                    message: "username already used",
+                });
+            }
             await ctx.db.$transaction([
                 ctx.db.profile.create({
                     data: {
@@ -57,4 +65,17 @@ export const userRouter = createTRPCRouter({
     resetDB: publicProcedure.mutation(async () => {
         await resetDB();
     }),
+
+    test: publicProcedure.query(async () => {
+        throw new Error("pedaret");
+    }),
 });
+
+const usernameExists = async (db: PrismaClient, username: string) => {
+    const user = await db.profile.findUnique({
+        where: {
+            username,
+        },
+    });
+    return !!user;
+};
