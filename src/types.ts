@@ -84,8 +84,8 @@ export interface Tweet {
     postId: number;
     content: string;
     attachments?: string;
-    likes: number[]; // userIDs
-    retweets: number[]; // tweetIDs
+    likes: number; // userIDs
+    retweets: number; // tweetIDs
     reference?: Tweet;
     timeCreated: string;
 }
