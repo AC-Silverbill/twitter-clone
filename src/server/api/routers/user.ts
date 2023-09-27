@@ -65,14 +65,6 @@ export const userRouter = createTRPCRouter({
     resetDB: publicProcedure.mutation(async () => {
         await resetDB();
     }),
-
-    test: publicProcedure.input(z.string().min(5)).query(async () => {
-        throw new TRPCError({
-            code: "UNAUTHORIZED",
-            message: "pedaret phot shod",
-        });
-        return "ddddddddddddddddddddddd";
-    }),
 });
 
 const usernameExists = async (db: PrismaClient, username: string) => {
