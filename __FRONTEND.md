@@ -9,6 +9,8 @@ COLOR_BORDER: <div className="text-#eff3f4"></div>
 COLOR_WHITE_HIGHLIGHTED: <div className="text-#e8f5fe"></div>
 COLOR_WHITE_HIGHLIGHTED_DARKER: <div className="text-#e6e7e7"></div>
 COLOR_SELECTED: <div className="text-#2596be"></div>
+COLOR_WARNING: <div className="text-#fb9fa8"></div>
+
 
 ##### profile layout #####
 /

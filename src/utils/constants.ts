@@ -29,3 +29,8 @@ export const routes = {
     USER_TWEET_QUOTES: (username: string, id: number): AnyRoute<string> => `/${username}/status/${id}/quotes`,
     FINISH_SIGNUP: "/user/finishSignUp",
 } as const;
+
+export const categories = {
+    colors: colors,
+    routes: routes,
+};

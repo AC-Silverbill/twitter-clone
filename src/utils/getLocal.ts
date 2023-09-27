@@ -11,7 +11,3 @@ import { colors, routes, categories } from "./constants";
 export default function getLocal<T extends keyof typeof categories, K extends keyof (typeof categories)[T]>(category: T, constant: K) {
     return categories[category][constant];
 }
-
-export function getLocals<T extends keyof typeof categories>(category: T) {
-    return categories[category];
-}
