@@ -7,8 +7,7 @@ import getLocal from "~/utils/getLocal";
 
 import { AiOutlineGif } from "react-icons/ai";
 import { BsEmojiSmile } from "react-icons/bs";
-import { FaGlobeAmericas } from "react-icons/fa";
-import { GrImage } from "react-icons/gr";
+import { FaGlobeAmericas, FaRegImage } from "react-icons/fa";
 import { HiListBullet } from "react-icons/hi2";
 import { LuCalendarClock } from "react-icons/lu";
 import Button from "./Button";
@@ -70,7 +69,7 @@ const MakeTweet = () => {
     const BottomIcons = () => (
         <>
             <Icon key={"addfile"} onClick={() => {}} className="cursor-pointer">
-                <GrImage className={`text-${COLOR_PRIMARY}`} />
+                <FaRegImage className={`text-${COLOR_PRIMARY} scale-y-125`} />
             </Icon>
             <Icon key={"addgif"} onClick={() => {}} className={`cursor-pointer`}>
                 <div className={`border-2 border-${COLOR_PRIMARY} scale-90`}>
