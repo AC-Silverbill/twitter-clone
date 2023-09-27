@@ -31,6 +31,8 @@ const MakeTweet = () => {
     const primaryDisabledColor = getLocal("colors", "COLOR_PRIMARY_DISABLED");
     const borderColor = getLocal("colors", "COLOR_BORDER");
     const whiteHighlighted = getLocal("colors", "COLOR_WHITE_HIGHLIGHTED");
+
+    //TODO: setTweetContent workingly seemlessly with progressCircle
     const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         e.preventDefault();
         console.log(textAreaRef.current?.value);
