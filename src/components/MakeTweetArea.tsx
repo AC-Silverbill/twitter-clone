@@ -9,6 +9,7 @@ interface MakeTweetAreaProps {
 const MakeTweetArea = ({ onChange, onFocus, tweetContent }: MakeTweetAreaProps) => {
     const areaRef = useRef<HTMLDivElement>(null);
 
+    //TODO: add red span text with red bg for when text is exceeded (requires rewrite of this element because the element would be re-rendered, and the textarea would lose focus)
     return (
         <div
             ref={areaRef}

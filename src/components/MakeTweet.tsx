@@ -27,7 +27,6 @@ const MakeTweet = () => {
     const [tweetContent, setTweetContent] = useState("");
     const { COLOR_PRIMARY, COLOR_PRIMARY_DISABLED, COLOR_WHITE_HIGHLIGHTED, COLOR_WARNING, COLOR_ERROR } = getLocals("colors");
 
-    //TODO: setTweetContent workingly seemlessly with progressCircle
     const handleContentChange = (e: React.FormEvent<HTMLDivElement>) => {
         e.preventDefault();
         setTweetContent(e.currentTarget.textContent ?? "");
