@@ -12,6 +12,7 @@ export const colors = {
     COLOR_WHITE_HIGHLIGHTED: "#e8f5fe",
     COLOR_WHITE_HIGHLIGHTED_DARKER: "#e6e7e7",
     COLOR_SELECTED: "#2596be",
+    COLOR_WARNING: "#fb9fa8",
 } as const;
 
 export const routes = {
