@@ -9,8 +9,8 @@ export const userRouter = createTRPCRouter({
     createProfile: publicProcedure
         .input(
             z.object({
-                name: z.string(),
-                username: z.string(),
+                name: z.string().min(10),
+                username: z.string().min(5),
             })
         )
         .mutation(async ({ ctx, input }) => {
@@ -64,6 +64,14 @@ export const userRouter = createTRPCRouter({
 
     resetDB: publicProcedure.mutation(async () => {
         await resetDB();
+    }),
+
+    test: publicProcedure.input(z.string().min(5)).query(async () => {
+        throw new TRPCError({
+            code: "UNAUTHORIZED",
+            message: "pedaret phot shod",
+        });
+        return "ddddddddddddddddddddddd";
     }),
 });
 

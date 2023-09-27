@@ -38,7 +38,7 @@ describe("User Test", () => {
     it("should create a profile for a new user", async () => {
         const api = appRouter.user.createCaller(ctx1);
         await api.createProfile({
-            name: "Kat",
+            name: "Kat Kat Kat",
             username: "KattyKat",
         });
         const user = await db.user.findUnique({
@@ -59,12 +59,12 @@ describe("User Test", () => {
         const api1 = appRouter.user.createCaller(ctx1);
         const api2 = appRouter.user.createCaller(ctx2);
         await api1.createProfile({
-            name: "Kat",
+            name: "Kat Kat Kat",
             username: "KattyKat",
         });
         await expect(
             api2.createProfile({
-                name: "Aerys",
+                name: "Aerys Aerys Aerys",
                 username: "KattyKat",
             })
         ).rejects.toThrow(
@@ -78,12 +78,12 @@ describe("User Test", () => {
     it("shouldn't allow users to create more than 1 profile", async () => {
         const api = appRouter.user.createCaller(ctx1);
         await api.createProfile({
-            name: "Kat",
+            name: "Kat Kat Kat Kat",
             username: "KattyKat",
         });
         await expect(
             api.createProfile({
-                name: "Kat",
+                name: "Kat Kat Kat Kat",
                 username: "KattyKat",
             })
         ).rejects.toThrow(
@@ -94,5 +94,13 @@ describe("User Test", () => {
         );
     });
 
-    it("should check for the length of input", function () {});
+    it("should error from zod validation", async () => {
+        const api = appRouter.user.createCaller(ctx1);
+        await expect(
+            api.createProfile({
+                name: "",
+                username: "",
+            })
+        ).rejects.toThrow();
+    });
 });

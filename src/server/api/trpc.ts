@@ -74,10 +74,17 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
     transformer: superjson,
     errorFormatter({ shape, error }) {
         return {
-            ...shape,
+            message: error.cause instanceof ZodError ? "VALIDATION_ERROR" : error.message,
+            code: shape.code,
             data: {
                 ...shape.data,
-                zodError: error.cause instanceof ZodError ? error.cause.flatten() : null,
+                zodError:
+                    error.cause instanceof ZodError
+                        ? {
+                              code: error.cause.issues[0]?.code,
+                              message: error.cause.issues[0]?.message,
+                          }
+                        : null,
             },
         };
     },
