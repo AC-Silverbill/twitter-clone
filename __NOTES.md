@@ -14,3 +14,6 @@ no mistakes yet from this, but potentially, so be careful.
 
 #####signIn nextAuth QUIRKS#####
 if, in a `signIn('provider', {options})` the provider exists, but the options are invalid, it will give a error. however, if the provider doesnt exist, it will always fallback onto the default signIn page
+
+#####random class in `globals.css`#####
+tailwindcss does not support standard `background` property, so i just added something there that i needed

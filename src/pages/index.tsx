@@ -12,6 +12,7 @@ import useUser from "~/hooks/useUser";
 import Button from "~/components/Button";
 import Footer from "~/components/Footer";
 import Redirect from "~/components/Redirect";
+import Logo from "~/components/Logo";
 
 export default function Home() {
     const { data: sessionData, update: updateSessionData, status } = useSession();
@@ -59,13 +60,7 @@ export default function Home() {
         return (
             <div className="flex flex-col h-screen">
                 <div className="flex-1 flex justify-center items-center">
-                    <Image
-                        src="images/logo.svg"
-                        width={200}
-                        height={200}
-                        alt="Twitter Clone Logo Image"
-                        className="hover:animate-[ping_0.4s_ease-in-out_1]"
-                    />
+                    <Logo />
                     <div className="flex flex-col justify-center p-4 h-full">
                         <div className="flex flex-col gap-2 items-center align-middle">
                             <div className="hover:animate-[spin_0.4s_ease-in-out_1]">

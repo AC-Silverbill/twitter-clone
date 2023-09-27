@@ -35,7 +35,7 @@ const MiscModal = () => {
             <div className="flex flex-col justify-center">
                 <div className="p-8 flex justify-center items-center">
                     {Icon && <Icon className={className} color={primaryColor} size={35} fontWeight={"1000"} />}
-                    {imageSrc && <Image src={imageSrc} width={50} height={50} alt="Twitter Clone Logo" />}
+                    {imageSrc && <Image src={imageSrc} width={50} height={50} alt="an image" />}
                 </div>
                 <h2 className="font-bold text-xl">{header}</h2>
                 <p className="text-xs">{description}</p>

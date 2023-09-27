@@ -4,6 +4,7 @@ import getLocal from "~/utils/getLocal";
 
 import Button from "../Button";
 import Modal from "./Modal";
+import MakeTweet from "../MakeTweet";
 
 const TweetModal = () => {
     const { isOpen, openTweetModal, closeTweetModal } = useTweetModal();
@@ -11,7 +12,7 @@ const TweetModal = () => {
 
     return (
         <Modal isOpen={isOpen} onChange={() => closeTweetModal()}>
-            remove later
+            <MakeTweet />
         </Modal>
     );
 };

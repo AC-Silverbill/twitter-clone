@@ -12,14 +12,15 @@ export default {
                 "#e8f5fe": "#e8f5fe",
                 "#e6e7e7": "#e6e7e7",
                 "#3fc99b": "#3fc99b",
+                "#8dccf7": "#8dccf7",
             },
         },
     },
     plugins: [],
     safelist: [
         {
-            pattern: /(hover\:)?(bg|text|border)-(\#2596be|\#1A8cd8|\#849099|\#eff3f4|\#e8f5fe|\#e6e7e7|\#3fc99b|pink-400)/,
-            variants: ["lg", "hover", "focus", "lg:hover", "group-hover"],
+            pattern: /(hover\:)?(bg|text|border)-(\#2596be|\#1A8cd8|\#849099|\#eff3f4|\#e8f5fe|\#e6e7e7|\#3fc99b|\#8dccf7|pink-400)/,
+            variants: ["lg", "focus", "hover", "lg:hover", "group-hover", "disabled", "group-disabled"],
         },
     ],
 } satisfies Config;
