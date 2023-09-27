@@ -121,3 +121,7 @@ model Like {
   reply     Reply?   @relation(fields: [replyId], references: [id])
   retweet   Retweet? @relation(fields: [retweetId], references: [id])
 }
+
+model Hashtag {
+  hashtag String @unique
+}
