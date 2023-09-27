@@ -71,21 +71,21 @@ const MakeTweet = () => {
     const BottomIcons = () => (
         <>
             <Icon key={"addfile"} onClick={() => {}} className="cursor-pointer">
-                <GrImage className={`group-hover:text-${COLOR_PRIMARY}`} />
+                <GrImage className={`text-${COLOR_PRIMARY}`} />
             </Icon>
             <Icon key={"addgif"} onClick={() => {}} className={`cursor-pointer`}>
                 <div className={`border-2 border-${COLOR_PRIMARY} scale-90`}>
-                    <AiOutlineGif className={``} />
+                    <AiOutlineGif className={`text-${COLOR_PRIMARY}`} />
                 </div>
             </Icon>
             <Icon key={"createpoll"} onClick={() => {}} className={`cursor-pointer`}>
-                <HiListBullet className={``} />
+                <HiListBullet className={`text-${COLOR_PRIMARY}`} />
             </Icon>
             <Icon key={"addemoji"} onClick={() => {}} className="cursor-pointer">
-                <BsEmojiSmile className={``} />
+                <BsEmojiSmile className={`text-${COLOR_PRIMARY}`} />
             </Icon>
             <Icon key={"scheduletweet"} onClick={() => {}} className="cursor-pointer">
-                <LuCalendarClock />
+                <LuCalendarClock className={`text-${COLOR_PRIMARY}`} />
             </Icon>
         </>
     );
@@ -124,7 +124,7 @@ const MakeTweet = () => {
             <ProfileImage />
             <div className={`flex flex-col px-2 w-full gap-2`}>
                 {isExpanded && <AudienceDropdown />}
-                <MakeTweetArea onChange={(e) => handleContentChange(e)} onFocus={() => setIsExpanded(true)} value={tweetContent} />
+                <MakeTweetArea onChange={(e) => handleContentChange(e)} onFocus={() => setIsExpanded(true)} tweetContent={tweetContent} />
                 {isExpanded && <WhoCanReply />}
                 <div className={`${isExpanded && `border-b py-1`}`}></div>
                 <div className="pt-2 flex w-full">
@@ -137,7 +137,7 @@ const MakeTweet = () => {
                                         {!postTooMuch && <CircleProgressBar />}
                                         {postTooMuch && (
                                             <div className="flex justify-center items-center">
-                                                <span className={`text-sm text-${COLOR_WARNING}`}>{`-${
+                                                <span className={`text-sm text-${COLOR_ERROR}`}>{`-${
                                                     tweetContent.length - maxContent
                                                 }`}</span>
                                             </div>

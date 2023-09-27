@@ -3,12 +3,15 @@ import React, { useRef } from "react";
 interface MakeTweetAreaProps {
     onChange: (e: React.FormEvent<HTMLDivElement>) => void;
     onFocus: () => void;
-    value: string;
+    tweetContent: string;
 }
 
-const MakeTweetArea = ({ onChange, onFocus }: MakeTweetAreaProps) => {
+const MakeTweetArea = ({ onChange, onFocus, tweetContent }: MakeTweetAreaProps) => {
+    const areaRef = useRef<HTMLDivElement>(null);
+
     return (
         <div
+            ref={areaRef}
             role="textbox"
             contentEditable
             key={"textarea"}
