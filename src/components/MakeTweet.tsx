@@ -25,7 +25,7 @@ const MakeTweet = () => {
     const { twitterProfile } = useUser();
     const [isExpanded, setIsExpanded] = useState(false);
     const [tweetContent, setTweetContent] = useState("");
-    const { COLOR_PRIMARY, COLOR_PRIMARY_DISABLED, COLOR_WHITE_HIGHLIGHTED, COLOR_WARNING } = getLocals("colors");
+    const { COLOR_PRIMARY, COLOR_PRIMARY_DISABLED, COLOR_WHITE_HIGHLIGHTED, COLOR_WARNING, COLOR_ERROR } = getLocals("colors");
 
     //TODO: setTweetContent workingly seemlessly with progressCircle
     const handleContentChange = (e: React.FormEvent<HTMLDivElement>) => {
@@ -34,7 +34,10 @@ const MakeTweet = () => {
     };
 
     const percentage = Math.round((tweetContent.length / maxContent) * 100);
-    console.log(percentage);
+    const postDisabled = tweetContent.length === 0 || tweetContent.length > maxContent;
+    const postWarning = percentage > 95;
+    const postExceeded = tweetContent.length > maxContent;
+    const postTooMuch = tweetContent.length > maxContent + 10;
     //####################SECTION#################### MakeTweet only components; created because it will be easier to look at the return values below
     const ProfileImage = () => (
         <div>
@@ -86,15 +89,7 @@ const MakeTweet = () => {
             </Icon>
         </>
     );
-    /**
- * buildStyles({
-                    pathColor: `${percentage > 95 ? COLOR_WARNING : COLOR_PRIMARY}`,
-                    textColor: "#f88",
-                    trailColor: "#d6d6d6",
-                    backgroundColor: "#3e98c7",
-                })
- * @returns 
- */
+
     const CircleProgressBar = () => (
         <div className="flex justify-center items-center">
             <CircularProgressbar
@@ -104,12 +99,12 @@ const MakeTweet = () => {
                 className="w-6 h-6"
                 strokeWidth={10}
                 styles={{
-                    text: { fontSize: 40, color: "#f88" },
-                    path: { stroke: `${percentage > 95 ? COLOR_WARNING : COLOR_PRIMARY}` },
+                    text: { fontSize: 40, color: "#f88", textAnchor: "middle", alignmentBaseline: "middle" },
+                    path: { stroke: `${!postWarning ? COLOR_PRIMARY : postExceeded ? COLOR_ERROR : COLOR_WARNING}` },
                     trail: { stroke: "#d6d6d6" },
                     background: { fill: "#3e98c7" },
                 }}
-                text={`${percentage > 95 ? maxContent - tweetContent.length : ""}`}
+                text={`${postWarning ? maxContent - tweetContent.length : ""}`}
             />
         </div>
     );
@@ -135,16 +130,27 @@ const MakeTweet = () => {
                 <div className="pt-2 flex w-full">
                     <BottomIcons />
                     <div className="flex ml-auto gap-2">
-                        {tweetContent.length !== 0 && (
+                        {isExpanded && (
                             <>
-                                <CircleProgressBar />
-                                <MiddleBar />
-                                <AddAnotherPost />
+                                {tweetContent.length !== 0 && (
+                                    <>
+                                        {!postTooMuch && <CircleProgressBar />}
+                                        {postTooMuch && (
+                                            <div className="flex justify-center items-center">
+                                                <span className={`text-sm text-${COLOR_WARNING}`}>{`-${
+                                                    tweetContent.length - maxContent
+                                                }`}</span>
+                                            </div>
+                                        )}
+                                        <MiddleBar />
+                                        <AddAnotherPost />
+                                    </>
+                                )}
                             </>
                         )}
                         <Button
                             className={`bg-${COLOR_PRIMARY} text-white px-5 rounded-3xl text-sm font-bold disabled:bg-${COLOR_PRIMARY_DISABLED} disabled:cursor-default enabled:hover:translate-x-1 transition`}
-                            disabled={tweetContent.length === 0}
+                            disabled={postDisabled}
                         >
                             <span>Post</span>
                         </Button>

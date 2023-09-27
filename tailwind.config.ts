@@ -14,6 +14,7 @@ export default {
                 "#3fc99b": "#3fc99b",
                 "#8dccf7": "#8dccf7",
                 "#fb9fa8": "#fb9fa8",
+                "#f4212e": "#f4212e",
             },
         },
     },
@@ -21,7 +22,7 @@ export default {
     safelist: [
         {
             pattern:
-                /(hover\:)?(bg|text|border)-(\#2596be|\#1A8cd8|\#849099|\#eff3f4|\#e8f5fe|\#e6e7e7|\#3fc99b|\#8dccf7|\#fb9fa8|pink-400)/,
+                /(hover\:)?(bg|text|border)-(\#2596be|\#1A8cd8|\#849099|\#eff3f4|\#e8f5fe|\#e6e7e7|\#3fc99b|\#8dccf7|\#fb9fa8|\#f4212e|pink-400)/,
             variants: ["lg", "focus", "hover", "lg:hover", "group-hover", "disabled", "group-disabled"],
         },
     ],
