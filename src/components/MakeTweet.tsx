@@ -52,7 +52,7 @@ const MakeTweet = () => {
     );
 
     const AudienceDropdown = () => (
-        <div className="px-2 pb-4">
+        <div className="px-2 pb-2">
             <Button
                 className={`flex border rounded-3xl transition hover:bg-${COLOR_WHITE_HIGHLIGHTED} text-${COLOR_PRIMARY} text-xs font-semibold self-start p-1 px-2`}
             >
@@ -122,7 +122,7 @@ const MakeTweet = () => {
     return (
         <div className="p-4 flex border-b-[1px] border-${borderColor} w-full">
             <ProfileImage />
-            <div className={`flex flex-col px-2 w-full`}>
+            <div className={`flex flex-col px-2 w-full gap-2`}>
                 {isExpanded && <AudienceDropdown />}
                 <MakeTweetArea onChange={(e) => handleContentChange(e)} onFocus={() => setIsExpanded(true)} value={tweetContent} />
                 {isExpanded && <WhoCanReply />}
