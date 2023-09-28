@@ -79,13 +79,19 @@ export interface Profile {
 export interface Tweet {
     id: string;
     author: Profile;
-    type: "tweet" | "retweet" | "reply";
+    type: TweetType;
     timeCreated: Date;
     likes: number;
     retweets: number;
     replies: number;
     content: string;
-    reference?: Tweet;
+    reference?: ReferenceTweet;
+}
+
+export interface ReferenceTweet {
+    id: string;
+    author: Profile;
+    content: string;
 }
 
 export interface Like {
