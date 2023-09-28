@@ -10,25 +10,24 @@ const ExploreFeed = () => {
     const [user1, user2] = [getTwitterProfile("one"), getTwitterProfile("two")];
 
     const exampleTweet: Tweet = {
-        id: 1,
-        authorId: 52,
+        id: "asdjandj1njd1nd",
+        type: "tweet",
         author: user1,
-        postId: 4,
         content: "hello everyone!",
-        likes: [12],
-        retweets: [],
-        timeCreated: "asdasd",
+        likes: 12,
+        retweets: 42,
+        timeCreated: new Date(Date.now()),
     };
 
     const exampleTweet2: Tweet = {
-        id: 52,
+        id: "a2kfof",
         authorId: 21,
         author: user2,
         postId: 52,
         content:
             "Once upon a time, there was a horse named Course. He loved to eat, of course. Then one night, when he was eating, of course, he came across a porch. He sat on the porch, then died. The end.",
-        likes: [44],
-        retweets: [],
+        likes: 55,
+        retweets: 21,
         timeCreated: "asdasd",
     };
 
