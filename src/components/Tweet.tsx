@@ -11,10 +11,11 @@ import useTweetModal from "~/hooks/useTweetModal";
 import useQuoteModal from "~/hooks/useQuoteModal";
 
 import Icon from "./Icon";
-import { FaRegMessage } from "react-icons/fa6";
-import { HiOutlineArrowPathRoundedSquare } from "react-icons/hi2";
-import { AiOutlineHeart } from "react-icons/ai";
 import { BsFillBarChartFill } from "react-icons/bs";
+import ReplyIcon from "./icons/ReplyIcon";
+import QuoteIcon from "./icons/QuoteIcon";
+import LikeIcon from "./icons/LikeIcon";
+import StatsIcon from "./icons/StatsIcon";
 
 interface TweetProps {
     tweet: Tweet;
@@ -23,19 +24,14 @@ interface TweetProps {
 const Tweet = ({ tweet: { id, authorId, author, postId, content, likes, retweets, timeCreated, attachments, reference } }: TweetProps) => {
     //TODO: getAuthor from authorId in tweet
 
-    const { COLOR_PRIMARY, COLOR_SECONDARY, COLOR_TERTIARY, COLOR_BORDER, COLOR_WHITE_HIGHLIGHTED, COLOR_PINK } = getLocals("colors");
+    const { COLOR_PRIMARY, COLOR_SECONDARY, COLOR_BORDER, COLOR_LIGHT_GRAY } = getLocals("colors");
     const { data } = useSession();
     const { openAuthModal } = useAuthModal();
     const { openMiscModal } = useMiscModal();
-    const { openTweetModal } = useTweetModal();
-    const { openReplyModal } = useReplyModal();
-    const { openQuoteModal } = useQuoteModal();
-
-    const handleClick = () => {};
 
     //TODO: refactor into fetching the author's pfp
     return (
-        <div className={`p-4 flex border-b-[1px] border-${COLOR_BORDER} w-full hover:bg-${COLOR_WHITE_HIGHLIGHTED}`}>
+        <div className={`p-4 flex border-b-[1px] border-${COLOR_BORDER} w-full hover:bg-${COLOR_LIGHT_GRAY}`}>
             <div>
                 <Image
                     src={author.image || ""}
@@ -55,22 +51,10 @@ const Tweet = ({ tweet: { id, authorId, author, postId, content, likes, retweets
                 </div>
                 <div className="flex justify-self-end">{content}</div>
                 <div className="pt-2 flex justify-evenly w-full">
-                    <Icon key={"reply"} onClick={() => openAuthModal("reply")} className="cursor-pointer">
-                        <FaRegMessage className={`transform -scale-x-100 group-hover:text-${COLOR_PRIMARY}`} />
-                    </Icon>
-                    <Icon
-                        key={"retweet"}
-                        onClick={() => openAuthModal("retweet")}
-                        className={`cursor-pointer hover:bg-[${COLOR_TERTIARY}]`}
-                    >
-                        <HiOutlineArrowPathRoundedSquare className={`transform flex-1 scale-110 group-hover:text-${COLOR_TERTIARY}`} />
-                    </Icon>
-                    <Icon key={"like"} onClick={() => openAuthModal("like")} className={`cursor-pointer hover:bg-[${COLOR_PINK}]`}>
-                        <AiOutlineHeart className={`transform flex-1 group-hover:text-${COLOR_PINK}`} />
-                    </Icon>
-                    <Icon key={"stats"} onClick={() => openMiscModal("stats")} className="cursor-pointer">
-                        <BsFillBarChartFill className={`transform flex-1 group-hover:text-${COLOR_PRIMARY}`} />
-                    </Icon>
+                    <ReplyIcon />
+                    <QuoteIcon />
+                    <LikeIcon />
+                    <StatsIcon />
                 </div>
             </div>
         </div>

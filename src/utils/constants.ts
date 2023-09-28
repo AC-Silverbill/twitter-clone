@@ -3,11 +3,16 @@ import { AnyRoute } from "~/types";
 //some colors are similar cuz we are doing twitter clone,m but if things change we can
 export const colors = {
     COLOR_PRIMARY: "#2596be",
+    COLOR_PRIMARY_LIGHTER: "#e1eef6",
     COLOR_PRIMARY_DISABLED: "#8dccf7",
     COLOR_PRIMARY_HIGHLIGHTED: "#1a8cd8",
     COLOR_SECONDARY: "#849099",
     COLOR_TERTIARY: "#3fc99b",
     COLOR_PINK: "pink-400",
+    COLOR_PINK_LIGHTER: "#fee7f2",
+    COLOR_LIGHT_GRAY: "#f7f7f7",
+    COLOR_GREEN: "#3ac898",
+    COLOR_GREEN_LIGHTER: "#def1eb",
     COLOR_BORDER: "#eff3f4",
     COLOR_WHITE_HIGHLIGHTED: "#e8f5fe",
     COLOR_WHITE_HIGHLIGHTED_DARKER: "#e6e7e7",
@@ -35,3 +40,12 @@ export const categories = {
     colors: colors,
     routes: routes,
 };
+
+//ways you will end up opening the AuthModal
+export const authModalHeaders = {
+    default: "default",
+    reply: "reply",
+    retweet: "retweet",
+    like: "like",
+    follow: "follow",
+} as const;

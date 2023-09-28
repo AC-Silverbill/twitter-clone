@@ -1,13 +1,5 @@
 import { create } from "zustand";
-
-//ways you will end up opening the AuthModal
-const authModalHeaders = {
-    default: "default",
-    reply: "reply",
-    retweet: "retweet",
-    like: "like",
-    follow: "follow",
-} as const;
+import { authModalHeaders } from "~/utils/constants";
 
 export type authModalHeadersType = keyof typeof authModalHeaders;
 interface AuthModalStore {

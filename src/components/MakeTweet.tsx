@@ -48,7 +48,7 @@ const MakeTweet = ({ quote }: MakeTweetProps) => {
             <div className={`flex flex-col px-2 w-full gap-2`}>
                 {isExpanded && <AudienceDropdown />}
                 <MakeTweetArea onChange={(e) => handleContentChange(e)} onFocus={() => setIsExpanded(true)} tweetContent={tweetContent} />
-                {quote}
+                {quote && <div className="border flex justify-center items-center">{quote}</div>}
                 {isExpanded && <WhoCanReply onClick={() => {}} />}
                 <div className={`${isExpanded && `border-b py-1`}`}></div>
                 <div className="pt-2 flex w-full">

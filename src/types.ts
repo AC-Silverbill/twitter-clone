@@ -66,7 +66,7 @@ export interface Profile {
 
 /**
  * @interface Tweet
- * @param id: number
+ * @param id: string
  * @param authorId: number
  * @param author: Profile
  * @param postId: number
@@ -79,13 +79,28 @@ export interface Profile {
  */
 export interface Tweet {
     id: number;
+    type: TweetType;
     authorId: number;
     author: Profile;
     postId: number;
     content: string;
     attachments?: string;
-    likes: number; // userIDs
-    retweets: number; // tweetIDs
+    likes: Like[]; // userIDs
+    retweets: number[]; // tweetIDs
     reference?: Tweet;
     timeCreated: string;
+}
+
+export interface Like {
+    id: string;
+    userId: string;
+    tweetId: string;
+    user: Profile;
+    tweet: Tweet;
+}
+
+export enum TweetType {
+    TWEET,
+    RETWEET,
+    REPLY,
 }

@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import AuthModal from "~/components/modals/AuthModal";
 import MiscModal from "~/components/modals/MiscModal";
+import ReplyModal from "~/components/modals/ReplyModal";
 import QuoteModal from "~/components/modals/QuoteModal";
 import TweetModal from "~/components/modals/TweetModal";
 
@@ -20,6 +21,7 @@ const ModalProvider = () => {
             <AuthModal />
             <TweetModal />
             <QuoteModal />
+            <ReplyModal />
             <MiscModal />
         </>
     );
