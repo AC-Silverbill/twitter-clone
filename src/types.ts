@@ -66,26 +66,24 @@ export interface Profile {
 
 /**
  * @interface Tweet
- * @param id: number
- * @param authorId: number
+ * @param id: string
  * @param author: Profile
- * @param postId: number
- * @param content: string
- * @param attachments?: string[]
- * @param likes: number[], that are userIDs
- * @param retweets: number[], that are tweetIDs
- * @param reference: Tweet, which isn't the current one
+ * @param type: "tweet" | "retweet" | "reply"
+ * @param content?: string
  * @param timeCreated: Date
+ * @param reference: Tweet, which isn't the current one
+ * @param likes: number
+ * @param retweets: number
+ * @param replies: number
  */
 export interface Tweet {
-    id: number;
-    authorId: number;
+    id: string;
     author: Profile;
-    postId: number;
-    content: string;
-    attachments?: string;
-    likes: number; // userIDs
-    retweets: number; // tweetIDs
-    reference?: Tweet;
-    timeCreated: string;
+    type: "tweet" | "retweet" | "reply";
+    content?: string;
+    timeCreated: Date;
+    reference: Tweet;
+    likes: number;
+    retweets: number;
+    replies: number;
 }
