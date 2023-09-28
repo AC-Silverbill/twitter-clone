@@ -3,34 +3,11 @@ import useUser from "~/hooks/useUser";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
 
 import Tab from "../Tab";
-import ContentTitle from "../ContentTitle";
 import Tweet from "../Tweet";
+import ContentTitle from "../ContentTitle";
+import ExampleTweets from "../testing/ExampleTweets";
 
 const ExploreFeed = () => {
-    const [user1, user2] = [getTwitterProfile("one"), getTwitterProfile("two")];
-
-    const exampleTweet: Tweet = {
-        id: "asdjandj1njd1nd",
-        type: "tweet",
-        author: user1,
-        content: "hello everyone!",
-        likes: 12,
-        retweets: 42,
-        timeCreated: new Date(Date.now()),
-    };
-
-    const exampleTweet2: Tweet = {
-        id: "a2kfof",
-        authorId: 21,
-        author: user2,
-        postId: 52,
-        content:
-            "Once upon a time, there was a horse named Course. He loved to eat, of course. Then one night, when he was eating, of course, he came across a porch. He sat on the porch, then died. The end.",
-        likes: 55,
-        retweets: 21,
-        timeCreated: "asdasd",
-    };
-
     return (
         <>
             <div id="content" className="flex-[3] flex flex-col">
@@ -44,8 +21,7 @@ const ExploreFeed = () => {
                         <Tab title="Entertainment" handleClick={() => {}} />
                     </div>
                 </div>
-                <Tweet tweet={exampleTweet} />
-                <Tweet tweet={exampleTweet2} />
+                <ExampleTweets />
             </div>
             <div id="discovery"></div>
         </>

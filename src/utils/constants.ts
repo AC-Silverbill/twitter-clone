@@ -11,6 +11,7 @@ export const colors = {
     COLOR_PINK: "pink-400",
     COLOR_PINK_LIGHTER: "#fee7f2",
     COLOR_LIGHT_GRAY: "#f7f7f7",
+    COLOR_LIGHT_GRAY_DARKER: "#efefef",
     COLOR_GREEN: "#3ac898",
     COLOR_GREEN_LIGHTER: "#def1eb",
     COLOR_BORDER: "#eff3f4",

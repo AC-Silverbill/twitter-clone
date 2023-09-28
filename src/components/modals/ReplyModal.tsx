@@ -10,6 +10,10 @@ const ReplyModal = () => {
     const { isOpen, openReplyModal, closeReplyModal } = useReplyModal();
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
 
+    if (!isOpen) {
+        return null;
+    }
+
     return (
         <Modal isOpen={isOpen} onChange={() => closeReplyModal()}>
             <MakeReply />

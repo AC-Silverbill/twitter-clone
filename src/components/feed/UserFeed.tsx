@@ -6,6 +6,8 @@ interface UserContent {
 }
 
 const UserFeed = ({ twitterProfile }: UserContent) => {
+    //TODO: add user feed
+
     return (
         <div className="flex flex-col">
             <div className="h-[100vh]">{twitterProfile.name} is here</div>

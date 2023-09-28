@@ -5,6 +5,7 @@ import ContentTitle from "../ContentTitle";
 import Tab from "../Tab";
 
 const NotificationsFeed = () => {
+    //TODO: add notifications feed
     return (
         <div className="flex flex-col">
             <div id="heading" className="border-b-[1px] border-[#000000]">

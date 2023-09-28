@@ -3,17 +3,23 @@ import getLocal from "~/utils/getLocal";
 import useTweetModal from "~/hooks/useTweetModal";
 import useQuoteModal from "~/hooks/useQuoteModal";
 
-import Button from "../Button";
 import Modal from "./Modal";
+import Button from "../Button";
+import Message from "../Message";
 import MakeTweet from "../MakeTweet";
 
 const QuoteModal = () => {
-    const { isOpen, openQuoteModal, closeQuoteModal } = useQuoteModal();
+    const { isOpen, quote, openQuoteModal, closeQuoteModal } = useQuoteModal();
+    const _quote = quote!;
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
+
+    if (!isOpen) {
+        return null;
+    }
 
     return (
         <Modal isOpen={isOpen} onChange={() => closeQuoteModal()}>
-            <MakeTweet quote={<div className="flex justify-center">this is a quote</div>} />
+            <MakeTweet quote={<Message tweet={_quote ?? null} />} />
         </Modal>
     );
 };

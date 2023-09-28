@@ -1,4 +1,5 @@
 import React from "react";
+import { Tweet } from "~/types";
 import { useSession } from "next-auth/react";
 import getLocals from "~/utils/getLocals";
 import isValidSession from "~/utils/isValidSession";
@@ -8,7 +9,11 @@ import useQuoteModal from "~/hooks/useQuoteModal";
 import Icon from "../Icon";
 import { HiOutlineArrowPathRoundedSquare } from "react-icons/hi2";
 
-const QuoteIcon = () => {
+interface QuoteIconProps {
+    tweet: Tweet;
+}
+
+const QuoteIcon = ({ tweet }: QuoteIconProps) => {
     const { data } = useSession();
     const { openAuthModal } = useAuthModal();
     const { openQuoteModal } = useQuoteModal();
@@ -18,14 +23,17 @@ const QuoteIcon = () => {
         if (!isValidSession(data)) {
             return openAuthModal("retweet");
         } else {
-            return openQuoteModal();
+            return openQuoteModal(tweet);
         }
     };
 
     return (
-        <Icon key={"retweet"} onClick={onClick} className={`cursor-pointer hover:bg-${COLOR_GREEN_LIGHTER}`}>
-            <HiOutlineArrowPathRoundedSquare className={`transform flex-1 scale-110 group-hover:text-${COLOR_GREEN}`} />
-        </Icon>
+        <div className="group flex">
+            <Icon key={"retweet"} onClick={onClick} className={`cursor-pointer hover:bg-${COLOR_GREEN_LIGHTER}`}>
+                <HiOutlineArrowPathRoundedSquare className={`transform flex-1 scale-110 group-hover:text-${COLOR_GREEN}`} />
+            </Icon>
+            <span className={`flex justify-center items-center text-xs group-hover:text-${COLOR_GREEN}`}>{tweet.retweets}</span>
+        </div>
     );
 };
 

@@ -1,13 +1,18 @@
 import React, { useRef, useState } from "react";
+import { Tweet } from "~/types";
 import { useSession } from "next-auth/react";
+import useAuthModal from "~/hooks/useAuthModal";
 import isValidSession from "~/utils/isValidSession";
 import getLocals from "~/utils/getLocals";
-import useAuthModal from "~/hooks/useAuthModal";
 
 import Icon from "../Icon";
 import { AiOutlineHeart } from "react-icons/ai";
 
-const LikeIcon = () => {
+interface QuoteIconProps {
+    tweet: Tweet;
+}
+
+const LikeIcon = ({ tweet }: QuoteIconProps) => {
     const [isLiked, setIsLiked] = useState(false);
     const { data } = useSession();
     const { openAuthModal } = useAuthModal();
@@ -22,9 +27,12 @@ const LikeIcon = () => {
     };
 
     return (
-        <Icon key={"like"} onClick={onClick} className={`cursor-pointer hover:bg-${COLOR_PINK_LIGHTER} ${isLiked && "is-liked"}`}>
-            <AiOutlineHeart className={`transform flex-1 group-hover:text-${COLOR_PINK}`} />
-        </Icon>
+        <div className="group flex">
+            <Icon key={"like"} onClick={onClick} className={`cursor-pointer hover:bg-${COLOR_PINK_LIGHTER} ${isLiked && "is-liked"}`}>
+                <AiOutlineHeart className={`transform flex-1 group-hover:text-${COLOR_PINK}`} />
+            </Icon>
+            <span className={`flex justify-center items-center text-xs group-hover:text-${COLOR_PINK}`}>{tweet.likes}</span>
+        </div>
     );
 };
 
