@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 import AuthModal from "~/components/modals/AuthModal";
 import MiscModal from "~/components/modals/MiscModal";
+import QuoteModal from "~/components/modals/QuoteModal";
 import TweetModal from "~/components/modals/TweetModal";
 
 const ModalProvider = () => {
@@ -18,6 +19,7 @@ const ModalProvider = () => {
         <>
             <AuthModal />
             <TweetModal />
+            <QuoteModal />
             <MiscModal />
         </>
     );

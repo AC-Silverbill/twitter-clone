@@ -14,11 +14,7 @@ import MiddleBar from "./MiddleBar";
 import AddAnotherPost from "./messaging/AddAnotherPost";
 import AudienceDropdown from "./messaging/AudienceDropdown";
 
-interface MakeTweetProps {
-    quote?: React.ReactNode;
-}
-
-const MakeTweet = ({ quote }: MakeTweetProps) => {
+const MakeReply = () => {
     //TODO: import MaxContent from a global settings list. maybe throw it in constants?
     const maxContent = 300;
 
@@ -48,7 +44,6 @@ const MakeTweet = ({ quote }: MakeTweetProps) => {
             <div className={`flex flex-col px-2 w-full gap-2`}>
                 {isExpanded && <AudienceDropdown />}
                 <MakeTweetArea onChange={(e) => handleContentChange(e)} onFocus={() => setIsExpanded(true)} tweetContent={tweetContent} />
-                {quote}
                 {isExpanded && <WhoCanReply onClick={() => {}} />}
                 <div className={`${isExpanded && `border-b py-1`}`}></div>
                 <div className="pt-2 flex w-full">
@@ -80,7 +75,7 @@ const MakeTweet = ({ quote }: MakeTweetProps) => {
                             </>
                         )}
                         <PostMessage disabled={postDisabled}>
-                            <span>Post</span>
+                            <span>Reply</span>
                         </PostMessage>
                     </div>
                 </div>
@@ -89,4 +84,4 @@ const MakeTweet = ({ quote }: MakeTweetProps) => {
     );
 };
 
-export default MakeTweet;
+export default MakeReply;
