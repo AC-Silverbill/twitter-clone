@@ -53,6 +53,8 @@ export interface TwitterUser {
  * @param image?: string
  * @param bio?: string
  * @param joinedAt?: Date
+ * @param tweets: Tweet[]
+ * @param likes: Like[]
  */
 export interface Profile {
     id: string;
@@ -62,30 +64,38 @@ export interface Profile {
     image?: string;
     bio?: string;
     joinedAt: Date;
+    tweets?: Tweet[];
+    likes?: Like[];
 }
+
+const TweetType = {
+    TWEET: 0,
+    RETWEET: 1,
+    REPLY: 2,
+};
 
 /**
  * @interface Tweet
  * @param id: string
- * @param author: Profile
  * @param type: "tweet" | "retweet" | "reply"
  * @param content?: string
  * @param timeCreated: Date
  * @param reference: Tweet, which isn't the current one
- * @param likes: number
  * @param retweets: number
+ * @param author: Profile
+ * @param likes: number
  * @param replies: number
  */
 export interface Tweet {
     id: string;
     author: Profile;
-    type: TweetType;
+    type: keyof typeof TweetType;
+    content: string;
     timeCreated: Date;
-    likes: number;
+    reference?: ReferenceTweet;
     retweets: number;
     replies: number;
-    content: string;
-    reference?: ReferenceTweet;
+    likes: number;
 }
 
 export interface ReferenceTweet {
@@ -100,10 +110,4 @@ export interface Like {
     tweetId: string;
     user: Profile;
     tweet: Tweet;
-}
-
-export enum TweetType {
-    TWEET,
-    RETWEET,
-    REPLY,
 }

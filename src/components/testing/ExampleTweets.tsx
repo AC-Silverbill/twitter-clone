@@ -9,7 +9,7 @@ const ExampleTweets = () => {
 
     const exampleTweet: TweetType = {
         id: "asdjandj1njd1nd",
-        type: "tweet",
+        type: "TWEET",
         author: user1,
         content: "hello everyone!",
         likes: 12,
@@ -20,7 +20,7 @@ const ExampleTweets = () => {
 
     const exampleTweet2: TweetType = {
         id: "dkqdnojm",
-        type: "tweet",
+        type: "TWEET",
         author: user2,
         content:
             "Once upon a time, there was a horse named Course. He loved to eat, of course. Then one night, when he was eating, of course, he came across a porch. He sat on the porch, then died. The end.",
