@@ -1,22 +1,24 @@
 "use client";
 
 import React, { useRef, useState } from "react";
+import { ReferenceTweet } from "~/types";
 import useUser from "~/hooks/useUser";
-
-import MakeTweetArea from "./MakeTweetArea";
+import { api } from "~/utils/api";
 import getLocals from "~/utils/getLocals";
+
+import Message from "./Message";
+import MiddleBar from "./MiddleBar";
+import MakeTweetArea from "./MakeTweetArea";
 import BottomIcons from "./messaging/BottomIcons";
-import ProfileImage from "./messaging/ProfileImage";
-import CircleProgressBar from "./messaging/CircleProgressBar";
 import PostMessage from "./messaging/PostMessage";
 import WhoCanReply from "./messaging/WhoCanReply";
-import MiddleBar from "./MiddleBar";
+import ProfileImage from "./messaging/ProfileImage";
 import AddAnotherPost from "./messaging/AddAnotherPost";
 import AudienceDropdown from "./messaging/AudienceDropdown";
-import { api } from "~/utils/api";
+import CircleProgressBar from "./messaging/CircleProgressBar";
 
 interface MakeTweetProps {
-    quote?: React.ReactNode;
+    quote?: ReferenceTweet;
     defaultExpanded?: boolean;
 }
 
@@ -39,6 +41,20 @@ const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
     };
 
     const tweetMutation = api.tweet.postTweet.useMutation();
+    const retweetMutation = api.tweet.postRetweet.useMutation();
+
+    const handlePost = () => {
+        if (quote) {
+            postQuote();
+        } else {
+            postTweet();
+        }
+    };
+
+    const postQuote = () => {
+        retweetMutation.mutate({ referenceId: quote!.id, content: tweetContent });
+    };
+
     const postTweet = () => {
         tweetMutation.mutate(tweetContent);
     };
@@ -55,7 +71,7 @@ const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
                     onFocus={() => setIsExpanded(true)}
                     tweetContent={tweetContent}
                 />
-                {quote && <div className="border flex justify-center items-center">{quote}</div>}
+                {quote && <div className="border flex justify-center items-center">{<Message tweet={quote} />}</div>}
                 {isExpanded && <WhoCanReply onClick={() => {}} />}
                 <div className={`${isExpanded && `border-b py-1`}`}></div>
                 <div className="pt-2 flex w-full">
@@ -86,7 +102,7 @@ const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
                                 )}
                             </>
                         )}
-                        <PostMessage onClick={postTweet} disabled={postDisabled}>
+                        <PostMessage onClick={handlePost} disabled={postDisabled}>
                             <span>Post</span>
                         </PostMessage>
                     </div>

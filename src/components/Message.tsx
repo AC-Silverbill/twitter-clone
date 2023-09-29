@@ -36,7 +36,7 @@ const Message = ({ tweet: { id, author, content } }: MessageProps) => {
                     <div>·</div>
                     <div>1hr</div>
                 </div>
-                <div className="flex justify-self-end">{content}</div>
+                <div className="_line-break-anywhere flex justify-self-end">{content}</div>
             </div>
         </div>
     );

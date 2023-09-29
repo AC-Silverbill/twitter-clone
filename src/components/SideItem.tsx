@@ -33,13 +33,13 @@ const SideItem = ({ icon, route, title }: SideItemProps) => {
 
     return (
         <div
-            className={`flex gap-2 p-2 hover:translate-x-2 hover:bg-${highlightedColor}  transition cursor-pointer ${
+            className={`flex gap-2 p-2 hover:translate-x-2 hover:bg-${highlightedColor} transition cursor-pointer justify-center md:justify-start ${
                 isHighlighted() ? `text-${selectedColor}` : ""
             }`}
             onClick={() => navigateToPage(route)}
         >
-            <div className="flex justify-center items-center">{icon}</div>
-            <div className="flex justify-center items-center text-2xl font-semibold">{title ? title : route}</div>
+            <div className="flex justify-center items-center scale-[200%] md:scale-100 p-2 md:p-0">{icon}</div>
+            <div className="hidden md:flex justify-center items-center sm:text-lg md:text-2xl font-semibold">{title ? title : route}</div>
         </div>
     );
 };

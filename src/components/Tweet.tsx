@@ -21,15 +21,14 @@ const Tweet = ({ tweet }: TweetProps) => {
     //TODO: getAuthor from authorId in tweet
 
     const { COLOR_PRIMARY, COLOR_SECONDARY, COLOR_BORDER, COLOR_LIGHT_GRAY } = getLocals("colors");
-    const { openAuthModal } = useAuthModal();
 
     //TODO: refactor into fetching the author's pfp
     return (
-        <div className={`p-4 flex border-b-[1px] border-${COLOR_BORDER} w-full hover:bg-${COLOR_LIGHT_GRAY}`}>
+        <div className={`p-4 flex border-b-[1px] border-${COLOR_BORDER} w-full max-w-full hover:bg-${COLOR_LIGHT_GRAY}`}>
             <div>
                 <Image
                     src={tweet.author.image || ""}
-                    alt={`Profile Picture of ${tweet.author.id}`}
+                    alt={`Profile Picture of ${tweet.author.name}`}
                     width={40}
                     height={40}
                     className="rounded-full flex flex-initial"
@@ -43,7 +42,7 @@ const Tweet = ({ tweet }: TweetProps) => {
                     <div>·</div>
                     <div>1hr</div>
                 </div>
-                <div className="flex justify-self-end">{tweet.content}</div>
+                <div className="_line-break-anywhere flex justify-self-end">{tweet.content}</div>
                 {tweet.reference && (
                     <div className="border rounded-2xl mt-2">
                         <Message tweet={tweet.reference} />
