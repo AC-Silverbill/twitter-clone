@@ -3,7 +3,7 @@ import { z } from "zod";
 import { type Profile, type Tweet, TweetType } from "~/types";
 
 export const tweetRouter = createTRPCRouter({
-    tweet: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    postTweet: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
         await ctx.db.tweet.create({
             data: {
                 authorId: ctx.session.user.id,
@@ -12,7 +12,7 @@ export const tweetRouter = createTRPCRouter({
         });
     }),
 
-    retweet: protectedProcedure
+    postRetweet: protectedProcedure
         .input(
             z.object({
                 referenceId: z.string().cuid(),
@@ -31,7 +31,7 @@ export const tweetRouter = createTRPCRouter({
             });
         }),
 
-    reply: protectedProcedure
+    postReply: protectedProcedure
         .input(
             z.object({
                 referenceId: z.string().cuid(),
@@ -50,7 +50,7 @@ export const tweetRouter = createTRPCRouter({
             });
         }),
 
-    like: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    postLike: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
         await ctx.db.like.create({
             data: {
                 userId: ctx.session.user.id,
@@ -59,7 +59,7 @@ export const tweetRouter = createTRPCRouter({
         });
     }),
 
-    getTweetsAll: protectedProcedure.query(async ({ ctx }): Promise<Tweet[]> => {
+    getAllTweets: protectedProcedure.query(async ({ ctx }): Promise<Tweet[]> => {
         const tweets = await ctx.db.tweet.findMany({
             where: {
                 OR: [

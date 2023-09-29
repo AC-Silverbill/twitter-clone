@@ -40,7 +40,7 @@ export default function Home() {
             <Button
                 onClick={() => {
                     createProfile({
-                        name: "Kat",
+                        name: "Kat1111111",
                         username: "PrettyKat",
                     });
 
