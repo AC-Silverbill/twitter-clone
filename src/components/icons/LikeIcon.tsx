@@ -27,8 +27,8 @@ const LikeIcon = ({ tweet }: QuoteIconProps) => {
     };
 
     return (
-        <div className="group flex">
-            <Icon key={"like"} onClick={onClick} className={`cursor-pointer hover:bg-${COLOR_PINK_LIGHTER} ${isLiked && "is-liked"}`}>
+        <div className="group flex cursor-pointer" onClick={onClick}>
+            <Icon key={"like"} className={`hover:bg-${COLOR_PINK_LIGHTER} ${isLiked && "is-liked"}`}>
                 <AiOutlineHeart className={`transform flex-1 group-hover:text-${COLOR_PINK}`} />
             </Icon>
             <span className={`flex justify-center items-center text-xs group-hover:text-${COLOR_PINK}`}>{tweet.likes}</span>

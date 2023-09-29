@@ -2,19 +2,24 @@
 
 import React, { useRef, useState } from "react";
 import useUser from "~/hooks/useUser";
+import { Tweet } from "~/types";
+import useReplyModal from "~/hooks/useReplyModal";
 
+import MiddleBar from "./MiddleBar";
 import MakeTweetArea from "./MakeTweetArea";
 import getLocals from "~/utils/getLocals";
 import BottomIcons from "./messaging/BottomIcons";
 import ProfileImage from "./messaging/ProfileImage";
-import CircleProgressBar from "./messaging/CircleProgressBar";
 import PostMessage from "./messaging/PostMessage";
 import WhoCanReply from "./messaging/WhoCanReply";
-import MiddleBar from "./MiddleBar";
 import AddAnotherPost from "./messaging/AddAnotherPost";
 import AudienceDropdown from "./messaging/AudienceDropdown";
+import CircleProgressBar from "./messaging/CircleProgressBar";
 
-const MakeReply = () => {
+interface MakeReplyProps {
+    tweetReply: Tweet;
+}
+const MakeReply = ({ tweetReply }: MakeReplyProps) => {
     //TODO: import MaxContent from a global settings list. maybe throw it in constants?
     const maxContent = 300;
 
@@ -22,6 +27,7 @@ const MakeReply = () => {
     const { twitterProfile } = useUser();
     const [isExpanded, setIsExpanded] = useState(false);
     const [tweetContent, setTweetContent] = useState("");
+    const { closeReplyModal, reply, isOpen } = useReplyModal();
     const { COLOR_PRIMARY, COLOR_PRIMARY_DISABLED, COLOR_WHITE_HIGHLIGHTED, COLOR_WARNING, COLOR_ERROR } = getLocals("colors");
 
     const handleContentChange = (e: React.FormEvent<HTMLDivElement>) => {
@@ -43,7 +49,12 @@ const MakeReply = () => {
             <ProfileImage twitterProfile={twitterProfile} />
             <div className={`flex flex-col px-2 w-full gap-2`}>
                 {isExpanded && <AudienceDropdown />}
-                <MakeTweetArea onChange={(e) => handleContentChange(e)} onFocus={() => setIsExpanded(true)} tweetContent={tweetContent} />
+                <MakeTweetArea
+                    placeholder={"Post your reply"}
+                    onChange={(e) => handleContentChange(e)}
+                    onFocus={() => setIsExpanded(true)}
+                    tweetContent={tweetContent}
+                />
                 {isExpanded && <WhoCanReply onClick={() => {}} />}
                 <div className={`${isExpanded && `border-b py-1`}`}></div>
                 <div className="pt-2 flex w-full">

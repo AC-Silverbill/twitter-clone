@@ -29,12 +29,12 @@ const StatsIcon = ({ tweet }: StatsIconProps) => {
     };
 
     return (
-        <div className="group flex">
-            <Icon key={"stats"} onClick={onClick} className={`cursor-pointer hover:bg-${COLOR_WHITE_HIGHLIGHTED}`}>
+        <div className="group flex cursor-pointer" onClick={onClick}>
+            <Icon key={"stats"} className={`hover:bg-${COLOR_WHITE_HIGHLIGHTED}`}>
                 <BsFillBarChartFill className={`transform flex-1 group-hover:text-${COLOR_PRIMARY}`} />
             </Icon>
 
-            <span className={`flex justify-center items-center text-xs group-hover:text-${COLOR_PRIMARY}`}>{"???"}</span>
+            <span className={`flex justify-center items-center text-xs group-hover:text-${COLOR_PRIMARY}`}></span>
         </div>
     );
 };

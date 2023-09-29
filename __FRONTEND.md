@@ -8,6 +8,7 @@ COLOR_SECONDARY: <div className="text-#849099"></div>
 COLOR_TERTIARY:<div className="text-#3fc99b"></div>
 COLOR_PINK: <div className="text-pink-400"></div>
 COLOR_LIGHT_GRAY: <div className="#f7f7f7"></div>
+COLOR_LIGHT_GRAY_DARKER: <div className="#efefef"></div>
 COLOR_GREEN: <div className="#3ac898"></div>
 COLOR_GREEN_LIGHTER: <div className="#def1eb"></div>
 COLOR_BORDER: <div className="text-#eff3f4"></div>

@@ -7,16 +7,16 @@ import Button from "../Button";
 import MakeReply from "../MakeReply";
 
 const ReplyModal = () => {
-    const { isOpen, openReplyModal, closeReplyModal } = useReplyModal();
+    const { isOpen, reply, openReplyModal, closeReplyModal } = useReplyModal();
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
-
+    const _reply = reply!;
     if (!isOpen) {
         return null;
     }
 
     return (
         <Modal isOpen={isOpen} onChange={() => closeReplyModal()}>
-            <MakeReply />
+            <MakeReply tweetReply={_reply} />
         </Modal>
     );
 };

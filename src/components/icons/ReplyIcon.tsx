@@ -23,13 +23,13 @@ const ReplyIcon = ({ tweet }: ReplyIconProps) => {
         if (!isValidSession(data)) {
             return openAuthModal("reply");
         } else {
-            return openReplyModal();
+            return openReplyModal(tweet);
         }
     };
 
     return (
-        <div className="group flex">
-            <Icon key={"reply"} onClick={onClick} className="cursor-pointer">
+        <div className="group flex cursor-pointer" onClick={onClick}>
+            <Icon key={"reply"}>
                 <FaRegMessage className={`transform -scale-x-100 group-hover:text-${COLOR_PRIMARY}`} />
             </Icon>
             <span className={`flex justify-center items-center text-xs group-hover:text-${COLOR_PRIMARY}`}>{tweet.replies}</span>

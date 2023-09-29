@@ -28,8 +28,8 @@ const QuoteIcon = ({ tweet }: QuoteIconProps) => {
     };
 
     return (
-        <div className="group flex">
-            <Icon key={"retweet"} onClick={onClick} className={`cursor-pointer hover:bg-${COLOR_GREEN_LIGHTER}`}>
+        <div className="group flex cursor-pointer" onClick={onClick}>
+            <Icon key={"retweet"} className={`hover:bg-${COLOR_GREEN_LIGHTER}`}>
                 <HiOutlineArrowPathRoundedSquare className={`transform flex-1 scale-110 group-hover:text-${COLOR_GREEN}`} />
             </Icon>
             <span className={`flex justify-center items-center text-xs group-hover:text-${COLOR_GREEN}`}>{tweet.retweets}</span>
