@@ -12,7 +12,7 @@ const TweetModal = () => {
 
     return (
         <Modal isOpen={isOpen} onChange={() => closeTweetModal()}>
-            <MakeTweet />
+            <MakeTweet defaultExpanded={true} />
         </Modal>
     );
 };

@@ -14,14 +14,12 @@ const test = (mutate: any) => {
     console.log("hi");
     mutate("asdasjdajd");
 };
+
 const PostMessage = ({ children, className, disabled }: PostMessageProps) => {
-    const tweetMutation = api.tweet.tweet.useMutation();
     const { COLOR_PRIMARY, COLOR_PRIMARY_DISABLED } = getLocals("colors");
     return (
         <Button
-            onClick={async () => {
-                const test = await tweetMutation.mutate("hello");
-            }}
+            onClick={async () => {}}
             className={twMerge(
                 `bg-${COLOR_PRIMARY} text-white px-5 rounded-3xl text-sm font-bold disabled:bg-${COLOR_PRIMARY_DISABLED} disabled:cursor-default enabled:hover:translate-x-1 transition`,
                 className

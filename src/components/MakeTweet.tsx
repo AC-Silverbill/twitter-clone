@@ -16,15 +16,16 @@ import AudienceDropdown from "./messaging/AudienceDropdown";
 
 interface MakeTweetProps {
     quote?: React.ReactNode;
+    defaultExpanded?: boolean;
 }
 
-const MakeTweet = ({ quote }: MakeTweetProps) => {
+const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
     //TODO: import MaxContent from a global settings list. maybe throw it in constants?
     const maxContent = 300;
 
     //TODO: make this generic to call for the user's Profile (with a getTwittterUser() maybe)
     const { twitterProfile } = useUser();
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const [tweetContent, setTweetContent] = useState("");
     const { COLOR_PRIMARY, COLOR_PRIMARY_DISABLED, COLOR_WHITE_HIGHLIGHTED, COLOR_WARNING, COLOR_ERROR } = getLocals("colors");
 

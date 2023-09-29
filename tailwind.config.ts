@@ -22,6 +22,7 @@ export default {
                 "#fb9fa8": "#fb9fa8",
                 "#f4212e": "#f4212e",
             },
+            screens: { half_height: { raw: "(max-height: 40vh)" } },
         },
     },
     plugins: [],

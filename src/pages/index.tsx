@@ -49,7 +49,7 @@ export default function Home() {
                 }}
                 className={`bg-${primaryColor} text-white p-2 rounded-2xl font-bold`}
             >
-                Sign In
+                Authenticate (placeholder)
             </Button>
         </form>
     );

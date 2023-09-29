@@ -19,7 +19,7 @@ const Modal = ({ isOpen, onChange, title, description, children, closeButton }: 
         <Dialog.Root open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
             <Dialog.Portal>
                 <Dialog.Overlay className="backdrop-blur-[2px] fixed inset-0 bg-[rgb(0,0,0)]/50" />
-                <Dialog.Content className="bg-white flex flex-col fixed h-[300px] w-[500px] drop-shadow-sm rounded-xl top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 border">
+                <Dialog.Content className="bg-white flex flex-col fixed min-h-[300px] w-[500px] drop-shadow-sm rounded-xl top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 border">
                     <Dialog.Title className="">{title}</Dialog.Title>
                     <Dialog.Description className="">{description}</Dialog.Description>
                     {children}
