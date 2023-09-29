@@ -40,10 +40,9 @@ const MakeReply = ({ tweetReply }: MakeReplyProps) => {
     const postWarning = percentage > 95;
     const postExceeded = tweetContent.length > maxContent;
     const postTooMuch = tweetContent.length > maxContent + 10;
-    //####################SECTION#################### MakeTweet only components; created because it will be easier to look at the return values below
 
-    //####################SECTION END####################
-
+    //TODO: work on postReply
+    const postReply = () => {};
     return (
         <div className="p-4 flex border-b-[1px] border-${borderColor} w-full">
             <ProfileImage twitterProfile={twitterProfile} />
@@ -85,7 +84,7 @@ const MakeReply = ({ tweetReply }: MakeReplyProps) => {
                                 )}
                             </>
                         )}
-                        <PostMessage disabled={postDisabled}>
+                        <PostMessage onClick={postReply} disabled={postDisabled}>
                             <span>Reply</span>
                         </PostMessage>
                     </div>

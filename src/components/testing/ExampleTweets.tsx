@@ -2,7 +2,7 @@ import React from "react";
 import { Tweet as TweetType } from "~/types";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
 
-import Tweet from "../Tweet";
+import ExampleTweet from "./ExampleTweet";
 
 const ExampleTweets = () => {
     const [user1, user2] = [getTwitterProfile("one"), getTwitterProfile("two")];
@@ -32,7 +32,7 @@ const ExampleTweets = () => {
 
     const exampleTweet3: TweetType = {
         id: "sfvkoqgqowrwkgmq",
-        type: "reply",
+        type: "REPLY",
         author: user1,
         content: "below me is an original post, unlike this",
         likes: 11,
@@ -44,7 +44,7 @@ const ExampleTweets = () => {
 
     const exampleTweet4: TweetType = {
         id: "sfvkoqgqowrwkgmq",
-        type: "reply",
+        type: "REPLY",
         author: user2,
         content: "lol",
         likes: 12,
@@ -56,10 +56,10 @@ const ExampleTweets = () => {
 
     return (
         <>
-            <Tweet tweet={exampleTweet4} />
-            <Tweet tweet={exampleTweet3} />
-            <Tweet tweet={exampleTweet} />
-            <Tweet tweet={exampleTweet2} />
+            <ExampleTweet tweet={exampleTweet4} />
+            <ExampleTweet tweet={exampleTweet3} />
+            <ExampleTweet tweet={exampleTweet} />
+            <ExampleTweet tweet={exampleTweet2} />
         </>
     );
 };

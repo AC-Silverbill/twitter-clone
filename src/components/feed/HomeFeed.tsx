@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
-import useUser from "~/hooks/useUser";
+import React, { useEffect, useState } from "react";
+import { Tweet as TweetType } from "~/types";
+import { api } from "~/utils/api";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
+import useUser from "~/hooks/useUser";
 
 import Tab from "../Tab";
 import Feed from "./Feed";
@@ -12,6 +14,14 @@ import ContentTitle from "../ContentTitle";
 import ExampleTweets from "../testing/ExampleTweets";
 
 const HomeFeed = () => {
+    const [tweets, setTweets] = useState<TweetType[]>([]);
+    const getTweets = api.tweet.getAllTweets.useQuery();
+    const data = getTweets.data;
+    //TODO: have something in dependency for useEffect
+    useEffect(() => {
+        if (data) setTweets(data);
+    }, []);
+
     return (
         <Feed>
             <div id="heading" className="border-b-[1px] border-[#000000]">
@@ -21,7 +31,9 @@ const HomeFeed = () => {
                     <Tab title="Following" handleClick={() => {}} />
                 </div>
             </div>
+
             <MakeTweet />
+            {tweets.length !== 0 && tweets.map((tweet) => <Tweet tweet={tweet} />)}
             <ExampleTweets />
         </Feed>
     );

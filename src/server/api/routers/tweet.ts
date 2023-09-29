@@ -100,7 +100,7 @@ export const tweetRouter = createTRPCRouter({
             return {
                 id: tweet.id,
                 author: tweet.author as Profile,
-                type: TweetType[tweet.type],
+                type: tweet.type,
                 content: tweet.content!,
                 timeCreated: tweet.timeCreated,
                 retweets: tweet._count.retweets,

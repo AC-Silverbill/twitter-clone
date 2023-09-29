@@ -1,22 +1,16 @@
 import React from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { Tweet as Message } from "~/types";
+import { ReferenceTweet } from "~/types";
 import getLocals from "~/utils/getLocals";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
 import useAuthModal from "~/hooks/useAuthModal";
 
-import Icon from "./Icon";
-import ReplyIcon from "./icons/ReplyIcon";
-import QuoteIcon from "./icons/QuoteIcon";
-import LikeIcon from "./icons/LikeIcon";
-import StatsIcon from "./icons/StatsIcon";
-
-interface TweetProps {
-    tweet: Message;
+interface MessageProps {
+    tweet: ReferenceTweet;
 }
 
-const Message = ({ tweet: { id, type, author, timeCreated, content, likes, replies, retweets, reference } }: TweetProps) => {
+const Message = ({ tweet: { id, author, content } }: MessageProps) => {
     //TODO: getAuthor from authorId in tweet
 
     const { COLOR_PRIMARY, COLOR_SECONDARY, COLOR_BORDER, COLOR_LIGHT_GRAY, COLOR_LIGHT_GRAY_DARKER } = getLocals("colors");

@@ -69,9 +69,9 @@ export interface Profile {
 }
 
 const TweetType = {
-    TWEET: 0,
-    RETWEET: 1,
-    REPLY: 2,
+    TWEET: "TWEET",
+    RETWEET: "RETWEET",
+    REPLY: "REPLY",
 };
 
 /**

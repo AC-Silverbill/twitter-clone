@@ -13,6 +13,7 @@ import WhoCanReply from "./messaging/WhoCanReply";
 import MiddleBar from "./MiddleBar";
 import AddAnotherPost from "./messaging/AddAnotherPost";
 import AudienceDropdown from "./messaging/AudienceDropdown";
+import { api } from "~/utils/api";
 
 interface MakeTweetProps {
     quote?: React.ReactNode;
@@ -20,29 +21,29 @@ interface MakeTweetProps {
 }
 
 const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
-    //TODO: import MaxContent from a global settings list. maybe throw it in constants?
-    const maxContent = 300;
-
-    //TODO: make this generic to call for the user's Profile (with a getTwittterUser() maybe)
     const { twitterProfile } = useUser();
     const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const [tweetContent, setTweetContent] = useState("");
-    const { COLOR_PRIMARY, COLOR_PRIMARY_DISABLED, COLOR_WHITE_HIGHLIGHTED, COLOR_WARNING, COLOR_ERROR } = getLocals("colors");
+    const { COLOR_ERROR } = getLocals("colors");
+    //TODO: import MaxContent from a global settings list. maybe throw it in constants?
+    const maxContent = 400;
+    const percentage = Math.round((tweetContent.length / maxContent) * 100);
+    const postDisabled = tweetContent.length === 0 || tweetContent.length > maxContent;
+    const postWarning = percentage > 95;
+    const postExceeded = tweetContent.length > maxContent;
+    const postTooMuch = tweetContent.length > maxContent + 10;
 
     const handleContentChange = (e: React.FormEvent<HTMLDivElement>) => {
         e.preventDefault();
         setTweetContent(e.currentTarget.textContent ?? "");
     };
 
-    const percentage = Math.round((tweetContent.length / maxContent) * 100);
-    const postDisabled = tweetContent.length === 0 || tweetContent.length > maxContent;
-    const postWarning = percentage > 95;
-    const postExceeded = tweetContent.length > maxContent;
-    const postTooMuch = tweetContent.length > maxContent + 10;
-    //####################SECTION#################### MakeTweet only components; created because it will be easier to look at the return values below
+    const tweetMutation = api.tweet.postTweet.useMutation();
+    const postTweet = () => {
+        tweetMutation.mutate(tweetContent);
+    };
 
-    //####################SECTION END####################
-
+    const clearTweet = () => {};
     return (
         <div className="p-4 flex border-b-[1px] border-${borderColor} w-full">
             <ProfileImage twitterProfile={twitterProfile} />
@@ -85,7 +86,7 @@ const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
                                 )}
                             </>
                         )}
-                        <PostMessage disabled={postDisabled}>
+                        <PostMessage onClick={postTweet} disabled={postDisabled}>
                             <span>Post</span>
                         </PostMessage>
                     </div>
