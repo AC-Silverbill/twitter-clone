@@ -1,24 +1,37 @@
 import react from "react";
-import useUser from "~/hooks/useUser/useUser";
 import { useRouter } from "next/router";
+import { Profile } from "~/types";
+import { api } from "~/utils/api";
+import useUser from "~/hooks/useUser/useUser";
 
+import Custom404 from "../404";
 import Content from "~/components/Content";
 import Layout from "~/components/Layout";
 import UserFeed from "~/components/feed/UserFeed";
 import Discovery from "~/components/Discovery";
-import Custom404 from "../404";
-import { api } from "~/utils/api";
 
 export default function Home() {
     const router = useRouter();
     const username = router.asPath.replace(/\//, "");
-    console.log("username", username);
     const test = api.user.getProfile.useQuery({ username: username });
     console.log(test.data);
-    const { twitterProfile } = useUser();
+    const { twitterProfile, isLoading } = useUser();
+
+    const placeholderProfile: Profile = {
+        id: "01",
+        userId: "01",
+        nickname: "01",
+        username: "01",
+        image: "/images/defaultprofile.svg",
+        joinedAt: new Date(Date.now()),
+        bio: "01",
+        tweets: [],
+        likes: [],
+    };
+
     return (
         <Content>
-            <UserFeed twitterProfile={twitterProfile} />
+            <UserFeed twitterProfile={true ? placeholderProfile : twitterProfile!} />
         </Content>
     );
 }
