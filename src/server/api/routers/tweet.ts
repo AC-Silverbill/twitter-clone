@@ -131,67 +131,93 @@ export const tweetRouter = createTRPCRouter({
         return tweets.map((tweet) => tweetMapper(tweet));
     }),
 
-    getTweet: protectedProcedure.input(z.string().cuid()).query(async ({ ctx, input: tweetId }): Promise<Tweet> => {
-        const tweet: TweetPayload = await ctx.db.tweet.findUniqueOrThrow({
-            where: {
-                id: tweetId,
-            },
-            include: tweetInclude,
-        });
-        return tweetMapper(tweet);
-    }),
-
-    getTweetsFromUser: protectedProcedure.input(z.string().cuid().optional()).query(async ({ ctx, input: userId }): Promise<Tweet[]> => {
-        const tweets: TweetPayload[] = await ctx.db.tweet.findMany({
-            where: {
-                authorId: userId ?? ctx.session.user.id,
-                OR: [
-                    {
-                        type: "TWEET",
-                    },
-                    {
-                        type: "RETWEET",
-                    },
-                ],
-            },
-            include: tweetInclude,
-        });
-        return tweets.map((tweet) => tweetMapper(tweet));
-    }),
-
-    getRepliesFromUser: protectedProcedure.input(z.string().cuid().optional()).query(async ({ ctx, input: userId }): Promise<Tweet[]> => {
-        const replies: TweetPayload[] = await ctx.db.tweet.findMany({
-            where: {
-                authorId: userId ?? ctx.session.user.id,
-                type: "REPLY",
-            },
-            include: tweetInclude,
-        });
-        return replies.map((reply) => tweetMapper(reply));
-    }),
-
-    getLikesFromUser: protectedProcedure.input(z.string().cuid().optional()).query(async ({ ctx, input: userId }): Promise<Tweet[]> => {
-        const likes = await ctx.db.like.findMany({
-            where: {
-                userId: userId ?? ctx.session.user.id,
-            },
-            include: {
-                tweet: {
-                    include: tweetInclude,
+    getTweet: protectedProcedure
+        .input(z.object({ tweetId: z.string().cuid() }))
+        .query(async ({ ctx, input: { tweetId } }): Promise<Tweet> => {
+            const tweet: TweetPayload = await ctx.db.tweet.findUniqueOrThrow({
+                where: {
+                    id: tweetId,
                 },
-            },
-        });
-        return likes.map((like): Tweet => tweetMapper(like.tweet));
-    }),
+                include: tweetInclude,
+            });
+            return tweetMapper(tweet);
+        }),
 
-    getRepliesFromTweet: protectedProcedure.input(z.string().cuid()).query(async ({ ctx, input: tweetId }): Promise<Tweet[]> => {
-        const replies: TweetPayload[] = await ctx.db.tweet.findMany({
-            where: {
-                replyReferenceId: tweetId,
-                type: "REPLY",
-            },
-            include: tweetInclude,
-        });
-        return replies.map((reply) => tweetMapper(reply));
-    }),
+    getTweetsFromUser: protectedProcedure
+        .input(
+            z.object({
+                userId: z.string().cuid().optional(),
+            })
+        )
+        .query(async ({ ctx, input: { userId } }): Promise<Tweet[]> => {
+            const tweets: TweetPayload[] = await ctx.db.tweet.findMany({
+                where: {
+                    authorId: userId ?? ctx.session.user.id,
+                    OR: [
+                        {
+                            type: "TWEET",
+                        },
+                        {
+                            type: "RETWEET",
+                        },
+                    ],
+                },
+                include: tweetInclude,
+            });
+            return tweets.map((tweet) => tweetMapper(tweet));
+        }),
+
+    getRepliesFromUser: protectedProcedure
+        .input(
+            z.object({
+                userId: z.string().cuid().optional(),
+            })
+        )
+        .query(async ({ ctx, input: { userId } }): Promise<Tweet[]> => {
+            const replies: TweetPayload[] = await ctx.db.tweet.findMany({
+                where: {
+                    authorId: userId ?? ctx.session.user.id,
+                    type: "REPLY",
+                },
+                include: tweetInclude,
+            });
+            return replies.map((reply) => tweetMapper(reply));
+        }),
+
+    getLikesFromUser: protectedProcedure
+        .input(
+            z.object({
+                userId: z.string().cuid().optional(),
+            })
+        )
+        .query(async ({ ctx, input: { userId } }): Promise<Tweet[]> => {
+            const likes = await ctx.db.like.findMany({
+                where: {
+                    userId: userId ?? ctx.session.user.id,
+                },
+                include: {
+                    tweet: {
+                        include: tweetInclude,
+                    },
+                },
+            });
+            return likes.map((like): Tweet => tweetMapper(like.tweet));
+        }),
+
+    getRepliesFromTweet: protectedProcedure
+        .input(
+            z.object({
+                tweetId: z.string().cuid(),
+            })
+        )
+        .query(async ({ ctx, input: { tweetId } }): Promise<Tweet[]> => {
+            const replies: TweetPayload[] = await ctx.db.tweet.findMany({
+                where: {
+                    replyReferenceId: tweetId,
+                    type: "REPLY",
+                },
+                include: tweetInclude,
+            });
+            return replies.map((reply) => tweetMapper(reply));
+        }),
 });
