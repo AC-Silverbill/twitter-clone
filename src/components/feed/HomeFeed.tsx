@@ -12,6 +12,7 @@ import Tweet from "../Tweet";
 import MakeTweet from "../MakeTweet";
 import ContentTitle from "../ContentTitle";
 import ExampleTweets from "../testing/ExampleTweets";
+import StickyHeader from "../StickyHeader";
 
 const HomeFeed = () => {
     const [tweets, setTweets] = useState<TweetType[]>([]);
@@ -25,14 +26,13 @@ const HomeFeed = () => {
 
     return (
         <Feed>
-            <div id="heading" className="border-b-[1px] border-[#000000]">
+            <StickyHeader>
                 <ContentTitle title="Home" />
                 <div className="flex">
                     <Tab title="For You" handleClick={() => {}} />
                     <Tab title="Following" handleClick={() => {}} />
                 </div>
-            </div>
-
+            </StickyHeader>
             <MakeTweet />
             {tweets.length !== 0 && tweets.map((tweet) => <Tweet tweet={tweet} />)}
             <ExampleTweets />

@@ -4,6 +4,7 @@
 
 ._line-break-anywhere {
     line-break: anywhere;
+    backface-visibility: hidden;
 }
 
 .progress-bar {

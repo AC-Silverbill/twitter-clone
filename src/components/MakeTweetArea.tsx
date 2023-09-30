@@ -13,6 +13,7 @@ const MakeTweetArea = ({ onChange, onFocus, tweetContent, placeholder }: MakeTwe
     };
 
     //TODO: add red span text with red bg for when text is exceeded (requires rewrite of this element because the element would be re-rendered, and the textarea would lose focus)
+    //TODO: fix blur after max height, happens at most heights, but unblurs at certain pixels
     return (
         <span
             role="textbox"

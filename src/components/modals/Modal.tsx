@@ -23,9 +23,9 @@ const Modal = ({ isOpen, onChange, title, description, children, closeButton = t
     return (
         <Dialog.Root open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
             <Dialog.Portal>
-                <Dialog.Overlay className="backdrop-blur-[2px] fixed inset-0 bg-[rgb(0,0,0)]/50" />
+                <Dialog.Overlay className="backdrop-blur-[2px] fixed inset-0 bg-[rgb(0,0,0)]/50 z-40" />
                 <Dialog.Content
-                    className={`bg-white flex flex-col p-2 fixed min-h-[300px] max-h-[90vh] md:w-[500px] sm:w-[400px] drop-shadow-sm rounded-xl top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 border overflow-y-auto `}
+                    className={`bg-white flex flex-col p-2 fixed min-h-[300px] max-h-[90vh] md:w-[500px] sm:w-[400px] drop-shadow-sm rounded-xl top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 border overflow-y-auto z-50`}
                     onInput={handleInput}
                 >
                     <Dialog.Close asChild>

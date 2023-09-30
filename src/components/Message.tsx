@@ -21,7 +21,7 @@ const Message = ({ tweet: { id, author, content } }: MessageProps) => {
         <div className={`p-4 flex cursor-pointer w-full border-${COLOR_BORDER}  hover:bg-${COLOR_LIGHT_GRAY_DARKER}`}>
             <div>
                 <Image
-                    src={author.image || ""}
+                    src={author.image || "/images/defaultprofile.svg"}
                     alt={`Profile Picture of ${author.id}`}
                     width={40}
                     height={40}

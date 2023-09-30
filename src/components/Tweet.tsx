@@ -27,7 +27,7 @@ const Tweet = ({ tweet }: TweetProps) => {
         <div className={`p-4 flex border-b-[1px] border-${COLOR_BORDER} w-full max-w-full hover:bg-${COLOR_LIGHT_GRAY}`}>
             <div>
                 <Image
-                    src={tweet.author.image || ""}
+                    src={tweet.author.image || "/images/defaultprofile.svg"}
                     alt={`Profile Picture of ${tweet.author.name}`}
                     width={40}
                     height={40}
