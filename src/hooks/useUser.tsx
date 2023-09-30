@@ -1,7 +1,7 @@
 import { getSession, useSession } from "next-auth/react";
-import { createContext, use, useContext } from "react";
+import { createContext, useContext } from "react";
 import { Profile } from "~/types";
-import { getTwitterProfile } from "~/utils/getTwitterUser";
+import { api } from "~/utils/api";
 
 export type UserContextType = {
     twitterProfile: Profile;
@@ -20,9 +20,14 @@ export const UserContextProvider = (props: Props) => {
         //TODO: add case for unauthenticated
     }
 
-    const testUser = getTwitterProfile("one");
+    const myProfile = api.user.getMe.useQuery();
+
+    if (!myProfile.data) {
+        throw new Error("'Me' Profile is undefined, but it is not handled elsewhere. Please do that.");
+    }
+
     const value: UserContextType = {
-        twitterProfile: testUser,
+        twitterProfile: myProfile.data,
         isLoading: false,
     };
 

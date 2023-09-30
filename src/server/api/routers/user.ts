@@ -49,7 +49,7 @@ export const userRouter = createTRPCRouter({
         })) as Profile;
     }),
 
-    getProfile: protectedProcedure
+    getProfile: publicProcedure
         .input(
             z.object({
                 username: z.string(),

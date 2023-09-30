@@ -37,12 +37,11 @@ export default function Home() {
             <Button
                 onClick={() => {
                     //TODO: add
-                    if (isValidSession(sessionData)) {
-                        createProfile({
-                            name: "nickname here",
-                            username: sessionData!.user.name!,
-                        });
-                    }
+                    console.log("session", sessionData);
+                    createProfile({
+                        name: "nickname here",
+                        username: sessionData!.user.name!,
+                    });
 
                     // TODO: this one needs the loading too
                     void updateSessionData();

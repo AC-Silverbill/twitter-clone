@@ -38,7 +38,6 @@ const Sidebar = () => {
     const ProfileIcon = router.asPath.includes(profileRoute) ? BsPersonFill : BsPerson;
 
     if (!isValidSession(data)) {
-        console.log(data);
         return (
             <div className="sticky flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] min-w-[150px] top-0 left-0">
                 <Button

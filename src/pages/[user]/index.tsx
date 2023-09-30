@@ -12,6 +12,7 @@ import { api } from "~/utils/api";
 export default function Home() {
     const router = useRouter();
     const username = router.asPath.replace(/\//, "");
+    console.log("username", username);
     const test = api.user.getProfile.useQuery({ username: username });
     console.log(test.data);
     const { twitterProfile } = useUser();
