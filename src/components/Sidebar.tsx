@@ -29,7 +29,7 @@ const Sidebar = () => {
     const exploreRoute = getLocal("routes", "YOUR_EXPLORE");
     const notificationsRoute = getLocal("routes", "YOUR_NOTIFICATIONS");
     const bookmarksRoute = getLocal("routes", "YOUR_BOOKMARKS");
-    const profileRoute = getLocal("routes", "USER_HOME")(twitterProfile.name);
+    const profileRoute = getLocal("routes", "USER_HOME")(twitterProfile.username);
 
     const HomeIcon = router.pathname === homeRoute ? AiTwotoneHome : AiOutlineHome;
     const ExploreIcon = GoHash; //theres no good slightly bolder one
@@ -40,7 +40,7 @@ const Sidebar = () => {
     if (!isValidSession(data)) {
         console.log(data);
         return (
-            <div className="fixed flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] min-w-[200px] z-[1]">
+            <div className="sticky flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] min-w-[150px] top-0 left-0">
                 <Button
                     className={`mt-2 rounded-3xl font-bold text-xl px-4 p-2 text-white bg-${primaryColor}`}
                     onClick={() => openAuthModal("default")}
@@ -51,7 +51,7 @@ const Sidebar = () => {
         );
     } else {
         return (
-            <div className="fixed flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] sm:min-w-[100px] md:min-w-[200px] z-[1]">
+            <div className="sticky flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] top-0 left-0 z-[0]">
                 <SideItem icon={<HomeIcon />} route={homeRoute} title="Home" />
                 <SideItem icon={<ExploreIcon />} route={exploreRoute} title="Explore" />
                 <SideItem icon={<NotificationsIcon />} route={notificationsRoute} title="Notifications" />

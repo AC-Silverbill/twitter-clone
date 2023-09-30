@@ -39,8 +39,8 @@ export default function Home() {
                     //TODO: add
                     if (isValidSession(sessionData)) {
                         createProfile({
-                            name: sessionData!.user.name!,
-                            username: "DifferentUsername",
+                            name: "nickname here",
+                            username: sessionData!.user.name!,
                         });
                     }
 

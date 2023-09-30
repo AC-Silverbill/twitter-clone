@@ -52,13 +52,13 @@ export const userRouter = createTRPCRouter({
     getProfile: protectedProcedure
         .input(
             z.object({
-                id: z.string().cuid(),
+                username: z.string(),
             })
         )
         .query(async ({ ctx, input }) => {
             return (await ctx.db.profile.findUniqueOrThrow({
                 where: {
-                    id: input.id,
+                    username: input.username,
                 },
             })) as Profile;
         }),

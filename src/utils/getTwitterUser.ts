@@ -5,7 +5,7 @@ const exampleUsers: { [propname in exampleType]: Profile } = {
     one: {
         id: "12dj1d1idj1dko1",
         userId: "asdjakdhkjh1e",
-        name: "kat123",
+        nickname: "kat123",
         username: "Kat",
         image: "/images/test1.png",
         bio: "today i ordered pizza",
@@ -14,7 +14,7 @@ const exampleUsers: { [propname in exampleType]: Profile } = {
     two: {
         id: "54353295u230",
         userId: "fdafdjhfqfjk",
-        name: "aerysishere",
+        nickname: "aerysishere",
         username: "Aerys",
         image: "/images/test2.png",
         bio: ":love_you_gesture:",

@@ -9,10 +9,10 @@ import getLocals from "~/utils/getLocals";
 import Message from "./Message";
 import MiddleBar from "./MiddleBar";
 import MakeTweetArea from "./MakeTweetArea";
+import ProfilePicture from "./ProfilePicture";
 import BottomIcons from "./messaging/BottomIcons";
 import PostMessage from "./messaging/PostMessage";
 import WhoCanReply from "./messaging/WhoCanReply";
-import ProfileImage from "./messaging/ProfileImage";
 import AddAnotherPost from "./messaging/AddAnotherPost";
 import AudienceDropdown from "./messaging/AudienceDropdown";
 import CircleProgressBar from "./messaging/CircleProgressBar";
@@ -62,7 +62,7 @@ const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
     const clearTweet = () => {};
     return (
         <div className="p-4 flex border-b-[1px] border-${borderColor} w-full">
-            <ProfileImage twitterProfile={twitterProfile} />
+            <ProfilePicture twitterProfile={twitterProfile} />
             <div className={`flex flex-col px-2 w-full gap-2`}>
                 {isExpanded && <AudienceDropdown />}
                 <MakeTweetArea

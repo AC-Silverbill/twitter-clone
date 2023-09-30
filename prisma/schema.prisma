@@ -64,7 +64,7 @@ model User {
 model Profile {
   id       String   @id @default(cuid())
   userId   String   @unique
-  name     String
+  nickname String
   username String   @unique
   image    String?
   bio      String?

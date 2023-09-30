@@ -38,8 +38,8 @@ const ExampleTweet = ({ tweet }: ExampleTweetProps) => {
 
             <div className="flex flex-col px-4 flex-1 h-full">
                 <div className="flex gap-2">
-                    <h2 className="font-bold cursor-pointer hover:underline">{tweet.author.name}</h2>
-                    <span className={`text-${COLOR_SECONDARY} cursor-pointer`}>{`@${tweet.author.name}`}</span>
+                    <h2 className="font-bold cursor-pointer hover:underline">{tweet.author.nickname}</h2>
+                    <span className={`text-${COLOR_SECONDARY} cursor-pointer`}>{`@${tweet.author.nickname}`}</span>
                     <div>·</div>
                     <div>1hr</div>
                     <div className="text-red-500 font-bold">TEST TWEET</div>

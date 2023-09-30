@@ -1,21 +1,21 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import useUser from "~/hooks/useUser";
 import { Tweet } from "~/types";
+import { api } from "~/utils/api";
+import getLocals from "~/utils/getLocals";
+import useUser from "~/hooks/useUser";
 import useReplyModal from "~/hooks/useReplyModal";
 
 import MiddleBar from "./MiddleBar";
 import MakeTweetArea from "./MakeTweetArea";
-import getLocals from "~/utils/getLocals";
+import ProfilePicture from "./ProfilePicture";
 import BottomIcons from "./messaging/BottomIcons";
-import ProfileImage from "./messaging/ProfileImage";
 import PostMessage from "./messaging/PostMessage";
 import WhoCanReply from "./messaging/WhoCanReply";
 import AddAnotherPost from "./messaging/AddAnotherPost";
 import AudienceDropdown from "./messaging/AudienceDropdown";
 import CircleProgressBar from "./messaging/CircleProgressBar";
-import { api } from "~/utils/api";
 
 interface MakeReplyProps {
     tweetReply: Tweet;
@@ -50,7 +50,7 @@ const MakeReply = ({ tweetReply }: MakeReplyProps) => {
 
     return (
         <div className="p-4 flex border-b-[1px] border-${borderColor} w-full">
-            <ProfileImage twitterProfile={twitterProfile} />
+            <ProfilePicture twitterProfile={twitterProfile} />
             <div className={`flex flex-col px-2 w-full gap-2`}>
                 {isExpanded && <AudienceDropdown />}
                 <MakeTweetArea

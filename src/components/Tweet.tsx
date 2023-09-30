@@ -1,17 +1,16 @@
 import React from "react";
 import { Tweet } from "~/types";
-import Image from "next/image";
 import { useSession } from "next-auth/react";
 import getLocals from "~/utils/getLocals";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
 import useAuthModal from "~/hooks/useAuthModal";
 
-import Icon from "./Icon";
 import Message from "./Message";
 import ReplyIcon from "./icons/ReplyIcon";
 import QuoteIcon from "./icons/QuoteIcon";
 import LikeIcon from "./icons/LikeIcon";
 import StatsIcon from "./icons/StatsIcon";
+import ProfilePicture from "./ProfilePicture";
 
 interface TweetProps {
     tweet: Tweet;
@@ -25,20 +24,12 @@ const Tweet = ({ tweet }: TweetProps) => {
     //TODO: refactor into fetching the author's pfp
     return (
         <div className={`p-4 flex border-b-[1px] border-${COLOR_BORDER} w-full max-w-full hover:bg-${COLOR_LIGHT_GRAY}`}>
-            <div>
-                <Image
-                    src={tweet.author.image || "/images/defaultprofile.svg"}
-                    alt={`Profile Picture of ${tweet.author.name}`}
-                    width={40}
-                    height={40}
-                    className="rounded-full flex flex-initial"
-                />
-            </div>
+            <ProfilePicture twitterProfile={tweet.author} />
 
             <div className="flex flex-col px-4 flex-1 h-full">
                 <div className="flex gap-2">
-                    <h2 className="font-bold cursor-pointer hover:underline">{tweet.author.name}</h2>
-                    <span className={`text-${COLOR_SECONDARY} cursor-pointer`}>{`@${tweet.author.name}`}</span>
+                    <h2 className="font-bold cursor-pointer hover:underline">{tweet.author.nickname ?? tweet.author.username}</h2>
+                    <span className={`text-${COLOR_SECONDARY} cursor-pointer`}>{`@${tweet.author.username}`}</span>
                     <div>·</div>
                     <div>1hr</div>
                 </div>

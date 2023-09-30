@@ -59,7 +59,7 @@ export interface TwitterUser {
 export interface Profile {
     id: string;
     userId: string;
-    name: string;
+    nickname: string;
     username: string;
     image?: string;
     bio?: string;
