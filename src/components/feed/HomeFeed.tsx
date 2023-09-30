@@ -19,7 +19,6 @@ const HomeFeed = () => {
     const getTweets = api.tweet.getAllTweets.useQuery();
     const data = getTweets.data;
     //TODO: have something in dependency for useEffect
-    console.log(data);
     useEffect(() => {
         if (data) setTweets(data);
     }, [data]);

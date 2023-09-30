@@ -2,25 +2,30 @@
 
 import React from "react";
 import { useSession } from "next-auth/react";
+import { Profile } from "~/types";
 import { api } from "~/utils/api";
-import { UserContext, UserContextType } from "./useUser";
+import { UserContext, UserContextType, placeholderProfile } from "./useUser";
 
 interface Props {
     [propname: string]: any;
 }
 
-const UserContextProvider = async (props: Props) => {
+const UserContextProvider = (props: Props) => {
     const { status, data } = useSession();
     //TODO: add case for unauthenticated
 
     const myProfile = api.user.getMe.useQuery();
 
-    const value: UserContextType = {
-        twitterProfile: myProfile.data,
-        isLoading: false,
-    };
-
-    return <UserContext.Provider value={value} {...props} />;
+    return (
+        <UserContext.Provider
+            value={
+                myProfile.isLoading
+                    ? { twitterProfile: placeholderProfile, isLoading: false }
+                    : { twitterProfile: myProfile.data!, isLoading: true }
+            }
+            {...props}
+        />
+    );
 };
 
 export default UserContextProvider;
