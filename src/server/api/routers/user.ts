@@ -27,6 +27,7 @@ export const userRouter = createTRPCRouter({
                         userId: ctx.session?.user.id,
                         name,
                         username,
+                        image: ctx.session?.user.image,
                     },
                 }),
                 ctx.db.user.update({
