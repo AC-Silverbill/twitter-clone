@@ -9,12 +9,12 @@ export const userRouter = createTRPCRouter({
     createProfile: publicProcedure
         .input(
             z.object({
-                name: z.string().min(10),
+                nickname: z.string().min(10),
                 username: z.string().min(5),
             })
         )
         .mutation(async ({ ctx, input }) => {
-            const { name, username } = input;
+            const { nickname, username } = input;
             if (await usernameExists(ctx.db, username)) {
                 throw new TRPCError({
                     code: "CONFLICT",
@@ -25,7 +25,7 @@ export const userRouter = createTRPCRouter({
                 ctx.db.profile.create({
                     data: {
                         userId: ctx.session?.user.id,
-                        name,
+                        nickname,
                         username,
                         image: ctx.session?.user.image,
                     },
