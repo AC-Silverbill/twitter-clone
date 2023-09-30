@@ -39,31 +39,33 @@ const Sidebar = () => {
 
     if (!isValidSession(data)) {
         return (
-            <div className="sticky flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] min-w-[150px] top-0 left-0">
+            <nav className="sticky flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] min-w-[150px] top-0 left-0">
                 <Button
                     className={`mt-2 rounded-3xl font-bold text-xl px-4 p-2 text-white bg-${primaryColor}`}
                     onClick={() => openAuthModal("default")}
                 >
                     Login
                 </Button>
-            </div>
+            </nav>
         );
     } else {
         return (
-            <div className="sticky flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] top-0 left-0 z-[0]">
-                <SideItem icon={<HomeIcon />} route={homeRoute} title="Home" />
-                <SideItem icon={<ExploreIcon />} route={exploreRoute} title="Explore" />
-                <SideItem icon={<NotificationsIcon />} route={notificationsRoute} title="Notifications" />
-                <SideItem icon={<BookmarksIcon />} route={bookmarksRoute} title="Bookmarks" />
-                <SideItem icon={<ProfileIcon />} route={profileRoute} title="Profile" />
-                <Signout className="mt-2 text-sm md:text-xl" />
-                <Button
-                    className={`mt-2 rounded-3xl font-bold text-sm md:text-xl px-4 p-2 text-white bg-${primaryColor}`}
-                    onClick={() => openTweetModal()}
-                >
-                    Post
-                </Button>
-            </div>
+            <nav className="sticky p-4 px-10 pb-20 border border-gray-100 h-[100vh] top-0 left-0 z-[0]">
+                <ul className="flex flex-col">
+                    <SideItem icon={<HomeIcon />} route={homeRoute} title="Home" />
+                    <SideItem icon={<ExploreIcon />} route={exploreRoute} title="Explore" />
+                    <SideItem icon={<NotificationsIcon />} route={notificationsRoute} title="Notifications" />
+                    <SideItem icon={<BookmarksIcon />} route={bookmarksRoute} title="Bookmarks" />
+                    <SideItem icon={<ProfileIcon />} route={profileRoute} title="Profile" />
+                    <Signout className="mt-2 text-sm md:text-xl" />
+                    <Button
+                        className={`mt-2 rounded-3xl font-bold text-sm md:text-xl px-4 p-2 text-white bg-${primaryColor}`}
+                        onClick={() => openTweetModal()}
+                    >
+                        Post
+                    </Button>
+                </ul>
+            </nav>
         );
     }
 };

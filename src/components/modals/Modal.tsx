@@ -20,6 +20,11 @@ interface ModalProps extends BasicComponentWithChildren {
 const Modal = ({ isOpen, onChange, title, description, children, closeButton = true }: ModalProps) => {
     const handleInput = () => {};
     const COLOR_WHITE_HIGHLIGHTED = getLocal("colors", "COLOR_WHITE_HIGHLIGHTED");
+
+    if (!isOpen) {
+        return null;
+    }
+
     return (
         <Dialog.Root open={isOpen} defaultOpen={isOpen} onOpenChange={onChange}>
             <Dialog.Portal>

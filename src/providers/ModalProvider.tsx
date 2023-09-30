@@ -5,6 +5,7 @@ import MiscModal from "~/components/modals/MiscModal";
 import ReplyModal from "~/components/modals/ReplyModal";
 import QuoteModal from "~/components/modals/QuoteModal";
 import TweetModal from "~/components/modals/TweetModal";
+import EditProfileModal from "~/components/modals/EditProfileModal";
 
 const ModalProvider = () => {
     const [mountedOnce, setMountedOnce] = useState(false);
@@ -23,6 +24,7 @@ const ModalProvider = () => {
             <QuoteModal />
             <ReplyModal />
             <MiscModal />
+            <EditProfileModal />
         </>
     );
 };

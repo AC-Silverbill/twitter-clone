@@ -31,7 +31,7 @@ export default function Home() {
 
     return (
         <Content>
-            <UserFeed twitterProfile={true ? placeholderProfile : twitterProfile!} />
+            <UserFeed twitterProfile={isLoading ? placeholderProfile : twitterProfile!} />
         </Content>
     );
 }

@@ -8,7 +8,6 @@ import MakeTweet from "../MakeTweet";
 
 const TweetModal = () => {
     const { isOpen, openTweetModal, closeTweetModal } = useTweetModal();
-    const primaryColor = getLocal("colors", "COLOR_PRIMARY");
 
     return (
         <Modal isOpen={isOpen} onChange={() => closeTweetModal()}>

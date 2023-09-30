@@ -19,7 +19,7 @@ const Feed = ({ children, className }: FeedProps) => {
         }
     }, [data, data?.user]);
 
-    return <div className={twMerge(`flex flex-col`, className)}>{children}</div>;
+    return <main className={twMerge(`flex flex-col`, className)}>{children}</main>;
 };
 
 export default Feed;

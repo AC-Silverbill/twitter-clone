@@ -2,13 +2,14 @@ import React from "react";
 import { Profile } from "~/types";
 import useNavigation from "~/navigation";
 import getLocals from "~/utils/getLocals";
+import useEditProfileModal from "~/hooks/useEditProfileModal";
 
 import Feed from "./Feed";
 import Icon from "../Icon";
 import Button from "../Button";
 import StickyHeader from "../StickyHeader";
-import { FaArrowLeft } from "react-icons/fa";
 import ProfilePicture from "../ProfilePicture";
+import { FaArrowLeft } from "react-icons/fa";
 interface UserFeedProps {
     twitterProfile: Profile;
 }
@@ -16,6 +17,7 @@ interface UserFeedProps {
 const UserFeed = ({ twitterProfile }: UserFeedProps) => {
     const navigator = useNavigation();
     const { COLOR_BORDER } = getLocals("colors");
+    const { openEditProfileModal } = useEditProfileModal();
     const navigateBack = () => {
         //TODO: navigator.back is not correct for some reason. need to create my own /back global hook
         navigator.push("/home");
@@ -39,8 +41,20 @@ const UserFeed = ({ twitterProfile }: UserFeedProps) => {
                 <div className="example-bg bg-gray-300 flex-1"></div>
                 <div className="flex-1">
                     <div className="p-2">
-                        <div className="">
-                            <ProfilePicture twitterProfile={twitterProfile} className="p-2 flex justify-start mt-[-15%]" size="LARGEST" />
+                        <div className="w-full flex flex-col">
+                            <div className="flex">
+                                <ProfilePicture
+                                    twitterProfile={twitterProfile}
+                                    className="p-2 flex justify-start mt-[-15%]"
+                                    size="LARGEST"
+                                />
+                                <div className="ml-auto flex items-start">
+                                    <Button onClick={openEditProfileModal} buttonTemplate="WHITE_BG">
+                                        Edit profile
+                                    </Button>
+                                </div>
+                            </div>
+                            <h2>{twitterProfile.nickname ?? twitterProfile.username}</h2>
                         </div>
                     </div>
                 </div>

@@ -20,8 +20,8 @@ const UserContextProvider = (props: Props) => {
         <UserContext.Provider
             value={
                 myProfile.isLoading
-                    ? { twitterProfile: placeholderProfile, isLoading: false }
-                    : { twitterProfile: myProfile.data!, isLoading: true }
+                    ? { twitterProfile: placeholderProfile, isLoading: true }
+                    : { twitterProfile: myProfile.data!, isLoading: false }
             }
             {...props}
         />

@@ -13,10 +13,6 @@ const QuoteModal = () => {
     const _quote = quote!;
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
 
-    if (!isOpen) {
-        return null;
-    }
-
     return (
         <Modal isOpen={isOpen} onChange={() => closeQuoteModal()}>
             <MakeTweet quote={_quote} />
