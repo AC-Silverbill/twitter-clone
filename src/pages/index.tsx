@@ -1,13 +1,10 @@
-import react from "react";
-import { useState, useEffect } from "react";
+import react, { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
-import Head from "next/head";
-import Image from "next/image";
-import Link from "next/link";
+import useUser from "~/hooks/useUser";
 import { api } from "~/utils/api";
 import getLocal from "~/utils/getLocal";
+import isValidSession from "~/utils/isValidSession";
 import useNavigation from "~/navigation";
-import useUser from "~/hooks/useUser";
 
 import Button from "~/components/Button";
 import Footer from "~/components/Footer";
@@ -39,10 +36,13 @@ export default function Home() {
             <input className="border rounded-md border-gray-400 outline-none p-2" type="password" placeholder="password" />
             <Button
                 onClick={() => {
-                    createProfile({
-                        name: "Kat1111111",
-                        username: "PrettyKat",
-                    });
+                    //TODO: add
+                    if (isValidSession(sessionData)) {
+                        createProfile({
+                            name: sessionData!.user.name!,
+                            username: "DifferentUsername",
+                        });
+                    }
 
                     // TODO: this one needs the loading too
                     void updateSessionData();

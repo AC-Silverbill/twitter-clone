@@ -104,7 +104,7 @@ const AuthModal = () => {
         </Button>
     );
     return (
-        <Modal isOpen={isOpen} onChange={() => closeAuthModal()}>
+        <Modal isOpen={isOpen} onChange={() => closeAuthModal()} closeButton={false}>
             {viewAuths && (
                 <div className="flex flex-col justify-center items-center p-2 gap-2">
                     <ProviderButton key={"Discord"} provider="Discord" onClick={() => {}} />

@@ -15,6 +15,7 @@ import WhoCanReply from "./messaging/WhoCanReply";
 import AddAnotherPost from "./messaging/AddAnotherPost";
 import AudienceDropdown from "./messaging/AudienceDropdown";
 import CircleProgressBar from "./messaging/CircleProgressBar";
+import { api } from "~/utils/api";
 
 interface MakeReplyProps {
     tweetReply: Tweet;
@@ -42,7 +43,11 @@ const MakeReply = ({ tweetReply }: MakeReplyProps) => {
     const postTooMuch = tweetContent.length > maxContent + 10;
 
     //TODO: work on postReply
-    const postReply = () => {};
+    const replyMutation = api.tweet.postReply.useMutation();
+    const postReply = () => {
+        replyMutation.mutate({ referenceId: tweetReply.id, content: tweetContent });
+    };
+
     return (
         <div className="p-4 flex border-b-[1px] border-${borderColor} w-full">
             <ProfileImage twitterProfile={twitterProfile} />

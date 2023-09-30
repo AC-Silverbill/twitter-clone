@@ -51,15 +51,15 @@ const Sidebar = () => {
         );
     } else {
         return (
-            <div className="fixed flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] min-w-[200px] z-[1]">
+            <div className="fixed flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] sm:min-w-[100px] md:min-w-[200px] z-[1]">
                 <SideItem icon={<HomeIcon />} route={homeRoute} title="Home" />
                 <SideItem icon={<ExploreIcon />} route={exploreRoute} title="Explore" />
                 <SideItem icon={<NotificationsIcon />} route={notificationsRoute} title="Notifications" />
                 <SideItem icon={<BookmarksIcon />} route={bookmarksRoute} title="Bookmarks" />
                 <SideItem icon={<ProfileIcon />} route={profileRoute} title="Profile" />
-                <Signout className="mt-2" />
+                <Signout className="mt-2 text-sm md:text-xl" />
                 <Button
-                    className={`mt-2 rounded-3xl font-bold text-xl px-4 p-2 text-white bg-${primaryColor}`}
+                    className={`mt-2 rounded-3xl font-bold text-sm md:text-xl px-4 p-2 text-white bg-${primaryColor}`}
                     onClick={() => openTweetModal()}
                 >
                     Post

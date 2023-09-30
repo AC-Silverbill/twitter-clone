@@ -19,7 +19,7 @@ const QuoteModal = () => {
 
     return (
         <Modal isOpen={isOpen} onChange={() => closeQuoteModal()}>
-            <MakeTweet quote={<Message tweet={_quote ?? null} />} />
+            <MakeTweet quote={_quote} />
         </Modal>
     );
 };

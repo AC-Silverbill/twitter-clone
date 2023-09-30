@@ -90,7 +90,7 @@ export interface Tweet {
     id: string;
     author: Profile;
     type: keyof typeof TweetType;
-    content: string;
+    content?: string;
     timeCreated: Date;
     reference?: ReferenceTweet;
     retweets: number;
