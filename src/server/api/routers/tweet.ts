@@ -58,11 +58,11 @@ const tweetMapper = (tweet: TweetPayload): Tweet => {
 };
 
 export const tweetRouter = createTRPCRouter({
-    postTweet: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    postTweet: protectedProcedure.input(z.string()).mutation(async ({ ctx, input: content }) => {
         await ctx.db.tweet.create({
             data: {
                 authorId: ctx.session.user.id,
-                content: input,
+                content,
             },
         });
     }),
@@ -105,11 +105,11 @@ export const tweetRouter = createTRPCRouter({
             });
         }),
 
-    postLike: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
+    postLike: protectedProcedure.input(z.string().cuid()).mutation(async ({ ctx, input: tweetId }) => {
         await ctx.db.like.create({
             data: {
                 userId: ctx.session.user.id,
-                tweetId: input,
+                tweetId,
             },
         });
     }),
@@ -187,7 +187,7 @@ export const tweetRouter = createTRPCRouter({
     getRepliesFromTweet: protectedProcedure.input(z.string().cuid()).query(async ({ ctx, input: tweetId }): Promise<Tweet[]> => {
         const replies: TweetPayload[] = await ctx.db.tweet.findMany({
             where: {
-                id: tweetId,
+                replyReferenceId: tweetId,
                 type: "REPLY",
             },
             include: tweetInclude,
