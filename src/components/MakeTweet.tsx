@@ -2,7 +2,7 @@
 
 import React, { useRef, useState } from "react";
 import { ReferenceTweet } from "~/types";
-import useUser from "~/hooks/useUser";
+import useUser from "~/hooks/useUser/useUser";
 import { api } from "~/utils/api";
 import getLocals from "~/utils/getLocals";
 

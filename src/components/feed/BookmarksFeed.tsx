@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import useUser from "~/hooks/useUser";
+import useUser from "~/hooks/useUser/useUser";
 import { Profile } from "~/types";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
 

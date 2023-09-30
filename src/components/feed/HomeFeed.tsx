@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Tweet as TweetType } from "~/types";
 import { api } from "~/utils/api";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
-import useUser from "~/hooks/useUser";
+import useUser from "~/hooks/useUser/useUser";
 
 import Tab from "../Tab";
 import Feed from "./Feed";

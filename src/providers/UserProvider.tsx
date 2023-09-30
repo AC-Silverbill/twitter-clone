@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { UserContextProvider, UserContextType } from "~/hooks/useUser";
+import UserContextProvider from "~/hooks/useUser/UserContextProvider";
 import { BasicComponentWithChildren } from "~/types";
 
 interface UserProviderProps extends BasicComponentWithChildren {}

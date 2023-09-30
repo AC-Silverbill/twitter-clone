@@ -9,11 +9,11 @@ import Button from "../Button";
 import StickyHeader from "../StickyHeader";
 import { FaArrowLeft } from "react-icons/fa";
 import ProfilePicture from "../ProfilePicture";
-interface UserContent {
+interface UserFeedProps {
     twitterProfile: Profile;
 }
 
-const UserFeed = ({ twitterProfile }: UserContent) => {
+const UserFeed = ({ twitterProfile }: UserFeedProps) => {
     const navigator = useNavigation();
     const { COLOR_BORDER } = getLocals("colors");
     const navigateBack = () => {

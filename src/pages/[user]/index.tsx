@@ -1,5 +1,5 @@
 import react from "react";
-import useUser from "~/hooks/useUser";
+import useUser from "~/hooks/useUser/useUser";
 import { useRouter } from "next/router";
 
 import Content from "~/components/Content";

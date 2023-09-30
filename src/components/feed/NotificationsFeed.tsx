@@ -1,5 +1,5 @@
 import React from "react";
-import useUser from "~/hooks/useUser";
+import useUser from "~/hooks/useUser/useUser";
 
 import ContentTitle from "../ContentTitle";
 import Tab from "../Tab";

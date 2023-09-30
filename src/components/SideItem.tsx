@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/router";
 import React from "react";
-import useUser from "~/hooks/useUser";
+import useUser from "~/hooks/useUser/useUser";
 import useNavigation from "~/navigation";
 import { AnyRoute, ContentComponent } from "~/types";
 import getLocal from "~/utils/getLocal";

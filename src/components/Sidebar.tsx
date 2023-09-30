@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import getLocal from "~/utils/getLocal";
 import isValidSession from "~/utils/isValidSession";
-import useUser from "~/hooks/useUser";
+import useUser from "~/hooks/useUser/useUser";
 import useTweetModal from "~/hooks/useTweetModal";
 import useAuthModal from "~/hooks/useAuthModal";
 
