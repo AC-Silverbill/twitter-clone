@@ -1,6 +1,32 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { type Profile, type Tweet } from "~/types";
+import { type Prisma } from "@prisma/client";
+
+const tweetInclude = {
+    author: true,
+    retweetReference: {
+        select: {
+            id: true,
+            author: true,
+            content: true,
+        },
+    },
+    replyReference: {
+        select: {
+            id: true,
+            author: true,
+            content: true,
+        },
+    },
+    _count: {
+        select: {
+            retweets: true,
+            replies: true,
+            likes: true,
+        },
+    },
+} satisfies Prisma.TweetInclude;
 
 export const tweetRouter = createTRPCRouter({
     postTweet: protectedProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
@@ -71,30 +97,7 @@ export const tweetRouter = createTRPCRouter({
                     },
                 ],
             },
-            include: {
-                author: true,
-                retweetReference: {
-                    select: {
-                        id: true,
-                        author: true,
-                        content: true,
-                    },
-                },
-                replyReference: {
-                    select: {
-                        id: true,
-                        author: true,
-                        content: true,
-                    },
-                },
-                _count: {
-                    select: {
-                        retweets: true,
-                        replies: true,
-                        likes: true,
-                    },
-                },
-            },
+            include: tweetInclude,
         });
         return tweets.map((tweet): Tweet => {
             return {
@@ -129,30 +132,7 @@ export const tweetRouter = createTRPCRouter({
             where: {
                 id: tweetId,
             },
-            include: {
-                author: true,
-                retweetReference: {
-                    select: {
-                        id: true,
-                        author: true,
-                        content: true,
-                    },
-                },
-                replyReference: {
-                    select: {
-                        id: true,
-                        author: true,
-                        content: true,
-                    },
-                },
-                _count: {
-                    select: {
-                        retweets: true,
-                        replies: true,
-                        likes: true,
-                    },
-                },
-            },
+            include: tweetInclude,
         });
         return {
             id: tweet.id,
@@ -193,30 +173,7 @@ export const tweetRouter = createTRPCRouter({
                     },
                 ],
             },
-            include: {
-                author: true,
-                retweetReference: {
-                    select: {
-                        id: true,
-                        author: true,
-                        content: true,
-                    },
-                },
-                replyReference: {
-                    select: {
-                        id: true,
-                        author: true,
-                        content: true,
-                    },
-                },
-                _count: {
-                    select: {
-                        retweets: true,
-                        replies: true,
-                        likes: true,
-                    },
-                },
-            },
+            include: tweetInclude,
         });
         return tweets.map((tweet): Tweet => {
             return {
@@ -252,30 +209,7 @@ export const tweetRouter = createTRPCRouter({
                 authorId: userId ?? ctx.session.user.id,
                 type: "REPLY",
             },
-            include: {
-                author: true,
-                retweetReference: {
-                    select: {
-                        id: true,
-                        author: true,
-                        content: true,
-                    },
-                },
-                replyReference: {
-                    select: {
-                        id: true,
-                        author: true,
-                        content: true,
-                    },
-                },
-                _count: {
-                    select: {
-                        retweets: true,
-                        replies: true,
-                        likes: true,
-                    },
-                },
-            },
+            include: tweetInclude,
         });
         return replies.map((reply): Tweet => {
             return {
@@ -313,29 +247,7 @@ export const tweetRouter = createTRPCRouter({
             include: {
                 user: true,
                 tweet: {
-                    include: {
-                        retweetReference: {
-                            select: {
-                                id: true,
-                                author: true,
-                                content: true,
-                            },
-                        },
-                        replyReference: {
-                            select: {
-                                id: true,
-                                author: true,
-                                content: true,
-                            },
-                        },
-                        _count: {
-                            select: {
-                                retweets: true,
-                                replies: true,
-                                likes: true,
-                            },
-                        },
-                    },
+                    include: tweetInclude,
                 },
             },
         });
@@ -373,30 +285,7 @@ export const tweetRouter = createTRPCRouter({
                 id: tweetId,
                 type: "REPLY",
             },
-            include: {
-                author: true,
-                retweetReference: {
-                    select: {
-                        id: true,
-                        author: true,
-                        content: true,
-                    },
-                },
-                replyReference: {
-                    select: {
-                        id: true,
-                        author: true,
-                        content: true,
-                    },
-                },
-                _count: {
-                    select: {
-                        retweets: true,
-                        replies: true,
-                        likes: true,
-                    },
-                },
-            },
+            include: tweetInclude,
         });
         return replies.map((reply): Tweet => {
             return {
