@@ -1,6 +1,6 @@
 import react, { useState, useEffect } from "react";
 import { signIn, signOut, useSession, getProviders } from "next-auth/react";
-import useUser from "~/hooks/useUser/useUser";
+import useUser from "~/hooks/useUser";
 import { api } from "~/utils/api";
 import getLocal from "~/utils/getLocal";
 import isValidSession from "~/utils/isValidSession";

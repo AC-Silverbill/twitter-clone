@@ -1,5 +1,5 @@
 import react from "react";
-import useUser from "~/hooks/useUser/useUser";
+import useUser from "~/hooks/useUser";
 
 import Content from "~/components/Content";
 import Layout from "~/components/Layout";

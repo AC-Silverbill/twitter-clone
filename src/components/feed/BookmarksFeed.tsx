@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import useUser from "~/hooks/useUser/useUser";
+import useUser from "~/hooks/useUser";
 import { Profile } from "~/types";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
 
@@ -19,11 +19,11 @@ const BookmarksFeed = () => {
             <div id="heading" className="border-b-[1px] border-[#000000]">
                 <ContentTitle title="Bookmarks" />
                 <div className="flex">
-                    <Tab title="For you" handleClick={() => {}} />
-                    <Tab title="Trending" handleClick={() => {}} />
-                    <Tab title="News" handleClick={() => {}} />
-                    <Tab title="Sports" handleClick={() => {}} />
-                    <Tab title="Entertainment" handleClick={() => {}} />
+                    <Tab title="For you" onClick={() => {}} />
+                    <Tab title="Trending" onClick={() => {}} />
+                    <Tab title="News" onClick={() => {}} />
+                    <Tab title="Sports" onClick={() => {}} />
+                    <Tab title="Entertainment" onClick={() => {}} />
                 </div>
             </div>
             <ExampleTweets />

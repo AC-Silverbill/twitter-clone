@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Tweet as TweetType } from "~/types";
 import { api } from "~/utils/api";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
-import useUser from "~/hooks/useUser/useUser";
+import useUser from "~/hooks/useUser";
 
 import Tab from "../Tab";
 import Feed from "./Feed";
@@ -28,8 +28,8 @@ const HomeFeed = () => {
             <StickyHeader>
                 <ContentTitle title="Home" />
                 <div className="flex">
-                    <Tab title="For You" handleClick={() => {}} />
-                    <Tab title="Following" handleClick={() => {}} />
+                    <Tab title="For You" onClick={() => {}} />
+                    <Tab title="Following" onClick={() => {}} />
                 </div>
             </StickyHeader>
             <MakeTweet />

@@ -1,5 +1,5 @@
 import React from "react";
-import useUser from "~/hooks/useUser/useUser";
+import useUser from "~/hooks/useUser";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
 
 import Tab from "../Tab";
@@ -15,11 +15,11 @@ const ExploreFeed = () => {
                 <StickyHeader>
                     <ContentTitle title="Explore" />
                     <div className="flex">
-                        <Tab title="For you" handleClick={() => {}} />
-                        <Tab title="Trending" handleClick={() => {}} />
-                        <Tab title="News" handleClick={() => {}} />
-                        <Tab title="Sports" handleClick={() => {}} />
-                        <Tab title="Entertainment" handleClick={() => {}} />
+                        <Tab title="For you" onClick={() => {}} />
+                        <Tab title="Trending" onClick={() => {}} />
+                        <Tab title="News" onClick={() => {}} />
+                        <Tab title="Sports" onClick={() => {}} />
+                        <Tab title="Entertainment" onClick={() => {}} />
                     </div>
                 </StickyHeader>
                 <ExampleTweets />

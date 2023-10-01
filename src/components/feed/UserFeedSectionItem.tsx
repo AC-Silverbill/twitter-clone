@@ -5,12 +5,15 @@ import { AnyRoute, BasicComponentWithChildren } from "~/types";
 import getLocals from "~/utils/getLocals";
 
 import Button from "../Button";
+import Tab from "../Tab";
 
 interface UserFeedSectionItemProps extends BasicComponentWithChildren {
     route: AnyRoute<string>;
+    title: string;
+    onClick: () => void;
 }
-const UserFeedSectionItem = ({ children, className, route }: UserFeedSectionItemProps) => {
-    const { COLOR_WHITE_HIGHLIGHTED } = getLocals("colors");
+const UserFeedSectionItem = ({ children, className, route, title, onClick }: UserFeedSectionItemProps) => {
+    const { COLOR_WHITE_HIGHLIGHTED, COLOR_PRIMARY, COLOR_SECONDARY, COLOR_LIGHT_GRAY_DARKER } = getLocals("colors");
     const router = useRouter();
 
     const isHighlighted = () => {
@@ -21,13 +24,7 @@ const UserFeedSectionItem = ({ children, className, route }: UserFeedSectionItem
     };
 
     const path = router.asPath;
-    return (
-        <Button
-            className={twMerge(`flex-1 p-8 transition hover:bg-${COLOR_WHITE_HIGHLIGHTED} ${isHighlighted() && `text-black`}`, className)}
-        >
-            {children}
-        </Button>
-    );
+    return <Tab title={title} onClick={onClick} />;
 };
 
 export default UserFeedSectionItem;

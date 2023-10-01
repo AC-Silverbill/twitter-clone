@@ -18,7 +18,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         return (
             <button
                 type={type}
-                className={twMerge(`${buttonTemplate && buttonTemplates[buttonTemplate]}`, className)}
+                className={twMerge(`${buttonTemplate ? buttonTemplates[buttonTemplate] : ""}`, className)}
                 disabled={disabled}
                 ref={ref}
                 {...props}

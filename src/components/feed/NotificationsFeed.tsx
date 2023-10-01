@@ -1,5 +1,5 @@
 import React from "react";
-import useUser from "~/hooks/useUser/useUser";
+import useUser from "~/hooks/useUser";
 
 import ContentTitle from "../ContentTitle";
 import Tab from "../Tab";
@@ -12,9 +12,9 @@ const NotificationsFeed = () => {
             <StickyHeader>
                 <ContentTitle title="Notifications" />
                 <div className="flex">
-                    <Tab title="All" handleClick={() => {}} />
-                    <Tab title="Verified" handleClick={() => {}} />
-                    <Tab title="Mentions" handleClick={() => {}} />
+                    <Tab title="All" onClick={() => {}} />
+                    <Tab title="Verified" onClick={() => {}} />
+                    <Tab title="Mentions" onClick={() => {}} />
                 </div>
             </StickyHeader>
             <div className="h-[100vh]">asdasd</div>

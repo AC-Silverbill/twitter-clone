@@ -4,7 +4,7 @@ import React, { useRef, useState } from "react";
 import { Tweet } from "~/types";
 import { api } from "~/utils/api";
 import getLocals from "~/utils/getLocals";
-import useUser from "~/hooks/useUser/useUser";
+import useUser from "~/hooks/useUser";
 import useReplyModal from "~/hooks/useReplyModal";
 
 import MiddleBar from "./MiddleBar";

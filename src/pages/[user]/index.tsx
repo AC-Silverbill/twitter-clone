@@ -2,7 +2,7 @@ import react from "react";
 import { useRouter } from "next/router";
 import { Profile } from "~/types";
 import { api } from "~/utils/api";
-import useUser from "~/hooks/useUser/useUser";
+import useUser from "~/hooks/useUser";
 
 import Custom404 from "../404";
 import Content from "~/components/Content";

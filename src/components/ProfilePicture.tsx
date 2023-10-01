@@ -10,6 +10,7 @@ const sizes = {
     MEDIUM: 45,
     SMALL: 30,
 };
+
 interface ProfilePictureProps {
     twitterProfile: Profile;
     className?: string;
@@ -24,10 +25,10 @@ const ProfilePicture = ({ twitterProfile, className, size = "MEDIUM" }: ProfileP
         <div className={twMerge(`flex-shrink-0 ${size}`, className)}>
             <Image
                 src={twitterProfile.image || "/images/defaultprofile.svg"}
-                alt={`Profile Picture of ${twitterProfile.id}`}
+                alt={`Profile Picture of ${twitterProfile.username}`}
                 width={sizes[size]}
                 height={sizes[size]}
-                className={`rounded-full flex flex-initial cursor-pointer hover:border-2 border-${primaryColor} transition`}
+                className={`object-contain rounded-full flex flex-initial cursor-pointer hover:border-2 border-${primaryColor} transition`}
                 onClick={navigateToProfile}
             />
         </div>
