@@ -115,20 +115,27 @@ export const createTRPCRouter = t.router;
 export const publicProcedure = t.procedure;
 
 /** Reusable middleware that enforces users are logged in before running the procedure. */
-const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
+const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
     if (!ctx.session?.user || !ctx.session.user.isAuthenticated) {
         throw new TRPCError({ code: "UNAUTHORIZED" });
     }
+    return next({
+        ctx: {
+            // infers the `session` as non-nullable
+            session: { ...ctx.session, user: ctx.session.user },
+        },
+    });
+});
+
+export const getProfile = t.middleware(async ({ ctx, next }) => {
     const profile = (await ctx.db.profile.findUniqueOrThrow({
         where: {
-            userId: ctx.session.user.id,
+            userId: ctx.session?.user.id,
         },
     })) as Profile;
     return next({
         ctx: {
             profile,
-            // infers the `session` as non-nullable
-            // session: { ...ctx.session, user: ctx.session.user },
         },
     });
 });

@@ -8,8 +8,6 @@ export const resetDB = async () => {
         db.user.deleteMany(),
         db.profile.deleteMany(),
         db.tweet.deleteMany(),
-        db.reply.deleteMany(),
-        db.retweet.deleteMany(),
         db.like.deleteMany(),
     ]);
 };
