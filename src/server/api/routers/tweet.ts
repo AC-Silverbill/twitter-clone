@@ -108,7 +108,7 @@ export const tweetRouter = createTRPCRouter({
     postLike: protectedProcedure.input(z.string().cuid()).mutation(async ({ ctx, input: tweetId }) => {
         await ctx.db.like.create({
             data: {
-                userId: ctx.profile.id,
+                likerId: ctx.profile.id,
                 tweetId,
             },
         });
