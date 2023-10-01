@@ -16,18 +16,6 @@ export default function Home() {
     const test = api.user.getProfile.useQuery({ username: username });
     const { twitterProfile, isLoading } = useUser();
 
-    const placeholderProfile: Profile = {
-        id: "01",
-        userId: "01",
-        nickname: "01",
-        username: "01",
-        image: "/images/defaultprofile.svg",
-        joinedAt: new Date(Date.now()),
-        bio: "01",
-        tweets: [],
-        likes: [],
-    };
-
     return (
         <Content>
             <div>likes</div>
