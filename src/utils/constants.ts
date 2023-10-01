@@ -22,6 +22,12 @@ export const colors = {
     COLOR_ERROR: "#f4212e",
 } as const;
 
+export const styles = {
+    WHITE_BG: `rounded-3xl font-semibold p-2 px-4 border transition text-sm text-black bg-white hover:bg-${colors["COLOR_WHITE_HIGHLIGHTED"]} hover:scale-105`,
+    PRIMARY_BG: `rounded-3xl font-semibold p-2 px-4 border transition text-sm text-white bg-${colors["COLOR_PRIMARY"]} hover:bg-${colors["COLOR_PRIMARY_HIGHLIGHTED"]} hover:scale-105`,
+    TAB_GRAY_HOVER: `group flex-1 transition p-2 border-b-4 border-transparent hover:border-blue-500 hover:bg-${colors["COLOR_WHITE_HIGHLIGHTED_DARKER"]}`,
+};
+
 export const routes = {
     YOUR_HOME: "/home",
     YOUR_EXPLORE: "/explore",
@@ -42,6 +48,7 @@ export const routes = {
 export const categories = {
     colors: colors,
     routes: routes,
+    styles: styles,
 };
 
 //ways you will end up opening the AuthModal

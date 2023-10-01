@@ -6,7 +6,7 @@ interface ContentTitleProps {
 const ContentTitle = ({ title }: ContentTitleProps) => {
     return (
         <div className="p-2 font-bold text-xl">
-            <h1 className="p-2">{title}</h1>
+            <title className="p-2">{title}</title>
         </div>
     );
 };

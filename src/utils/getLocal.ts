@@ -1,4 +1,4 @@
-import { colors, routes, categories } from "./constants";
+import { categories } from "./constants";
 
 /**
  * helper function to fetch a local constant from 'constants.ts'

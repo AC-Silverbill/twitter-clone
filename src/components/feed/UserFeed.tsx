@@ -1,4 +1,5 @@
 import React from "react";
+import { useRouter } from "next/router";
 import { Profile } from "~/types";
 import useNavigation from "~/navigation";
 import getLocals from "~/utils/getLocals";
@@ -6,32 +7,45 @@ import convertToReadableString from "~/utils/convertToReadableNumber";
 import useUser from "~/hooks/useUser";
 import useEditProfileModal from "~/hooks/useEditProfileModal";
 
+import Tab from "../Tab";
 import Feed from "./Feed";
 import Icon from "../Icon";
 import Button from "../Button";
 import StickyHeader from "../StickyHeader";
 import ProfileHandle from "../ProfileHandle";
 import ProfilePicture from "../ProfilePicture";
+import UserFeedSectionItem from "./UserFeedSectionItem";
 import { FaArrowLeft } from "react-icons/fa";
 import { LuCalendarDays } from "react-icons/lu";
-import UserFeedSectionItem from "./UserFeedSectionItem";
-import Tab from "../Tab";
+import { api } from "~/utils/api";
 interface UserFeedProps {
     twitterProfile: Profile;
+    children: React.ReactNode;
 }
 
-const UserFeed = ({ twitterProfile }: UserFeedProps) => {
-    const {} = useUser();
+const UserFeed = ({ twitterProfile, children }: UserFeedProps) => {
     const navigator = useNavigation();
+    const router = useRouter();
+
+    const userTRPC = api.tweet.getTweetsFromUser.useQuery({ userId: twitterProfile.userId });
+    const { openEditProfileModal } = useEditProfileModal();
+    const { twitterProfile: myProfile, isLoading } = useUser();
     const { COLOR_WHITE_HIGHLIGHTED, COLOR_BORDER, COLOR_SECONDARY } = getLocals("colors");
     const { USER_HOME, USER_REPLIES, USER_HIGHLIGHTS, USER_MEDIA, USER_LIKES } = getLocals("routes");
-    const { openEditProfileModal } = useEditProfileModal();
+    const userRoutes = {
+        USER_HOME: USER_HOME(twitterProfile.username),
+        USER_REPLIES: USER_REPLIES(twitterProfile.username),
+        USER_HIGHLIGHTS: USER_HIGHLIGHTS(twitterProfile.username),
+        USER_MEDIA: USER_MEDIA(twitterProfile.username),
+        USER_LIKES: USER_LIKES(twitterProfile.username),
+    };
+
+    type routesType = keyof typeof userRoutes;
     const navigateBack = () => {
         //TODO: navigator.back is not correct for some reason. need to create my own /back global hook
         navigator.push("/home");
     };
 
-    const GeneratedContent = () => <div>Test</div>;
     //TODO: add real followers/followed onto profile
     return (
         <Feed>
@@ -83,16 +97,16 @@ const UserFeed = ({ twitterProfile }: UserFeedProps) => {
                             </div>
                         </div>
                         <div className="flex">
-                            <Tab route={USER_HOME(twitterProfile.username)} title="Posts" onClick={() => {}} />
-                            <Tab route={USER_REPLIES(twitterProfile.username)} title="Replies" onClick={() => {}} />
-                            <Tab route={USER_HIGHLIGHTS(twitterProfile.username)} title="Highlights" onClick={() => {}} />
-                            <Tab route={USER_MEDIA(twitterProfile.username)} title="Media" onClick={() => {}} />
-                            <Tab route={USER_LIKES(twitterProfile.username)} title="Likes" onClick={() => {}} />
+                            <Tab route={USER_HOME(twitterProfile.username)} title="Posts" />
+                            <Tab route={USER_REPLIES(twitterProfile.username)} title="Replies" />
+                            <Tab route={USER_HIGHLIGHTS(twitterProfile.username)} title="Highlights" />
+                            <Tab route={USER_MEDIA(twitterProfile.username)} title="Media" />
+                            <Tab route={USER_LIKES(twitterProfile.username)} title="Likes" />
                         </div>
                     </div>
                 </div>
             </div>
-            <GeneratedContent />
+            {children}
         </Feed>
     );
 };

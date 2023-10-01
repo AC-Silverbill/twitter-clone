@@ -4,7 +4,7 @@ import { Profile } from "~/types";
 import { api } from "~/utils/api";
 import useUser from "~/hooks/useUser";
 
-import Custom404 from "../404";
+import Custom404 from "../../404";
 import Content from "~/components/Content";
 import Layout from "~/components/Layout";
 import UserFeed from "~/components/feed/UserFeed";
@@ -14,7 +14,6 @@ export default function Home() {
     const router = useRouter();
     const username = router.asPath.replace(/\//, "");
     const test = api.user.getProfile.useQuery({ username: username });
-    console.log(test.data);
     const { twitterProfile, isLoading } = useUser();
 
     const placeholderProfile: Profile = {
@@ -31,9 +30,7 @@ export default function Home() {
 
     return (
         <Content>
-            <UserFeed twitterProfile={isLoading ? placeholderProfile : twitterProfile!}>
-                <div>posts</div>
-            </UserFeed>
+            <div>highlights</div>
         </Content>
     );
 }
