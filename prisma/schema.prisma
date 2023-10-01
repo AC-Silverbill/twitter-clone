@@ -62,23 +62,23 @@ model User {
 }
 
 model Profile {
-  id       String   @id @default(cuid())
-  userId   String   @unique
-  nickname String
-  username String   @unique
-  image    String?
-  bio      String?
-  joinedAt DateTime @default(now())
-  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tweets   Tweet[]
-  likes    Like[]
-  // followed  User[]
-  // followers User[]
+  id         String   @id @default(cuid())
+  userId     String   @unique
+  nickname   String
+  username   String   @unique
+  image      String?
+  bio        String?
+  joinedAt   DateTime @default(now())
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tweets     Tweet[]
+  likes      Like[]
+  followers  Follow[] @relation("Followers")
+  followings Follow[] @relation("Following")
 }
 
 model Tweet {
   id                 String    @id @default(cuid())
-  authorId           String
+  authorUsername     String
   type               TweetType @default(TWEET)
   content            String?
   timeCreated        DateTime  @default(now())
@@ -88,7 +88,7 @@ model Tweet {
   replyReferenceId   String?
   replyReference     Tweet?    @relation("Replies", fields: [replyReferenceId], references: [id])
   replies            Tweet[]   @relation("Replies")
-  author             Profile   @relation(fields: [authorId], references: [id])
+  author             Profile   @relation(fields: [authorUsername], references: [username])
   likes              Like[]
 }
 
@@ -98,12 +98,20 @@ enum TweetType {
   REPLY
 }
 
+model Follow {
+  id               String  @id @default(cuid())
+  followerUsername String
+  followeeUsername String
+  follower         Profile @relation("Following", fields: [followerUsername], references: [username])
+  followee         Profile @relation("Followers", fields: [followeeUsername], references: [username])
+}
+
 model Like {
-  id      String  @id @default(cuid())
-  likerId String
-  tweetId String
-  liker   Profile @relation(fields: [likerId], references: [id])
-  tweet   Tweet   @relation(fields: [tweetId], references: [id])
+  id            String  @id @default(cuid())
+  likerUsername String
+  tweetId       String
+  liker         Profile @relation(fields: [likerUsername], references: [username])
+  tweet         Tweet   @relation(fields: [tweetId], references: [id])
 }
 
 model Hashtag {

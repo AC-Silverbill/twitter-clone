@@ -65,6 +65,7 @@ export interface Profile {
     bio?: string;
     joinedAt: Date;
     followers?: number;
+    followings?: number;
     tweets?: Tweet[];
     likes?: Like[];
 }

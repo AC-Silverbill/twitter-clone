@@ -1,4 +1,4 @@
-import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, getProfile, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { type Profile, type Tweet } from "~/types";
 import { type Prisma } from "@prisma/client";
@@ -58,14 +58,21 @@ const tweetMapper = (tweet: TweetPayload): Tweet => {
 };
 
 export const tweetRouter = createTRPCRouter({
-    postTweet: protectedProcedure.input(z.string()).mutation(async ({ ctx, input: content }) => {
-        await ctx.db.tweet.create({
-            data: {
-                authorId: ctx.profile.id,
-                content,
-            },
-        });
-    }),
+    postTweet: protectedProcedure
+        .input(
+            z.object({
+                content: z.string(),
+            })
+        )
+        .use(getProfile)
+        .mutation(async ({ ctx, input: { content } }) => {
+            await ctx.db.tweet.create({
+                data: {
+                    authorUsername: ctx.profile.username,
+                    content,
+                },
+            });
+        }),
 
     postRetweet: protectedProcedure
         .input(
@@ -74,11 +81,12 @@ export const tweetRouter = createTRPCRouter({
                 content: z.string(),
             })
         )
+        .use(getProfile)
         .mutation(async ({ ctx, input }) => {
             const { referenceId, content } = input;
             await ctx.db.tweet.create({
                 data: {
-                    authorId: ctx.profile.id,
+                    authorUsername: ctx.profile.username,
                     retweetReferenceId: referenceId,
                     content,
                     type: "RETWEET",
@@ -93,11 +101,12 @@ export const tweetRouter = createTRPCRouter({
                 content: z.string(),
             })
         )
+        .use(getProfile)
         .mutation(async ({ ctx, input }) => {
             const { referenceId, content } = input;
             await ctx.db.tweet.create({
                 data: {
-                    authorId: ctx.profile.id,
+                    authorUsername: ctx.profile.username,
                     replyReferenceId: referenceId,
                     content,
                     type: "REPLY",
@@ -105,14 +114,21 @@ export const tweetRouter = createTRPCRouter({
             });
         }),
 
-    postLike: protectedProcedure.input(z.string().cuid()).mutation(async ({ ctx, input: tweetId }) => {
-        await ctx.db.like.create({
-            data: {
-                likerId: ctx.profile.id,
-                tweetId,
-            },
-        });
-    }),
+    postLike: protectedProcedure
+        .input(
+            z.object({
+                tweetId: z.string().cuid(),
+            })
+        )
+        .use(getProfile)
+        .mutation(async ({ ctx, input: { tweetId } }) => {
+            await ctx.db.like.create({
+                data: {
+                    likerUsername: ctx.profile.username,
+                    tweetId,
+                },
+            });
+        }),
 
     getAllTweets: protectedProcedure.query(async ({ ctx }): Promise<Tweet[]> => {
         const tweets: TweetPayload[] = await ctx.db.tweet.findMany({
@@ -152,9 +168,7 @@ export const tweetRouter = createTRPCRouter({
         .query(async ({ ctx, input: { username } }): Promise<Tweet[]> => {
             const tweets: TweetPayload[] = await ctx.db.tweet.findMany({
                 where: {
-                    author: {
-                        username,
-                    },
+                    authorUsername: username,
                     OR: [
                         {
                             type: "TWEET",
@@ -178,9 +192,7 @@ export const tweetRouter = createTRPCRouter({
         .query(async ({ ctx, input: { username } }): Promise<Tweet[]> => {
             const replies: TweetPayload[] = await ctx.db.tweet.findMany({
                 where: {
-                    author: {
-                        username,
-                    },
+                    authorUsername: username,
                     type: "REPLY",
                 },
                 include: tweetInclude,
@@ -197,9 +209,7 @@ export const tweetRouter = createTRPCRouter({
         .query(async ({ ctx, input: { username } }): Promise<Tweet[]> => {
             const likes = await ctx.db.like.findMany({
                 where: {
-                    liker: {
-                        username,
-                    },
+                    likerUsername: username,
                 },
                 include: {
                     tweet: {
