@@ -1,4 +1,4 @@
-import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, getProfile, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { resetDB } from "~/test/helpers/reset-db";
 import { type Profile } from "~/types";
@@ -41,22 +41,71 @@ export const userRouter = createTRPCRouter({
             ]);
         }),
 
-    getMe: protectedProcedure.query(async ({ ctx }) => {
+    getMe: protectedProcedure.use(getProfile).query(({ ctx }): Profile => {
         return ctx.profile;
     }),
 
-    getProfile: publicProcedure
+    getProfile: protectedProcedure
         .input(
             z.object({
                 username: z.string(),
             })
         )
-        .query(async ({ ctx, input }) => {
+        .query(async ({ ctx, input: { username } }): Promise<Profile> => {
             return (await ctx.db.profile.findUniqueOrThrow({
                 where: {
-                    username: input.username,
+                    username,
                 },
             })) as Profile;
+        }),
+
+    followUser: protectedProcedure
+        .input(
+            z.object({
+                username: z.string(),
+            })
+        )
+        .use(getProfile)
+        .query(async ({ ctx, input }) => {
+            const alreadyFollowing = await ctx.db.follow.count({
+                where: {
+                    followerUsername: ctx.profile.username,
+                    followeeUsername: input.username,
+                },
+            });
+            if (alreadyFollowing) {
+                throw new TRPCError({ code: "CONFLICT", message: "you're already following the user" });
+            }
+            await ctx.db.follow.create({
+                data: {
+                    followerUsername: ctx.profile.username,
+                    followeeUsername: input.username,
+                },
+            });
+        }),
+
+    unfollowUser: protectedProcedure
+        .input(
+            z.object({
+                username: z.string(),
+            })
+        )
+        .use(getProfile)
+        .query(async ({ ctx, input }) => {
+            const following = await ctx.db.follow.findFirst({
+                where: {
+                    followerUsername: ctx.profile.username,
+                    followeeUsername: input.username,
+                },
+            });
+            if (!following) {
+                throw new TRPCError({ code: "CONFLICT", message: "you're not following the user" });
+            }
+            await ctx.db.follow.delete({
+                where: {
+                    id: following.id,
+                },
+            });
         }),
 
     resetDB: publicProcedure.mutation(async () => {
