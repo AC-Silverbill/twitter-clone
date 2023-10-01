@@ -62,18 +62,18 @@ model User {
 }
 
 model Profile {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  nickname  String
-  username  String   @unique
-  image     String?
-  bio       String?
-  joinedAt  DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tweets    Tweet[]
-  likes     Like[]
-  followed  User[]
-  followers User[]
+  id       String   @id @default(cuid())
+  userId   String   @unique
+  nickname String
+  username String   @unique
+  image    String?
+  bio      String?
+  joinedAt DateTime @default(now())
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tweets   Tweet[]
+  likes    Like[]
+  // followed  User[]
+  // followers User[]
 }
 
 model Tweet {
@@ -88,7 +88,7 @@ model Tweet {
   replyReferenceId   String?
   replyReference     Tweet?    @relation("Replies", fields: [replyReferenceId], references: [id])
   replies            Tweet[]   @relation("Replies")
-  author             Profile   @relation(fields: [authorId], references: [userId])
+  author             Profile   @relation(fields: [authorId], references: [id])
   likes              Like[]
 }
 
@@ -100,9 +100,9 @@ enum TweetType {
 
 model Like {
   id      String  @id @default(cuid())
-  userId  String
+  likerId String
   tweetId String
-  user    Profile @relation(fields: [userId], references: [userId])
+  liker   Profile @relation(fields: [likerId], references: [id])
   tweet   Tweet   @relation(fields: [tweetId], references: [id])
 }
 

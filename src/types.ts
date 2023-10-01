@@ -107,8 +107,8 @@ export interface ReferenceTweet {
 
 export interface Like {
     id: string;
-    userId: string;
+    likerId: string;
     tweetId: string;
-    user: Profile;
+    liker: Profile;
     tweet: Tweet;
 }

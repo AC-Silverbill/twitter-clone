@@ -42,11 +42,7 @@ export const userRouter = createTRPCRouter({
         }),
 
     getMe: protectedProcedure.query(async ({ ctx }) => {
-        return (await ctx.db.profile.findUniqueOrThrow({
-            where: {
-                userId: ctx.session.user.id,
-            },
-        })) as Profile;
+        return ctx.profile;
     }),
 
     getProfile: publicProcedure
