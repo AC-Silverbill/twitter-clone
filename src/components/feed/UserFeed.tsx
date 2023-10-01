@@ -13,19 +13,22 @@ import ProfilePicture from "../ProfilePicture";
 import { FaArrowLeft } from "react-icons/fa";
 import { LuCalendarDays } from "react-icons/lu";
 import convertToReadableString from "~/utils/convertToReadableNumber";
+import UserFeedSectionItem from "./UserFeedSectionItem";
 interface UserFeedProps {
     twitterProfile: Profile;
 }
 
 const UserFeed = ({ twitterProfile }: UserFeedProps) => {
     const navigator = useNavigation();
-    const { COLOR_BORDER, COLOR_SECONDARY } = getLocals("colors");
+    const { COLOR_WHITE_HIGHLIGHTED, COLOR_BORDER, COLOR_SECONDARY } = getLocals("colors");
+    const { USER_HOME, USER_REPLIES, USER_HIGHLIGHTS, USER_MEDIA, USER_LIKES } = getLocals("routes");
     const { openEditProfileModal } = useEditProfileModal();
     const navigateBack = () => {
         //TODO: navigator.back is not correct for some reason. need to create my own /back global hook
         navigator.push("/home");
     };
 
+    const GeneratedContent = () => <div>Test</div>;
     //TODO: add real followers/followed onto profile
     return (
         <Feed>
@@ -42,7 +45,7 @@ const UserFeed = ({ twitterProfile }: UserFeedProps) => {
                     </div>
                 </div>
             </StickyHeader>
-            <div className={`flex flex-col h-80 border-b-[1px] border-${COLOR_BORDER}`}>
+            <div className={`flex flex-col border-b-[1px] border-${COLOR_BORDER}`}>
                 <div className="example-bg bg-gray-300 flex-1"></div>
                 <div className="flex-1">
                     <div className="p-2">
@@ -80,11 +83,19 @@ const UserFeed = ({ twitterProfile }: UserFeedProps) => {
                                         <span className={`text-${COLOR_SECONDARY}`}>Followers</span>
                                     </div>
                                 </div>
+                                <div className="flex">
+                                    <UserFeedSectionItem route={USER_HOME(twitterProfile.username)}>Posts</UserFeedSectionItem>
+                                    <UserFeedSectionItem route={USER_REPLIES(twitterProfile.username)}>Replies</UserFeedSectionItem>
+                                    <UserFeedSectionItem route={USER_HIGHLIGHTS(twitterProfile.username)}>Highlights</UserFeedSectionItem>
+                                    <UserFeedSectionItem route={USER_MEDIA(twitterProfile.username)}>Media</UserFeedSectionItem>
+                                    <UserFeedSectionItem route={USER_LIKES(twitterProfile.username)}>Likes</UserFeedSectionItem>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <GeneratedContent />
         </Feed>
     );
 };
