@@ -2,6 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { Profile } from "~/types";
 import useNavigation from "~/navigation";
+import { api } from "~/utils/api";
 import getLocals from "~/utils/getLocals";
 import convertToReadableString from "~/utils/convertToReadableNumber";
 import useUser from "~/hooks/useUser";
@@ -14,10 +15,8 @@ import Button from "../Button";
 import StickyHeader from "../StickyHeader";
 import ProfileHandle from "../ProfileHandle";
 import ProfilePicture from "../ProfilePicture";
-import UserFeedSectionItem from "./UserFeedSectionItem";
 import { FaArrowLeft } from "react-icons/fa";
 import { LuCalendarDays } from "react-icons/lu";
-import { api } from "~/utils/api";
 interface UserFeedProps {
     twitterProfile: Profile;
     children: React.ReactNode;
@@ -27,7 +26,7 @@ const UserFeed = ({ twitterProfile, children }: UserFeedProps) => {
     const navigator = useNavigation();
     const router = useRouter();
 
-    const userTRPC = api.tweet.getTweetsFromUser.useQuery({ userId: twitterProfile.userId });
+    const userTRPC = api.tweet.getTweetsFromUser.useQuery({ username: twitterProfile.username });
     const { openEditProfileModal } = useEditProfileModal();
     const { twitterProfile: myProfile, isLoading } = useUser();
     const { COLOR_WHITE_HIGHLIGHTED, COLOR_BORDER, COLOR_SECONDARY } = getLocals("colors");
@@ -77,7 +76,7 @@ const UserFeed = ({ twitterProfile, children }: UserFeedProps) => {
                         <div className="flex flex-col justify-start px-4 p-2">
                             <h2 className="text-xl font-bold">{twitterProfile.nickname ?? twitterProfile.username}</h2>
                             <ProfileHandle twitterProfile={twitterProfile} className="text-sm" />
-                            <p className="h-2">{twitterProfile.bio}</p>
+                            <p className="min-h-[20px] pt-3">{twitterProfile.bio}</p>
                             <div className="flex items-center gap-1">
                                 <LuCalendarDays className={`text-${COLOR_SECONDARY}`} size={12} />
                                 <div className={`text-sm text-${COLOR_SECONDARY}`}>{`Joined ${twitterProfile.joinedAt.toLocaleString(

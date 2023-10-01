@@ -39,7 +39,7 @@ export default function Home() {
                     //TODO: add
                     console.log("session", sessionData);
                     createProfile({
-                        name: "nickname here",
+                        nickname: "nickname here",
                         username: sessionData!.user.name!,
                     });
 

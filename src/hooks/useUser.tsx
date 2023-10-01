@@ -33,7 +33,7 @@ export const UserContextProvider = (props: Props) => {
     return (
         <UserContext.Provider
             value={
-                myProfile.isLoading
+                !myProfile.isSuccess
                     ? { twitterProfile: placeholderProfile, isLoading: true }
                     : { twitterProfile: myProfile.data!, isLoading: false }
             }

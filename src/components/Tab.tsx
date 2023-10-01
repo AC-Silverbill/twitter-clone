@@ -11,7 +11,7 @@ interface TabProps {
     title: string;
     route?: AnyRoute<string>;
     onClick?: () => void;
-    className: string;
+    className?: string;
     style?: keyof typeof styles;
 }
 
