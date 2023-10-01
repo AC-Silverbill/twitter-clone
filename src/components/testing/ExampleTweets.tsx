@@ -2,7 +2,7 @@ import React from "react";
 import { Tweet as TweetType } from "~/types";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
 
-import ExampleTweet from "./ExampleTweet";
+import Tweet from "../Tweet";
 
 const ExampleTweets = () => {
     const [user1, user2] = [getTwitterProfile("one"), getTwitterProfile("two")];
@@ -56,10 +56,10 @@ const ExampleTweets = () => {
 
     return (
         <>
-            <ExampleTweet tweet={exampleTweet4} />
-            <ExampleTweet tweet={exampleTweet3} />
-            <ExampleTweet tweet={exampleTweet} />
-            <ExampleTweet tweet={exampleTweet2} />
+            <Tweet tweet={exampleTweet4} testMode={true} />
+            <Tweet tweet={exampleTweet3} testMode={true} />
+            <Tweet tweet={exampleTweet} testMode={true} />
+            <Tweet tweet={exampleTweet2} testMode={true} />
         </>
     );
 };

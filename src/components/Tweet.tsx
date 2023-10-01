@@ -10,13 +10,15 @@ import ReplyIcon from "./icons/ReplyIcon";
 import QuoteIcon from "./icons/QuoteIcon";
 import LikeIcon from "./icons/LikeIcon";
 import StatsIcon from "./icons/StatsIcon";
+import ProfileHandle from "./ProfileHandle";
 import ProfilePicture from "./ProfilePicture";
 
 interface TweetProps {
     tweet: Tweet;
+    testMode?: boolean;
 }
 
-const Tweet = ({ tweet }: TweetProps) => {
+const Tweet = ({ tweet, testMode = false }: TweetProps) => {
     //TODO: getAuthor from authorId in tweet
 
     const { COLOR_PRIMARY, COLOR_SECONDARY, COLOR_BORDER, COLOR_LIGHT_GRAY } = getLocals("colors");
@@ -29,9 +31,10 @@ const Tweet = ({ tweet }: TweetProps) => {
             <div className="flex flex-col px-4 flex-1 h-full">
                 <div className="flex gap-2">
                     <h2 className="font-bold cursor-pointer hover:underline">{tweet.author.nickname ?? tweet.author.username}</h2>
-                    <span className={`text-${COLOR_SECONDARY} cursor-pointer`}>{`@${tweet.author.username}`}</span>
+                    <ProfileHandle twitterProfile={tweet.author} className="self-center" />
                     <div>·</div>
                     <div>1hr</div>
+                    {testMode && <div className="text-red-400">TESTING</div>}
                 </div>
                 <div className="_line-break-anywhere flex justify-self-end">{tweet.content}</div>
                 {tweet.reference && (

@@ -8,20 +8,25 @@ import Feed from "./Feed";
 import Icon from "../Icon";
 import Button from "../Button";
 import StickyHeader from "../StickyHeader";
+import ProfileHandle from "../ProfileHandle";
 import ProfilePicture from "../ProfilePicture";
 import { FaArrowLeft } from "react-icons/fa";
+import { LuCalendarDays } from "react-icons/lu";
+import convertToReadableString from "~/utils/convertToReadableNumber";
 interface UserFeedProps {
     twitterProfile: Profile;
 }
 
 const UserFeed = ({ twitterProfile }: UserFeedProps) => {
     const navigator = useNavigation();
-    const { COLOR_BORDER } = getLocals("colors");
+    const { COLOR_BORDER, COLOR_SECONDARY } = getLocals("colors");
     const { openEditProfileModal } = useEditProfileModal();
     const navigateBack = () => {
         //TODO: navigator.back is not correct for some reason. need to create my own /back global hook
         navigator.push("/home");
     };
+
+    //TODO: add real followers/followed onto profile
     return (
         <Feed>
             <StickyHeader>
@@ -54,7 +59,28 @@ const UserFeed = ({ twitterProfile }: UserFeedProps) => {
                                     </Button>
                                 </div>
                             </div>
-                            <h2>{twitterProfile.nickname ?? twitterProfile.username}</h2>
+                            <div className="px-2">
+                                <h2 className="text-xl font-bold">{twitterProfile.nickname ?? twitterProfile.username}</h2>
+                                <ProfileHandle twitterProfile={twitterProfile} className="text-sm" />
+                                <p>{twitterProfile.bio}</p>
+                                <div className="flex items-center gap-1">
+                                    <LuCalendarDays className={`text-${COLOR_SECONDARY}`} size={12} />
+                                    <div className={`text-sm text-${COLOR_SECONDARY}`}>{`Joined ${twitterProfile.joinedAt.toLocaleString(
+                                        undefined,
+                                        { month: "long", year: "numeric" }
+                                    )}`}</div>
+                                </div>
+                                <div className="flex gap-5">
+                                    <div className="flex gap-1">
+                                        <span className="font-bold">10</span>
+                                        <span className={`text-${COLOR_SECONDARY}`}>Following</span>
+                                    </div>
+                                    <div className="flex gap-1">
+                                        <span className="font-bold">{convertToReadableString(424222224)}</span>
+                                        <span className={`text-${COLOR_SECONDARY}`}>Followers</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

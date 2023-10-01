@@ -64,6 +64,7 @@ export interface Profile {
     image?: string;
     bio?: string;
     joinedAt: Date;
+    followers?: number;
     tweets?: Tweet[];
     likes?: Like[];
 }

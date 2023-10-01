@@ -6,6 +6,7 @@ import getLocals from "~/utils/getLocals";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
 import useAuthModal from "~/hooks/useAuthModal";
 import ProfilePicture from "./ProfilePicture";
+import ProfileHandle from "./ProfileHandle";
 
 interface MessageProps {
     tweet: ReferenceTweet;
@@ -24,7 +25,8 @@ const Message = ({ tweet: { id, author, content } }: MessageProps) => {
             <div className="flex flex-col px-4 flex-1 h-full">
                 <div className="flex gap-2">
                     <h2 className="font-bold">{author.nickname ?? author.username}</h2>
-                    <span className={`text-${COLOR_SECONDARY}`}>{`@${author.username}`}</span>
+                    <ProfileHandle twitterProfile={author} className="self-center" />
+
                     <div>·</div>
                     <div>1hr</div>
                 </div>

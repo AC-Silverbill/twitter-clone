@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
 import useUser from "~/hooks/useUser/useUser";
@@ -33,14 +34,18 @@ const SideItem = ({ icon, route, title, disabled }: SideItemProps) => {
     };
 
     return (
-        <li
-            className={`flex gap-2 p-2 hover:translate-x-2 bg-white hover:bg-${highlightedColor} transition cursor-pointer justify-center md:justify-start ${
-                isHighlighted() ? `text-${selectedColor}` : ""
-            }`}
-            onClick={() => navigateToPage(route)}
-        >
-            <div className="flex justify-center items-center scale-[200%] md:scale-100 p-2 md:p-0">{icon}</div>
-            <div className="hidden md:flex justify-center items-center sm:text-lg md:text-2xl font-semibold">{title ? title : route}</div>
+        <li>
+            <Link
+                className={`flex gap-2 p-2 hover:translate-x-2 bg-white hover:bg-${highlightedColor} transition cursor-pointer justify-center md:justify-start ${
+                    isHighlighted() ? `text-${selectedColor}` : ""
+                }`}
+                href={route}
+            >
+                <div className="flex justify-center items-center scale-[200%] md:scale-100 p-2 md:p-0">{icon}</div>
+                <div className="hidden md:flex justify-center items-center sm:text-lg md:text-2xl font-semibold">
+                    {title ? title : route}
+                </div>
+            </Link>
         </li>
     );
 };
