@@ -10,14 +10,13 @@ import { IoMdClose } from "react-icons/io";
 import * as Dialog from "@radix-ui/react-dialog";
 
 interface ModalProps extends BasicComponentWithChildren {
-    title?: string;
-    description?: string;
     isOpen: boolean;
     onChange: () => void;
     closeButton?: boolean;
+    header?: React.ReactNode;
 }
 
-const Modal = ({ isOpen, onChange, title, description, children, closeButton = true }: ModalProps) => {
+const Modal = ({ isOpen, onChange, children, closeButton = true, header }: ModalProps) => {
     const handleInput = () => {};
     const COLOR_WHITE_HIGHLIGHTED = getLocal("colors", "COLOR_WHITE_HIGHLIGHTED");
 
@@ -33,15 +32,26 @@ const Modal = ({ isOpen, onChange, title, description, children, closeButton = t
                     className={`bg-white flex flex-col p-2 fixed min-h-[300px] max-h-[90vh] md:w-[500px] sm:w-[400px] drop-shadow-sm rounded-xl top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 border overflow-y-auto z-50`}
                     onInput={handleInput}
                 >
-                    <Dialog.Close asChild>
-                        {closeButton && (
+                    {header && (
+                        <div className="flex items-center pb-2">
+                            {closeButton && (
+                                <Dialog.Close asChild>
+                                    <Icon className={`hover:bg-${COLOR_WHITE_HIGHLIGHTED} self-start`}>
+                                        <IoMdClose />
+                                    </Icon>
+                                </Dialog.Close>
+                            )}
+                            {header}
+                        </div>
+                    )}
+                    {!header && closeButton && (
+                        <Dialog.Close asChild>
                             <Icon className={`hover:bg-${COLOR_WHITE_HIGHLIGHTED} self-start`}>
                                 <IoMdClose />
                             </Icon>
-                        )}
-                    </Dialog.Close>
-                    <Dialog.Title className="">{title}</Dialog.Title>
-                    <Dialog.Description className="">{description}</Dialog.Description>
+                        </Dialog.Close>
+                    )}
+
                     {children}
                 </Dialog.Content>
             </Dialog.Portal>
