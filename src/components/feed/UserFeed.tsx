@@ -95,8 +95,9 @@ const UserFeed = ({ twitterProfile, children }: UserFeedProps) => {
                                 </div>
                             </div>
                         </div>
+
                         <div className="flex">
-                            <Tab route={USER_HOME(twitterProfile.username)} title="Posts" />
+                            <Tab route={USER_HOME(twitterProfile.username)} title="Posts" className="" />
                             <Tab route={USER_REPLIES(twitterProfile.username)} title="Replies" />
                             <Tab route={USER_HIGHLIGHTS(twitterProfile.username)} title="Highlights" />
                             <Tab route={USER_MEDIA(twitterProfile.username)} title="Media" />

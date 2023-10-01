@@ -2,6 +2,7 @@
 if you have tailwind vscode extension, you will be able to see the colors
 COLOR_PRIMARY: <div className="text-#2596be"></div>
 COLOR_PRIMARY_LIGHTER: <div className="text-#e1eef6"></div>
+COLOR_PRIMARY_DARKER: <div className="text-#0f1419"></div>
 COLOR_PRIMARY_DISABLED: <div className="text-#8dccf7"></div>
 COLOR_PRIMARY_HIGHLIGHTED: <div className="text-#1a8cd8"></div>
 COLOR_SECONDARY: <div className="text-#849099"></div>

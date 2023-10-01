@@ -7,6 +7,7 @@ export default {
             colors: {
                 "#2596be": "#2596be",
                 "#e1eef6": "#e1eef6",
+                "#0f1419": "#0f1419",
                 "#8dccf7": "#8dccf7",
                 "#1a8cd8": "#1a8cd8",
                 "#849099": "#849099",
@@ -29,7 +30,7 @@ export default {
     //prettier-ignore
     safelist: [
         {
-            pattern: /(bg|text|border)-(\#2596be|\#e1eef6|\#8dccf7|\#1a8cd8|\#849099|\#3fc99b|pink-400|\#fee7f2|\#f7f7f7|\#efefef|\#3ac898|\#def1eb|\#eff3f4|\#e8f5fe|\#e6e7e7|\#fb9fa8|\#f4212e)/,
+            pattern: /(bg|text|border)-(\#2596be|\#e1eef6|\#0f1419|\#8dccf7|\#1a8cd8|\#849099|\#3fc99b|pink-400|\#fee7f2|\#f7f7f7|\#efefef|\#3ac898|\#def1eb|\#eff3f4|\#e8f5fe|\#e6e7e7|\#fb9fa8|\#f4212e)/,
             variants: ["lg", "focus", "hover", "lg:hover", "group-hover", "disabled", "group-disabled"],
         },
         {   

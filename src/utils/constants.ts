@@ -4,6 +4,7 @@ import { AnyRoute } from "~/types";
 export const colors = {
     COLOR_PRIMARY: "#2596be",
     COLOR_PRIMARY_LIGHTER: "#e1eef6",
+    COLOR_PRIMARY_DARKER: "#0f1419",
     COLOR_PRIMARY_DISABLED: "#8dccf7",
     COLOR_PRIMARY_HIGHLIGHTED: "#1a8cd8",
     COLOR_SECONDARY: "#849099",
