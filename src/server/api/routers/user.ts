@@ -108,6 +108,30 @@ export const userRouter = createTRPCRouter({
             });
         }),
 
+    getFollowers: protectedProcedure.use(getProfile).query(async ({ ctx }): Promise<Profile[]> => {
+        const followers = await ctx.db.follow.findMany({
+            where: {
+                followeeUsername: ctx.profile.username,
+            },
+            include: {
+                follower: true,
+            },
+        });
+        return followers.map((follower): Profile => follower.follower as Profile);
+    }),
+
+    getFollowings: protectedProcedure.use(getProfile).query(async ({ ctx }) => {
+        const followings = await ctx.db.follow.findMany({
+            where: {
+                followerUsername: ctx.profile.username,
+            },
+            include: {
+                followee: true,
+            },
+        });
+        return followings.map((following): Profile => following.followee as Profile);
+    }),
+
     resetDB: publicProcedure.mutation(async () => {
         await resetDB();
     }),
