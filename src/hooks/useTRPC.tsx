@@ -59,17 +59,17 @@ const useTRPC = <
 
 useTRPC("GET", "user", "getProfile")({ username: "asda" });
 
-const myFunction = (myParam: string) => {};
-const myOtherFunction = (myParam: number) => {};
+function myFunction(myParam: string) {}
+function myOtherFunction(myParam: string) {}
 
 const myObject = {
     test: {
         what: myFunction,
         ishere: myOtherFunction,
-    },
-};
+    } as const,
+} as const;
 
-type testing2<T extends keyof typeof myObject, K extends keyof (typeof myObject)[T]> = Parameters<(typeof myObject)[T][K]>;
+type testing2<T extends keyof typeof myObject, K extends keyof (typeof myObject)[T]> = (typeof myObject)[T][K];
 const whatis: testing2<"test", "what"> = ["users"];
 
 export default useTRPC;
