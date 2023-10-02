@@ -15,12 +15,12 @@ const GET = {
         getTweet: api.tweet.getTweet.useQuery,
         getTweetsFromUser: api.tweet.getTweetsFromUser.useQuery,
     },
-} as const;
+};
 
 const POST = {
     user: {
-        getFollowers: api.user.createProfile.useMutation,
-        getFollowings: api.user.followUser.useMutation,
+        createProfile: api.user.createProfile.useMutation,
+        followUser: api.user.followUser.useMutation,
     },
     tweet: {
         postLike: api.tweet.postLike.useMutation,
@@ -28,21 +28,28 @@ const POST = {
         postRetweet: api.tweet.postRetweet.useMutation,
         postTweet: api.tweet.postTweet.useMutation,
     },
-} as const;
+};
 
 const DELETE = {
     user: {
         unfollowUser: api.user.unfollowUser.useMutation,
     },
-} as const;
+};
 
 const categories = {
     GET,
     POST,
     DELETE,
-} as const;
+};
 
-const useTRPC = <T extends keyof typeof categories, K extends keyof (typeof categories)[T], A extends keyof (typeof categories)[T][K], O extends >(
+type testing = Parameters<(typeof categories)["POST"]["user"]["followUser"]>;
+
+const useTRPC = <
+    T extends keyof typeof categories,
+    K extends keyof (typeof categories)[T],
+    A extends keyof (typeof categories)[T][K],
+    O extends Parameters<(typeof categories)[T][K][A]>,
+>(
     method: T,
     category: K,
     action: A
@@ -50,6 +57,19 @@ const useTRPC = <T extends keyof typeof categories, K extends keyof (typeof cate
     return categories[method][category][action];
 };
 
-useTRPC("GET", "user", "getFollowings")
+useTRPC("GET", "user", "getProfile")({ username: "asda" });
+
+const myFunction = (myParam: string) => {};
+const myOtherFunction = (myParam: number) => {};
+
+const myObject = {
+    test: {
+        what: myFunction,
+        ishere: myOtherFunction,
+    },
+};
+
+type testing2<T extends keyof typeof myObject, K extends keyof (typeof myObject)[T]> = Parameters<(typeof myObject)[T][K]>;
+const whatis: testing2<"test", "what"> = ["users"];
 
 export default useTRPC;

@@ -1,9 +1,10 @@
 import { Profile } from "~/types";
+import { Random } from "~/utils/Random";
 
 //TODO: add popularity score to profiles
 //TODO: popularity score will be determined by each request related
 //#####LIST OF ITEMS#####
-/**
+/*
  * getFollowers
  * getFollowings
  * getProfile
@@ -19,52 +20,14 @@ import { Profile } from "~/types";
  */
 
 // .2, .15, .05, .05, .05, .05, .05, .05, .05, .05 CHANGE THESE NUMBERS
-const magnitudeRange = [0.2, 0.15, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05];
+
+//hard coded, keep magnitudes to help visualize percentages
+const magnitudes = [0.2, 0.15, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05, 0.05] as const;
 const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
-const exampleRoll = (randomNumber: number) => {
-    if (randomNumber > 0 && randomNumber < ranges[0]) {
-        return 0;
-    }
 
-    if (randomNumber > ranges[0] && randomNumber < ranges[1]) {
-        return 1;
-    }
-
-    if (randomNumber > ranges[1] && randomNumber < ranges[2]) {
-        return 1;
-    }
-
-    if (randomNumber > ranges[2] && randomNumber < ranges[3]) {
-        return 2;
-    }
-
-    if (randomNumber > ranges[3] && randomNumber < ranges[4]) {
-        return 3;
-    }
-
-    if (randomNumber > ranges[4] && randomNumber < ranges[5]) {
-        return 4;
-    }
-
-    if (randomNumber > ranges[5] && randomNumber < ranges[6]) {
-        return 5;
-    }
-
-    if (randomNumber > ranges[6] && randomNumber < ranges[7]) {
-        return 6;
-    }
-
-    if (randomNumber > ranges[7] && randomNumber < ranges[8]) {
-        return 7;
-    }
-
-    if (randomNumber > ranges[8] && randomNumber < ranges[9]) {
-        return 8;
-    }
-
-    if (randomNumber > ranges[9] && randomNumber < 1) {
-        return -1;
-    }
+const getRandomIndex = () => {
+    const randomNumber = Math.random();
+    return ranges.findIndex((range, index) => randomNumber > (ranges[index - 1] ?? 0) && randomNumber < (ranges[index] ?? 1));
 };
 
 const returnFeedFromPopularAll = (tweetNumber: number = 20) => {
@@ -79,61 +42,25 @@ const returnFeedFromPopularFollowing = (profile: Profile, tweetNumber: number = 
     // create sample array with sorted scores, for 20
 
     //NOTE: THESE SHOULD NOT BE STRINGS, BUT ACTUAL PROFILES
-    const profilesWithScores = [
-        {
-            name: "elonmusk",
-            score: 5442,
-        },
-        {
-            name: "gfgdgfgssd",
-            score: 4552,
-        },
-        {
-            name: "sdfgdsfgsdewrt",
-            score: 523,
-        },
-        {
-            name: "wqfqwfe",
-            score: 52,
-        },
-        {
-            name: "sadfadsfs",
-            score: 42,
-        },
-        {
-            name: "qre2135",
-            score: 41,
-        },
-        {
-            name: "qwfqwef",
-            score: 36,
-        },
-        {
-            name: "fdsfsdafas",
-            score: 33,
-        },
-        {
-            name: "sadfasdfweqrwqr",
-            score: 24,
-        },
-        {
-            name: "Bqdwfwdqfob",
-            score: 11,
-        },
-    ];
+
+    const randomProfiles = Array(10)
+        .fill(null)
+        .map((unused) => {
+            name: Random.createRandomString(10);
+            score: Random.createRandomNumber(1000, 1);
+        });
 
     let chosenProfiles: any[] = [];
     for (let i = 0; i < tweetNumber; i++) {
-        // first 3 are garenteed
+        // first 3 are guaranteed
         if (i < 3) {
-            chosenProfiles.push(profilesWithScores[i]);
+            chosenProfiles.push(randomProfiles[i]);
         } else {
-            const roll = Math.random();
-            const index = exampleRoll(roll);
-            if (index === -1) {
+            const index = getRandomIndex();
+            if (index === ranges.length - 1) {
                 //fetch a random user from following to push onto
             } else {
-                chosenProfiles.push(profilesWithScores[roll]);
+                chosenProfiles.push(randomProfiles[index]);
             }
         }
     }
