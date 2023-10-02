@@ -56,12 +56,12 @@ const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
     };
 
     const postTweet = () => {
-        tweetMutation.mutate(tweetContent);
+        tweetMutation.mutate({ content: tweetContent });
     };
 
     const clearTweet = () => {};
     return (
-        <div className="p-4 flex border-b-[1px] border-${borderColor} w-full">
+        <div className={`p-4 flex border-b-[1px] w-full`}>
             <ProfilePicture twitterProfile={twitterProfile} />
             <div className={`flex flex-col px-2 w-full gap-2`}>
                 {isExpanded && <AudienceDropdown />}

@@ -27,6 +27,7 @@ const UserFeed = ({ twitterProfile, children }: UserFeedProps) => {
     const router = useRouter();
 
     const userTRPC = api.tweet.getTweetsFromUser.useQuery({ username: twitterProfile.username });
+    const followTRPC = api.user.followUser.useQuery({ username: twitterProfile.username });
     const { openEditProfileModal } = useEditProfileModal();
     const { twitterProfile: myProfile, isLoading } = useUser();
     const { COLOR_WHITE_HIGHLIGHTED, COLOR_BORDER, COLOR_SECONDARY } = getLocals("colors");
@@ -45,6 +46,21 @@ const UserFeed = ({ twitterProfile, children }: UserFeedProps) => {
         navigator.push("/home");
     };
 
+    const EditOrFollowButton = () => {
+        if (twitterProfile.username === myProfile.username) {
+            return (
+                <Button onClick={openEditProfileModal} buttonTemplate="WHITE_BG">
+                    Edit profile
+                </Button>
+            );
+        } else {
+            return (
+                <Button onClick={openEditProfileModal} buttonTemplate="WHITE_BG">
+                    Follow
+                </Button>
+            );
+        }
+    };
     //TODO: add real followers/followed onto profile
     return (
         <Feed>
@@ -67,11 +83,7 @@ const UserFeed = ({ twitterProfile, children }: UserFeedProps) => {
                     <div className="w-full flex flex-col">
                         <div className="flex items-end">
                             <ProfilePicture twitterProfile={twitterProfile} className="p-2 flex justify-start mt-[-15%]" size="LARGEST" />
-                            <div className="ml-auto flex items-start p-2">
-                                <Button onClick={openEditProfileModal} buttonTemplate="WHITE_BG">
-                                    Edit profile
-                                </Button>
-                            </div>
+                            <div className="ml-auto flex items-start p-2"></div>
                         </div>
                         <div className="flex flex-col justify-start px-4 p-2">
                             <h2 className="text-xl font-bold">{twitterProfile.nickname ?? twitterProfile.username}</h2>
