@@ -5,6 +5,7 @@ export const resetDB = async () => {
         db.account.deleteMany(),
         db.session.deleteMany(),
         db.verificationToken.deleteMany(),
+        db.popularityScore.deleteMany(),
         db.user.deleteMany(),
         db.profile.deleteMany(),
         db.tweet.deleteMany(),

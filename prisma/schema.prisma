@@ -62,20 +62,22 @@ model User {
 }
 
 model Profile {
-  id         String   @id @default(cuid())
-  userId     String   @unique
-  nickname   String
-  username   String   @unique
-  image      String?
-  bio        String?
-  location   String?
-  website    String?
-  joinedAt   DateTime @default(now())
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tweets     Tweet[]
-  likes      Like[]
-  followers  Follow[] @relation("Followers")
-  followings Follow[] @relation("Following")
+  id                        String            @id @default(cuid())
+  userId                    String            @unique
+  nickname                  String
+  username                  String            @unique
+  image                     String?
+  bio                       String?
+  location                  String?
+  website                   String?
+  joinedAt                  DateTime          @default(now())
+  user                      User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tweets                    Tweet[]
+  likes                     Like[]
+  followers                 Follow[]          @relation("Followers")
+  followings                Follow[]          @relation("Following")
+  popularityScoreProfiles   PopularityScore[] @relation("PopularityScoreProfile")
+  popularityScoreFollowings PopularityScore[] @relation("PopularityScoreFollowing")
 }
 
 model Tweet {
@@ -114,6 +116,15 @@ model Like {
   tweetId       String
   liker         Profile @relation(fields: [likerUsername], references: [username])
   tweet         Tweet   @relation(fields: [tweetId], references: [id])
+}
+
+model PopularityScore {
+  id          String  @id @default(cuid())
+  profileId   String
+  followingId String
+  score       Int
+  profile     Profile @relation("PopularityScoreProfile", fields: [profileId], references: [id])
+  following   Profile @relation("PopularityScoreFollowing", fields: [followingId], references: [id])
 }
 
 model Hashtag {
