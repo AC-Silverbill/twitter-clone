@@ -66,7 +66,7 @@ export const userRouter = createTRPCRouter({
             })
         )
         .use(getProfile)
-        .query(async ({ ctx, input }) => {
+        .mutation(async ({ ctx, input }) => {
             const alreadyFollowing = await ctx.db.follow.count({
                 where: {
                     followerUsername: ctx.profile.username,
@@ -91,7 +91,7 @@ export const userRouter = createTRPCRouter({
             })
         )
         .use(getProfile)
-        .query(async ({ ctx, input }) => {
+        .mutation(async ({ ctx, input }) => {
             const following = await ctx.db.follow.findFirst({
                 where: {
                     followerUsername: ctx.profile.username,

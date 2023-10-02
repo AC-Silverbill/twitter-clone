@@ -68,6 +68,8 @@ model Profile {
   username   String   @unique
   image      String?
   bio        String?
+  location   String?
+  website    String?
   joinedAt   DateTime @default(now())
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   tweets     Tweet[]

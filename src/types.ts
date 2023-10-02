@@ -48,9 +48,11 @@ export interface TwitterUser {
  * @interface Profile
  * @param id: string
  * @param userId: string
- * @param name: string
+ * @param nickname: string
  * @param username: string
  * @param image?: string
+ * @param location?: string
+ * @param website?: string
  * @param bio?: string
  * @param joinedAt?: Date
  * @param tweets: Tweet[]
@@ -63,6 +65,8 @@ export interface Profile {
     username: string;
     image?: string;
     bio?: string;
+    location?: string;
+    website?: string;
     joinedAt: Date;
     followers?: number;
     followings?: number;
