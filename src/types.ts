@@ -70,7 +70,7 @@ export interface Profile {
     joinedAt: Date;
     followers?: number;
     followings?: number;
-    tweets?: Tweet[];
+    tweets?: number;
     likes?: Like[];
 }
 

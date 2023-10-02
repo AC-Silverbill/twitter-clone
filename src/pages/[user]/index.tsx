@@ -9,13 +9,12 @@ import Content from "~/components/Content";
 import Layout from "~/components/Layout";
 import UserFeed from "~/components/feed/UserFeed";
 import Discovery from "~/components/Discovery";
+import Loading from "~/components/Loading";
 
 export default function Home() {
     const router = useRouter();
     const username = router.asPath.replace(/\//, "");
-    const test = api.user.getProfile.useQuery({ username: username });
-    console.log(test.data);
-    const { twitterProfile, isLoading } = useUser();
+    const profileTRPC = api.user.getProfile.useQuery({ username: username });
 
     const placeholderProfile: Profile = {
         id: "01",
@@ -29,9 +28,13 @@ export default function Home() {
         likes: [],
     };
 
+    if (profileTRPC.isLoading) {
+        return <Loading />;
+    }
+
     return (
         <Content>
-            <UserFeed twitterProfile={isLoading ? placeholderProfile : twitterProfile!}>
+            <UserFeed twitterProfile={profileTRPC.isSuccess ? profileTRPC.data! : placeholderProfile}>
                 <div>posts</div>
             </UserFeed>
         </Content>
