@@ -34,38 +34,36 @@ const returnFeedFromPopularAll = (tweetNumber: number = 20) => {
     //same thing as below, but skips fetching from followings of profile
 };
 
-const returnFeedFromPopularFollowing = (profile: Profile, tweetNumber: number = 20) => {
-    // use route to see all followings of profile
+const returnFeedFromPopularFollowing = (profile: Profile, feedNumber: number = 20) => {
+    //TODO: use route to see all followings of profile
 
-    // get popularity score from db with followings's userId\username
-
-    // create sample array with sorted scores, for 20
+    //TODO: get popularity score from db with followings's userId\username
 
     //NOTE: THESE SHOULD NOT BE STRINGS, BUT ACTUAL PROFILES
-
-    const randomProfiles = Array(10)
+    const randomFollowing = Array(50)
         .fill(null)
-        .map((unused) => {
-            name: Random.createRandomString(10);
-            score: Random.createRandomNumber(1000, 1);
-        });
+        .map((unused) => ({
+            name: Random.createRandomString(10),
+            score: Random.createRandomNumber(1000, 1),
+        }));
 
+    const randomTop10 = randomFollowing.sort((a, b) => b.score - a.score);
     let chosenProfiles: any[] = [];
-    for (let i = 0; i < tweetNumber; i++) {
+    for (let i = 0; i < feedNumber; i++) {
         // first 3 are guaranteed
         if (i < 3) {
-            chosenProfiles.push(randomProfiles[i]);
+            chosenProfiles.push(randomTop10[i]);
         } else {
             const index = getRandomIndex();
             if (index === ranges.length - 1) {
-                //fetch a random user from following to push onto
+                //TODO: fetch a random user from following to push onto
             } else {
-                chosenProfiles.push(randomProfiles[index]);
+                chosenProfiles.push(randomTop10[index]);
             }
         }
     }
 
-    // pull latest tweets from people, (if duplicate people, pull the next latest tweet)
+    //TODO: pull latest tweets from people, (if duplicate people, pull the next latest tweet)
     let actualFeed: any[] = [];
     return actualFeed;
 };
