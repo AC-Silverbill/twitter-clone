@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect } from "react";
 import { api } from "~/utils/api";
 
 const GET = {
@@ -42,42 +45,64 @@ const categories = {
     DELETE,
 };
 
-type testing = Parameters<(typeof categories)["POST"]["user"]["followUser"]>;
+//    O extends Parameters<(typeof categories)[T][K][A]>,
 
-const useTRPC = <
+// function myFunction(myParam: number, myParam2: { name: string }) {}
+// function myOtherFunction(myParam: string) {}
+
+// const myObject = {
+//     test: { what: myFunction, ishere: myOtherFunction },
+// };
+
+// const exampleFunction = <T extends keyof typeof myObject, K extends keyof (typeof myObject)[T]>(category: T, something: K) => {
+//     const item = myObject[category][something];
+//     return {
+//         item: item,
+//         call: (...params: Parameters<typeof item>) => item(...params),
+//     };
+// };
+
+// const test4 = exampleFunction("test", "ishere");
+// const test5 = exampleFunction("test", "what");
+
+// test5.call(42, { name: "asdad" });
+// test4.call("adsajsdajad");
+
+export const useTRPC = <
     T extends keyof typeof categories,
     K extends keyof (typeof categories)[T],
     A extends keyof (typeof categories)[T][K],
-    O extends Parameters<(typeof categories)[T][K][A]>,
 >(
     method: T,
     category: K,
     action: A
 ) => {
-    return categories[method][category][action];
-};
+    const item = categories[method][category][action];
 
-useTRPC("GET", "user", "getProfile")({ username: "asda" });
+    // @ts-ignore
+    type paramsType = Parameters<typeof item>;
+    const startTRPC = (args: { params?: paramsType; useEffectDependencies?: any[] }) => {
+        type ItemFunction = (args?: any) => any & { useMutation?: any };
+        const _item = item as ItemFunction;
 
-function myFunction(myParam: number, myParam2: { name: string }) {}
-function myOtherFunction(myParam: string) {}
+        const returnValue = () => {
+            if (args.params) {
+                return _item(args.params);
+            } else {
+                return _item();
+            }
+        };
+        useEffect(() => {
+            return returnValue();
+        }, [...(args?.useEffectDependencies ?? [])]);
 
-const myObject = {
-    test: { what: myFunction, ishere: myOtherFunction },
-};
+        return returnValue();
+    };
 
-const exampleFunction = <T extends keyof typeof myObject, K extends keyof (typeof myObject)[T]>(category: T, something: K) => {
-    const item = myObject[category][something];
     return {
         item: item,
-        call: (...params: Parameters<typeof item>) => item(params),
+        start: startTRPC,
     };
 };
-
-const test4 = exampleFunction("test", "ishere");
-const test5 = exampleFunction("test", "what");
-
-test5.call(42, { name: "asdad" });
-test4.call("adsajsdajad");
 
 export default useTRPC;
