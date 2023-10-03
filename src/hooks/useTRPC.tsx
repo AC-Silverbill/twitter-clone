@@ -70,6 +70,8 @@ const myObject = {
 } as const;
 
 type testing2<T extends keyof typeof myObject, K extends keyof (typeof myObject)[T]> = (typeof myObject)[T][K];
-const whatis: testing2<"test", "what"> = ["users"];
+
+myObject.test.ishere.arguments;
+const whatis: testing2<"test", "what"> = [];
 
 export default useTRPC;
