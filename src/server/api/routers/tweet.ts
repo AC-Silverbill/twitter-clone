@@ -66,7 +66,7 @@ export const tweetRouter = createTRPCRouter({
             })
         )
         .use(getProfile)
-        .query(async ({ ctx, input: { skip } }) => {
+        .query(async ({ ctx, input: { skip } }): Promise<Tweet[]> => {
             const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
             const getRandomIndex = () => {
                 const randomNumber = Math.random();
@@ -83,7 +83,18 @@ export const tweetRouter = createTRPCRouter({
                 take: 20,
             });
             if (topFollowings.length < 20) {
-                // TODO: get latest liked tweets
+                // TODO: still involve the followings
+                const topLatestTweets: TweetPayload[] = await ctx.db.tweet.findMany({
+                    orderBy: {
+                        likes: {
+                            _count: "desc",
+                        },
+                    },
+                    skip,
+                    take: 20,
+                    include: tweetInclude,
+                });
+                return topLatestTweets.map((tweet) => tweetMapper(tweet));
             }
             const chosenProfileIds: string[] = [];
             for (let i = 0; i < 20; i++) {
@@ -95,11 +106,36 @@ export const tweetRouter = createTRPCRouter({
                             where: {
                                 followerUsername: ctx.profile.username,
                             },
-                            skip: 123, // TODO: random
+                            select: {
+                                followee: {
+                                    select: {
+                                        id: true,
+                                    },
+                                },
+                            },
+                            skip,
                         });
+                        if (randomFollowing) if (randomFollowing.followee) chosenProfileIds.push(randomFollowing.followee.id);
                     } else chosenProfileIds.push(topFollowings[index]!.followingId);
                 }
             }
+            const feedTweets: TweetPayload[] = [];
+            for (const profileId of chosenProfileIds) {
+                const tweet = await ctx.db.tweet.findFirst({
+                    where: {
+                        author: {
+                            id: profileId,
+                        },
+                    },
+                    include: tweetInclude,
+                    orderBy: {
+                        timeCreated: "desc",
+                    },
+                    skip,
+                });
+                if (tweet) feedTweets.push(tweet);
+            }
+            return feedTweets.map((tweet) => tweetMapper(tweet));
         }),
 
     postTweet: protectedProcedure
