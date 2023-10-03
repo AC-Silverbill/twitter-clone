@@ -24,10 +24,10 @@ export const userRouter = createTRPCRouter({
             await ctx.db.$transaction([
                 ctx.db.profile.create({
                     data: {
-                        userId: ctx.session?.user.id,
+                        userId: ctx.session!.user.id,
                         nickname,
                         username,
-                        image: ctx.session?.user.image,
+                        image: ctx.session!.user.image,
                     },
                 }),
                 ctx.db.user.update({
@@ -39,6 +39,41 @@ export const userRouter = createTRPCRouter({
                     },
                 }),
             ]);
+        }),
+
+    updateProfile: protectedProcedure
+        .input(
+            z.object({
+                nickname: z.string().optional(),
+                username: z.string().optional(),
+                bio: z.string().optional(),
+                location: z.string().optional(),
+                website: z.string().optional(),
+            })
+        )
+        .use(getProfile)
+        .mutation(async ({ ctx, input }) => {
+            const { nickname, username, bio, location, website } = input;
+            if (username) {
+                if (await usernameExists(ctx.db, username)) {
+                    throw new TRPCError({
+                        code: "CONFLICT",
+                        message: "username already used",
+                    });
+                }
+            }
+            await ctx.db.profile.update({
+                where: {
+                    username: ctx.profile.username,
+                },
+                data: {
+                    nickname,
+                    username,
+                    bio,
+                    location,
+                    website,
+                },
+            });
         }),
 
     getMe: protectedProcedure.use(getProfile).query(({ ctx }): Profile => {
