@@ -58,6 +58,52 @@ const tweetMapper = (tweet: TweetPayload): Tweet => {
 };
 
 export const tweetRouter = createTRPCRouter({
+    // TODO: will be moved to getAllTweets
+    getFeed: protectedProcedure
+        .input(
+            z.object({
+                skip: z.number(),
+            })
+        )
+        .use(getProfile)
+        .query(async ({ ctx, input: { skip } }) => {
+            const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
+            const getRandomIndex = () => {
+                const randomNumber = Math.random();
+                return ranges.findIndex((range, index) => {
+                    return randomNumber > (ranges[index - 1] ?? 0) && randomNumber < (ranges[index] ?? 1);
+                });
+            };
+            // TODO: rather just profile1, profile2
+            const topFollowings = await ctx.db.popularityScore.findMany({
+                where: {
+                    profileId: ctx.profile.id,
+                },
+                orderBy: {
+                    score: "desc",
+                },
+                take: 20,
+            });
+            if (topFollowings.length < 20) {
+                // TODO: get latest liked tweets
+            }
+            const chosenProfileIds: string[] = [];
+            for (let i = 0; i < 20; i++) {
+                if (i < 3) chosenProfileIds.push(topFollowings[i]!.followingId);
+                else {
+                    const index = getRandomIndex();
+                    if (index < 0) {
+                        const randomFollowing = await ctx.db.follow.findFirst({
+                            where: {
+                                followerUsername: ctx.profile.username,
+                            },
+                            skip: 123, // TODO: random
+                        });
+                    } else chosenProfileIds.push(topFollowings[index]!.followingId);
+                }
+            }
+        }),
+
     postTweet: protectedProcedure
         .input(
             z.object({
