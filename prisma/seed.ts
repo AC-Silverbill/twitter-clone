@@ -1,7 +1,7 @@
 import { parseArgs } from "node:util";
 import { db } from "~/server/db";
 import { faker } from "@faker-js/faker";
-import { resetDB } from "~/test/helpers/reset-db";
+import { resetDB } from "./reset-db";
 
 const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
 const getRandomIndexInRange = () => {

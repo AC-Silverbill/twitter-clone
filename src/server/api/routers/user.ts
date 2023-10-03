@@ -1,6 +1,6 @@
 import { createTRPCRouter, getProfile, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { resetDB } from "~/test/helpers/reset-db";
+import { resetDB } from "../../../../prisma/reset-db";
 import { type Profile } from "~/types";
 import { type PrismaClient } from "@prisma/client";
 import { TRPCError } from "@trpc/server";
