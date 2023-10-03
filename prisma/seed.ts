@@ -3,6 +3,12 @@ import { db } from "~/server/db";
 import { faker } from "@faker-js/faker";
 import { resetDB } from "~/test/helpers/reset-db";
 
+const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
+const getRandomIndexInRange = () => {
+    const randomNumber = Math.random();
+    return ranges.findIndex((range, index) => randomNumber > (ranges[index - 1] ?? 0) && randomNumber < ranges[index]!) ?? -1;
+};
+
 const {
     values: { reset },
 } = parseArgs({
@@ -21,14 +27,12 @@ const getRandomIndex = (length: number, i: number): number => {
 
 (async () => {
     if (reset) await resetDB();
+    // ################# Create users and profiles #################
     const users = [];
     const profiles = [];
-    const tweets = [];
     for (let i = 0; i < PROFILE_NUM; i++) {
         // TODO: use cuid instead
         const userId = faker.string.nanoid();
-        const profileId = faker.string.nanoid();
-        const profileUsername = faker.internet.userName();
         users.push({
             id: userId,
             name: faker.person.firstName(),
@@ -36,39 +40,97 @@ const getRandomIndex = (length: number, i: number): number => {
             isAuthenticated: true,
         });
         profiles.push({
-            id: profileId,
+            id: faker.string.nanoid(),
             userId,
             nickname: faker.person.firstName(),
-            username: profileUsername,
+            username: faker.internet.userName(),
         });
-        for (let i = 0; i < Math.floor(Math.random()); i++) {
+    }
+    await db.$transaction([db.user.createMany({ data: users }), db.profile.createMany({ data: profiles })]);
+
+    // ################# Generate random tweets#################
+    const tweets = [];
+    for (const profile of profiles) {
+        for (let i = 0; i < Math.floor(Math.random() * 10); i++) {
             tweets.push({
                 id: faker.string.nanoid(),
-                authorUsername: profileUsername,
+                authorUsername: profile.username,
                 content: faker.lorem.lines(3),
+                timeCreated: faker.date.anytime(),
             });
         }
     }
-    await db.$transaction([
-        db.user.createMany({ data: users }),
-        db.profile.createMany({ data: profiles }),
-        db.tweet.createMany({ data: tweets }),
-    ]);
 
-    const ops = [];
-    for (let i = 0; i < profiles.length; i++) {
-        const randomIndex = getRandomIndex(profiles.length, i);
-        ops.push(
-            db.popularityScore.create({
-                data: {
-                    profileId: profiles[i]!.id,
-                    followingId: profiles[randomIndex]!.id,
-                    score: Math.floor(Math.random() * (1000 - 100 + 1)) + 100,
-                },
-            })
-        );
+    await db.$transaction([db.tweet.createMany({ data: tweets })]);
+
+    // ################# Generate likes for random tweets #################
+    const likes = [];
+
+    for (const tweet of tweets) {
+        for (let j = 0; j < Math.floor(Math.random() * profiles.length); j++) {
+            likes.push({
+                tweetId: tweet.id,
+                likerUsername: profiles[Math.floor(Math.random() * profiles.length)]!.username,
+            });
+        }
     }
-    await db.$transaction(ops);
+
+    await db.$transaction([db.like.createMany({ data: likes })]);
+
+    // ################# Generate scores for random users #################
+    const scores = [];
+    for (let i = 0; i < profiles.length; i++) {
+        for (let j = 0; j < 30; j++) {
+            const randomIndex = getRandomIndex(profiles.length, i);
+            scores.push({
+                profileId: profiles[i]!.id,
+                followingId: profiles[randomIndex]!.id,
+                score: Math.floor(Math.random() * (1000 - 100 + 1)) + 100,
+            });
+        }
+    }
+    await db.$transaction([db.popularityScore.createMany({ data: scores })]);
+
+    // const topFollowings = await db.popularityScore.findMany({
+    //     where: {
+    //         profileId: profiles[3]!.id,
+    //     },
+    //     orderBy: {
+    //         score: "desc",
+    //     },
+    //     select: {
+    //         followingId: true,
+    //         score: true,
+    //     },
+    //     take: 20,
+    // });
+    // const chosenProfiles: string[] = [];
+    // for (let i = 0; i < 20; i++) {
+    //     if (i < 3) chosenProfiles.push(topFollowings[i]!.followingId);
+    //     else {
+    //         const index = getRandomIndexInRange();
+    //         if (index < 0) {
+    //             // TODO: just fetch something
+    //         } else chosenProfiles.push(topFollowings[index]!.followingId);
+    //     }
+    // }
+    // const feedTweets = [];
+    // for (const profileId of chosenProfiles) {
+    //     console.log(profileId);
+    //     const tweet = await db.tweet.findFirst({
+    //         where: {
+    //             author: {
+    //                 id: profileId,
+    //             },
+    //         },
+    //         orderBy: {
+    //             timeCreated: "desc",
+    //         },
+    //         skip: 2,
+    //     });
+    //     feedTweets.push(tweet);
+    // }
+    // console.log(feedTweets);
 })()
     .then(async () => {
         await db.$disconnect();

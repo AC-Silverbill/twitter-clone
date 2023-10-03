@@ -87,12 +87,12 @@ model Tweet {
   content            String?
   timeCreated        DateTime  @default(now())
   retweetReferenceId String?
-  retweetReference   Tweet?    @relation("Retweets", fields: [retweetReferenceId], references: [id])
+  retweetReference   Tweet?    @relation("Retweets", fields: [retweetReferenceId], references: [id], onDelete: Cascade)
   retweets           Tweet[]   @relation("Retweets")
   replyReferenceId   String?
-  replyReference     Tweet?    @relation("Replies", fields: [replyReferenceId], references: [id])
+  replyReference     Tweet?    @relation("Replies", fields: [replyReferenceId], references: [id], onDelete: Cascade)
   replies            Tweet[]   @relation("Replies")
-  author             Profile   @relation(fields: [authorUsername], references: [username])
+  author             Profile   @relation(fields: [authorUsername], references: [username], onDelete: Cascade)
   likes              Like[]
 }
 
@@ -106,16 +106,20 @@ model Follow {
   id               String  @id @default(cuid())
   followerUsername String
   followeeUsername String
-  follower         Profile @relation("Following", fields: [followerUsername], references: [username])
-  followee         Profile @relation("Followers", fields: [followeeUsername], references: [username])
+  follower         Profile @relation("Following", fields: [followerUsername], references: [username], onDelete: Cascade)
+  followee         Profile @relation("Followers", fields: [followeeUsername], references: [username], onDelete: Cascade)
+
+  // TODO: unique constraint array
 }
 
 model Like {
   id            String  @id @default(cuid())
   likerUsername String
   tweetId       String
-  liker         Profile @relation(fields: [likerUsername], references: [username])
-  tweet         Tweet   @relation(fields: [tweetId], references: [id])
+  liker         Profile @relation(fields: [likerUsername], references: [username], onDelete: Cascade)
+  tweet         Tweet   @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+
+  // TODO: unique constraint array
 }
 
 model PopularityScore {
@@ -123,8 +127,10 @@ model PopularityScore {
   profileId   String
   followingId String
   score       Int
-  profile     Profile @relation("PopularityScoreProfile", fields: [profileId], references: [id])
-  following   Profile @relation("PopularityScoreFollowing", fields: [followingId], references: [id])
+  profile     Profile @relation("PopularityScoreProfile", fields: [profileId], references: [id], onDelete: Cascade)
+  following   Profile @relation("PopularityScoreFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+
+  // TODO: unique constraint array
 }
 
 model Hashtag {

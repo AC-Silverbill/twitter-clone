@@ -70,9 +70,7 @@ export const tweetRouter = createTRPCRouter({
             const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
             const getRandomIndex = () => {
                 const randomNumber = Math.random();
-                return ranges.findIndex((range, index) => {
-                    return randomNumber > (ranges[index - 1] ?? 0) && randomNumber < (ranges[index] ?? 1);
-                });
+                return ranges.findIndex((range, index) => randomNumber > (ranges[index - 1] ?? 0) && randomNumber < ranges[index]!) ?? -1;
             };
             // TODO: rather just profile1, profile2
             const topFollowings = await ctx.db.popularityScore.findMany({
