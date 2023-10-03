@@ -27,7 +27,7 @@ const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
 
 const getRandomIndex = () => {
     const randomNumber = Math.random();
-    return ranges.findIndex((range, index) => randomNumber > (ranges[index - 1] ?? 0) && randomNumber < ranges[index]!);
+    return ranges.findIndex((range, index) => randomNumber > (ranges[index - 1] ?? 0) && randomNumber < ranges[index]!) ?? -1;
 };
 
 const returnFeedFromPopularAll = (tweetNumber: number = 20) => {
@@ -45,25 +45,39 @@ const returnFeedFromPopularFollowing = (profile: Profile, feedNumber: number = 2
         .map((unused) => ({
             name: Random.createRandomString(10),
             score: Random.createRandomNumber(1000, 1),
+            index: 0,
         }));
 
-    const randomTop10 = randomFollowing.sort((a, b) => b.score - a.score);
-    let chosenProfiles: any[] = [];
+    const randomTop10 = randomFollowing
+        .sort((a, b) => b.score - a.score)
+        .map((item, newIndex) => {
+            return { ...item, index: newIndex };
+        })
+        .splice(0, 10);
+
+    const chosenProfiles: {
+        name: string;
+        score: number;
+        index: number;
+    }[] = [];
     for (let i = 0; i < feedNumber; i++) {
         // first 3 are guaranteed
         if (i < 3) {
-            chosenProfiles.push(randomTop10[i]);
+            chosenProfiles.push(randomTop10[i]!);
         } else {
             const index = getRandomIndex();
             if (index === -1) {
                 //TODO: fetch a random user from following to push onto
+                chosenProfiles.push({ name: "randomuser", score: 200, index: -1 });
             } else {
-                chosenProfiles.push(randomTop10[index]);
+                chosenProfiles.push(randomTop10[index]!);
             }
         }
     }
 
     //TODO: pull latest tweets from people, (if duplicate people, pull the next latest tweet)
     let actualFeed: any[] = [];
-    return actualFeed;
+    return chosenProfiles;
 };
+
+export default returnFeedFromPopularFollowing;

@@ -26,7 +26,8 @@ const HomeFeed = () => {
             <StickyHeader>
                 <ContentTitle title="Home" />
                 <div className="flex">
-                    <Tab title="For You" onClick={() => {}} />
+                    {/**TODO: sync onClick with 2 types of getAllTweets routes */}
+                    <Tab title="Trending" onClick={() => {}} />
                     <Tab title="Following" onClick={() => {}} />
                 </div>
             </StickyHeader>
