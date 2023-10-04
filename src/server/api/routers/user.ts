@@ -117,6 +117,7 @@ export const userRouter = createTRPCRouter({
                     followeeUsername: input.username,
                 },
             });
+            await updateScore(ctx.db, ctx.profile.username, input.username, 50);
         }),
 
     unfollowUser: protectedProcedure
@@ -139,6 +140,14 @@ export const userRouter = createTRPCRouter({
             await ctx.db.follow.delete({
                 where: {
                     id: following.id,
+                },
+            });
+            await ctx.db.popularityScore.delete({
+                where: {
+                    profileUsername_followingUsername: {
+                        profileUsername: ctx.profile.username,
+                        followingUsername: input.username,
+                    },
                 },
             });
         }),
@@ -179,4 +188,32 @@ const usernameExists = async (db: PrismaClient, username: string) => {
         },
     });
     return !!user;
+};
+
+export const updateScore = async (db: PrismaClient, profileUsername: string, followingUsername: string, score: number) => {
+    const isFollowing = await db.follow.findUnique({
+        where: {
+            followerUsername_followeeUsername: {
+                followerUsername: profileUsername,
+                followeeUsername: followingUsername,
+            },
+        },
+    });
+    if (!isFollowing) score /= 2;
+    await db.popularityScore.upsert({
+        where: {
+            profileUsername_followingUsername: {
+                profileUsername,
+                followingUsername,
+            },
+        },
+        update: {
+            score,
+        },
+        create: {
+            profileUsername,
+            followingUsername,
+            score,
+        },
+    });
 };

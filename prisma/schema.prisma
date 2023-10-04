@@ -123,14 +123,14 @@ model Like {
 }
 
 model PopularityScore {
-  id          String  @id @default(cuid())
-  profileId   String
-  followingId String
-  score       Int
-  profile     Profile @relation("PopularityScoreProfile", fields: [profileId], references: [id], onDelete: Cascade)
-  following   Profile @relation("PopularityScoreFollowing", fields: [followingId], references: [id], onDelete: Cascade)
+  id                String  @id @default(cuid())
+  profileUsername   String
+  followingUsername String
+  score             Int
+  profile           Profile @relation("PopularityScoreProfile", fields: [profileUsername], references: [username], onDelete: Cascade)
+  following         Profile @relation("PopularityScoreFollowing", fields: [followingUsername], references: [username], onDelete: Cascade)
 
-  @@unique([profileId, followingId])
+  @@unique([profileUsername, followingUsername])
 }
 
 model Hashtag {

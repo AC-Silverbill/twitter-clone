@@ -83,8 +83,8 @@ const getRandomIndex = (length: number, i: number): number => {
         for (let j = 0; j < 30; j++) {
             const randomIndex = getRandomIndex(profiles.length, i);
             scores.push({
-                profileId: profiles[i]!.id,
-                followingId: profiles[randomIndex]!.id,
+                profileUsername: profiles[i]!.username,
+                followingUsername: profiles[randomIndex]!.username,
                 score: Math.floor(Math.random() * (1000 - 100 + 1)) + 100,
             });
         }

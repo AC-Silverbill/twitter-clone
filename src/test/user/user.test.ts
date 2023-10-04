@@ -107,6 +107,8 @@ describe("User Test", () => {
 
         it("shouldn't allow someone to follow a user more than once", function () {});
 
+        it("shouldn't allow you to follow yourself", function () {});
+
         it("should unfollow a user", function () {});
 
         it("should throw when unfollowing if a user isn't already followed", function () {});
