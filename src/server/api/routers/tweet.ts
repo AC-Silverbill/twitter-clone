@@ -37,6 +37,7 @@ const tweetMapper = (tweet: TweetPayload): Tweet => {
         author: tweet.author as Profile,
         type: tweet.type,
         content: tweet.content!,
+        attachments: tweet.attachments,
         timeCreated: tweet.timeCreated,
         retweets: tweet._count.retweets,
         replies: tweet._count.replies,
@@ -59,21 +60,124 @@ const tweetMapper = (tweet: TweetPayload): Tweet => {
 };
 
 export const tweetRouter = createTRPCRouter({
-    // TODO: will be moved to getAllTweets
-    getFeed: protectedProcedure
+    postTweet: protectedProcedure
+        .input(
+            z.object({
+                content: z.string(),
+                attachments: z.string().array().max(4),
+            })
+        )
+        .use(getProfile)
+        .mutation(async ({ ctx, input: { content, attachments } }) => {
+            await ctx.db.tweet.create({
+                data: {
+                    authorUsername: ctx.profile.username,
+                    content,
+                    attachments,
+                },
+            });
+        }),
+
+    postRetweet: protectedProcedure
+        .input(
+            z.object({
+                referenceId: z.string().cuid(),
+                content: z.string(),
+                attachments: z.string().array().max(4),
+            })
+        )
+        .use(getProfile)
+        .mutation(async ({ ctx, input }) => {
+            const { referenceId, content, attachments } = input;
+            await ctx.db.tweet.create({
+                data: {
+                    authorUsername: ctx.profile.username,
+                    retweetReferenceId: referenceId,
+                    content,
+                    attachments,
+                    type: "RETWEET",
+                },
+            });
+            const retweetAuthor = await ctx.db.tweet.findUniqueOrThrow({
+                where: {
+                    id: referenceId,
+                },
+                select: {
+                    authorUsername: true,
+                },
+            });
+            await updateScore(ctx.db, ctx.profile.username, retweetAuthor.authorUsername, 20);
+        }),
+
+    postReply: protectedProcedure
+        .input(
+            z.object({
+                referenceId: z.string().cuid(),
+                content: z.string(),
+                attachments: z.string().array().max(4),
+            })
+        )
+        .use(getProfile)
+        .mutation(async ({ ctx, input }) => {
+            const { referenceId, content, attachments } = input;
+            await ctx.db.tweet.create({
+                data: {
+                    authorUsername: ctx.profile.username,
+                    replyReferenceId: referenceId,
+                    content,
+                    attachments,
+                    type: "REPLY",
+                },
+            });
+            const tweetAuthor = await ctx.db.tweet.findUniqueOrThrow({
+                where: {
+                    id: referenceId,
+                },
+                select: {
+                    authorUsername: true,
+                },
+            });
+            await updateScore(ctx.db, ctx.profile.username, tweetAuthor.authorUsername, 20);
+        }),
+
+    postLike: protectedProcedure
+        .input(
+            z.object({
+                tweetId: z.string().cuid(),
+            })
+        )
+        .use(getProfile)
+        .mutation(async ({ ctx, input: { tweetId } }) => {
+            await ctx.db.like.create({
+                data: {
+                    likerUsername: ctx.profile.username,
+                    tweetId,
+                },
+            });
+            const tweetAuthor = await ctx.db.tweet.findUniqueOrThrow({
+                where: {
+                    id: tweetId,
+                },
+                select: {
+                    authorUsername: true,
+                },
+            });
+            await updateScore(ctx.db, ctx.profile.username, tweetAuthor.authorUsername, 20);
+        }),
+
+    getFeedForYou: protectedProcedure
         .input(
             z.object({
                 skip: z.number(),
             })
         )
         .use(getProfile)
-        .query(async ({ ctx, input: { skip } }): Promise<Tweet[]> => {
+        .query(async ({ ctx, input: { skip } }) => {
             const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
             const getRandomIndex = () => {
                 const randomNumber = Math.random();
                 return ranges.findIndex((range, index) => randomNumber > (ranges[index - 1] ?? 0) && randomNumber < ranges[index]!) ?? -1;
             };
-            // TODO: rather just profile1, profile2
             const topFollowings = await ctx.db.popularityScore.findMany({
                 where: {
                     profileUsername: ctx.profile.username,
@@ -138,121 +242,26 @@ export const tweetRouter = createTRPCRouter({
             return feedTweets.map((tweet) => tweetMapper(tweet));
         }),
 
-    postTweet: protectedProcedure
+    getFeedTrending: protectedProcedure
         .input(
             z.object({
-                content: z.string(),
+                skip: z.number(),
             })
         )
         .use(getProfile)
-        .mutation(async ({ ctx, input: { content } }) => {
-            await ctx.db.tweet.create({
-                data: {
-                    authorUsername: ctx.profile.username,
-                    content,
-                },
-            });
-        }),
-
-    postRetweet: protectedProcedure
-        .input(
-            z.object({
-                referenceId: z.string().cuid(),
-                content: z.string(),
-            })
-        )
-        .use(getProfile)
-        .mutation(async ({ ctx, input }) => {
-            const { referenceId, content } = input;
-            await ctx.db.tweet.create({
-                data: {
-                    authorUsername: ctx.profile.username,
-                    retweetReferenceId: referenceId,
-                    content,
-                    type: "RETWEET",
-                },
-            });
-            const retweetAuthor = await ctx.db.tweet.findUniqueOrThrow({
-                where: {
-                    id: referenceId,
-                },
-                select: {
-                    authorUsername: true,
-                },
-            });
-            await updateScore(ctx.db, ctx.profile.username, retweetAuthor.authorUsername, 20);
-        }),
-
-    postReply: protectedProcedure
-        .input(
-            z.object({
-                referenceId: z.string().cuid(),
-                content: z.string(),
-            })
-        )
-        .use(getProfile)
-        .mutation(async ({ ctx, input }) => {
-            const { referenceId, content } = input;
-            await ctx.db.tweet.create({
-                data: {
-                    authorUsername: ctx.profile.username,
-                    replyReferenceId: referenceId,
-                    content,
-                    type: "REPLY",
-                },
-            });
-            const tweetAuthor = await ctx.db.tweet.findUniqueOrThrow({
-                where: {
-                    id: referenceId,
-                },
-                select: {
-                    authorUsername: true,
-                },
-            });
-            await updateScore(ctx.db, ctx.profile.username, tweetAuthor.authorUsername, 20);
-        }),
-
-    postLike: protectedProcedure
-        .input(
-            z.object({
-                tweetId: z.string().cuid(),
-            })
-        )
-        .use(getProfile)
-        .mutation(async ({ ctx, input: { tweetId } }) => {
-            await ctx.db.like.create({
-                data: {
-                    likerUsername: ctx.profile.username,
-                    tweetId,
-                },
-            });
-            const tweetAuthor = await ctx.db.tweet.findUniqueOrThrow({
-                where: {
-                    id: tweetId,
-                },
-                select: {
-                    authorUsername: true,
-                },
-            });
-            await updateScore(ctx.db, ctx.profile.username, tweetAuthor.authorUsername, 20);
-        }),
-
-    getAllTweets: protectedProcedure.query(async ({ ctx }): Promise<Tweet[]> => {
-        const tweets: TweetPayload[] = await ctx.db.tweet.findMany({
-            where: {
-                OR: [
-                    {
-                        type: "TWEET",
+        .query(async ({ ctx, input: { skip } }) => {
+            const topLatestTweets: TweetPayload[] = await ctx.db.tweet.findMany({
+                orderBy: {
+                    likes: {
+                        _count: "desc",
                     },
-                    {
-                        type: "RETWEET",
-                    },
-                ],
-            },
-            include: tweetInclude,
-        });
-        return tweets.map((tweet) => tweetMapper(tweet));
-    }),
+                },
+                skip,
+                take: 20,
+                include: tweetInclude,
+            });
+            return topLatestTweets.map((tweet) => tweetMapper(tweet));
+        }),
 
     getTweet: protectedProcedure
         .input(z.object({ tweetId: z.string().cuid() }))
@@ -333,6 +342,27 @@ export const tweetRouter = createTRPCRouter({
             });
             await updateScore(ctx.db, ctx.profile.username, username, 20);
             return likes.map((like): Tweet => tweetMapper(like.tweet));
+        }),
+
+    getMediaFromUser: protectedProcedure
+        .input(
+            z.object({
+                username: z.string(),
+            })
+        )
+        .use(getProfile)
+        .query(async ({ ctx, input: { username } }) => {
+            const mediaTweets: TweetPayload[] = await ctx.db.tweet.findMany({
+                where: {
+                    authorUsername: username,
+                    attachments: {
+                        isEmpty: false,
+                    },
+                },
+                include: tweetInclude,
+            });
+            await updateScore(ctx.db, ctx.profile.username, username, 20);
+            return mediaTweets.map((tweet) => tweetMapper(tweet));
         }),
 
     getRepliesFromTweet: protectedProcedure

@@ -85,6 +85,7 @@ model Tweet {
   authorUsername     String
   type               TweetType @default(TWEET)
   content            String?
+  attachments        String[]
   timeCreated        DateTime  @default(now())
   retweetReferenceId String?
   retweetReference   Tweet?    @relation("Retweets", fields: [retweetReferenceId], references: [id], onDelete: Cascade)
