@@ -1,10 +1,10 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import { UseTRPCQueryResult } from "@trpc/react-query/shared";
 import { Profile } from "~/types";
 import { api } from "~/utils/api";
-import useTRPC from "./useTRPC";
-import { useRouter } from "next/router";
+import placeholderProfile from "~/utils/example";
 
 interface Props {
     [propname: string]: any;
@@ -15,32 +15,18 @@ export type UserContextType = {
     isLoading: boolean;
 };
 
-export const placeholderProfile: Profile = {
-    id: "01",
-    userId: "01",
-    nickname: "01",
-    username: "01",
-    image: "/images/defaultprofile.svg",
-    joinedAt: new Date(Date.now()),
-    bio: "01",
-    tweets: 4,
-    likes: [],
-};
-
 export const UserContextProvider = (props: Props) => {
     //TODO: add case for unauthenticated
 
-    // uncomment and fix later
-    // const router = useRouter();
-    const myProfile = useTRPC("GET", "user", "getMe");
+    //@ts-ignore
+    const profileMutation = api.user.getMe.useQuery();
 
-    console.log(myProfile);
     return (
         <UserContext.Provider
             value={
-                !myProfile.isSuccess
+                !profileMutation?.isSuccess
                     ? { twitterProfile: placeholderProfile, isLoading: true }
-                    : { twitterProfile: myProfile.data!, isLoading: false }
+                    : { twitterProfile: profileMutation!.data! as Profile, isLoading: false }
             }
             {...props}
         />

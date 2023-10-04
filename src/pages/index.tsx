@@ -37,7 +37,6 @@ export default function Home() {
             <Button
                 onClick={() => {
                     //TODO: add
-                    console.log("session", sessionData);
                     createProfile({
                         nickname: "nickname here",
                         username: sessionData!.user.name!,

@@ -2,40 +2,54 @@ import react from "react";
 import { useRouter } from "next/router";
 import { Profile } from "~/types";
 import { api } from "~/utils/api";
+import placeholderProfile from "~/utils/example";
 import useUser from "~/hooks/useUser";
 
-import Custom404 from "../404";
 import Content from "~/components/Content";
-import Layout from "~/components/Layout";
+import ErrorFeed from "~/components/ErrorFeed";
 import UserFeed from "~/components/feed/UserFeed";
-import Discovery from "~/components/Discovery";
-import Loading from "~/components/Loading";
+import LoadingFeed from "~/components/LoadingFeed";
+import ErrorFeedChild from "~/components/ErrorFeedChild";
+import LoadingFeedChild from "~/components/LoadingFeedChild";
+import Tweet from "~/components/Tweet";
 
 export default function Home() {
     const router = useRouter();
     const username = router.asPath.replace(/\//, "");
     const profileTRPC = api.user.getProfile.useQuery({ username: username });
-
-    const placeholderProfile: Profile = {
-        id: "01",
-        userId: "01",
-        nickname: "01",
-        username: "01",
-        image: "/images/defaultprofile.svg",
-        joinedAt: new Date(Date.now()),
-        bio: "01",
-        tweets: [],
-        likes: [],
-    };
+    const postsTRPC = api.tweet.getTweetsFromUser.useQuery({ username: username });
 
     if (profileTRPC.isLoading) {
-        return <Loading />;
+        return <LoadingFeed />;
     }
 
+    if (profileTRPC.isError) {
+        return (
+            <ErrorFeed>
+                <div>Error getting profile</div>
+            </ErrorFeed>
+        );
+    }
+
+    const Posts = () => {
+        if (postsTRPC.isLoading) {
+            return <LoadingFeedChild />;
+        }
+
+        if (profileTRPC.isError) {
+            return (
+                <ErrorFeedChild>
+                    <div>Error getting posts</div>
+                </ErrorFeedChild>
+            );
+        }
+
+        return postsTRPC.data?.map((post) => <Tweet tweet={post} />);
+    };
     return (
         <Content>
             <UserFeed twitterProfile={profileTRPC.isSuccess ? profileTRPC.data! : placeholderProfile}>
-                <div>posts</div>
+                <Posts />
             </UserFeed>
         </Content>
     );

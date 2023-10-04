@@ -75,7 +75,7 @@ const UserFeed = ({ twitterProfile, children }: UserFeedProps) => {
                     </div>
                     <div className="flex flex-col">
                         <h2 className="font-bold text-lg py-[2px]">{twitterProfile.username}</h2>
-                        <div className="text-xs font-light">{`${twitterProfile.tweets?.length ?? "0"} posts`}</div>
+                        <div className="text-xs font-light">{`${twitterProfile.tweets ?? 0} posts`}</div>
                     </div>
                 </div>
             </StickyHeader>

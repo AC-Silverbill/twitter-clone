@@ -224,6 +224,7 @@ export const tweetRouter = createTRPCRouter({
                 },
                 include: tweetInclude,
             });
+            console.log("tweets", tweets);
             return tweets.map((tweet) => tweetMapper(tweet));
         }),
 

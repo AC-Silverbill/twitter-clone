@@ -27,9 +27,6 @@ const UserFeed = ({ twitterProfile, children }: UserFeedProps) => {
     const navigator = useNavigation();
     const username = router.asPath.replace(/\//, "");
 
-    const profileTRPC = api.user.getProfile.useQuery({ username: username });
-    const userTRPC = api.tweet.getTweetsFromUser.useQuery({ username: twitterProfile.username });
-    const followTRPC = api.user.followUser.useMutation();
     const { openEditProfileModal } = useEditProfileModal();
     const { twitterProfile: myProfile, isLoading } = useUser();
     const { COLOR_WHITE_HIGHLIGHTED, COLOR_BORDER, COLOR_SECONDARY } = getLocals("colors");
@@ -75,7 +72,7 @@ const UserFeed = ({ twitterProfile, children }: UserFeedProps) => {
                     </div>
                     <div className="flex flex-col">
                         <h2 className="font-bold text-lg py-[2px]">{twitterProfile.username}</h2>
-                        <div className="text-xs font-light">{`${twitterProfile.tweets?.length ?? "0"} posts`}</div>
+                        <div className="text-xs font-light">{`${twitterProfile.tweets ?? 0} posts`}</div>
                     </div>
                 </div>
             </StickyHeader>

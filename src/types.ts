@@ -71,7 +71,7 @@ export interface Profile {
     followers?: number;
     followings?: number;
     tweets?: number;
-    likes?: Like[];
+    likes?: number;
 }
 
 const TweetType = {

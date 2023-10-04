@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import getLocal from "~/utils/getLocal";
 
 import { PacmanLoader } from "react-spinners";
 import Content from "./Content";
 
-const Loading = () => {
+const LoadingFeed = () => {
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
 
     return (
@@ -16,4 +16,4 @@ const Loading = () => {
     );
 };
 
-export default Loading;
+export default LoadingFeed;
