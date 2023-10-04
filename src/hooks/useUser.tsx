@@ -32,9 +32,8 @@ export const UserContextProvider = (props: Props) => {
 
     // uncomment and fix later
     // const router = useRouter();
-    // const myProfile = useTRPC("GET", "user", "getMe").start({ params: [], useEffectDependencies: [router.asPath] });
+    const myProfile = useTRPC("GET", "user", "getMe");
 
-    const myProfile = api.user.getMe.useQuery();
     console.log(myProfile);
     return (
         <UserContext.Provider

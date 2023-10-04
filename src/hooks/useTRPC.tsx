@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { api } from "~/utils/api";
 
 const GET = {
@@ -45,28 +45,40 @@ const categories = {
     DELETE,
 };
 
-//    O extends Parameters<(typeof categories)[T][K][A]>,
+interface Props {
+    [propname: string]: any;
+}
 
-// function myFunction(myParam: number, myParam2: { name: string }) {}
-// function myOtherFunction(myParam: string) {}
+export type TRPCContextType = {
+    call: (args: any) => any;
+};
 
-// const myObject = {
-//     test: { what: myFunction, ishere: myOtherFunction },
-// };
+export const TRPCContextProvider = (props: Props) => {
+    //TODO: add case for unauthenticated
 
-// const exampleFunction = <T extends keyof typeof myObject, K extends keyof (typeof myObject)[T]>(category: T, something: K) => {
-//     const item = myObject[category][something];
-//     return {
-//         item: item,
-//         call: (...params: Parameters<typeof item>) => item(...params),
-//     };
-// };
+    useEffect(() => categories.GET.tweet.getAllTweets(), []);
 
-// const test4 = exampleFunction("test", "ishere");
-// const test5 = exampleFunction("test", "what");
+    return (
+        <TRPCContext.Provider
+            value={
+{call:}
+            }
+            {...props}
+        />
+    );
+};
 
-// test5.call(42, { name: "asdad" });
-// test4.call("adsajsdajad");
+export const TRPCContext = createContext<TRPCContextType>({ myFunction:  });
+
+const useUser = () => {
+    const user = useContext(TRPCContext);
+
+    if (user === undefined) {
+        throw new Error("You can only use useUser() in a UserProvider!");
+    }
+
+    return user;
+};
 
 export const useTRPC = <
     T extends keyof typeof categories,
@@ -77,10 +89,20 @@ export const useTRPC = <
     category: K,
     action: A
 ) => {
+ 
     const item = categories[method][category][action];
 
     // @ts-ignore
     type paramsType = Parameters<typeof item>;
+    const newContext = createContext({call: (args?: paramsType) => {
+        if(args) {
+            item(args)
+        } else {
+            item()
+        }
+        )
+
+
     const startTRPC = (args: { params?: paramsType; useEffectDependencies?: any[] }) => {
         type ItemFunction = (args?: any) => any & { useMutation?: any };
         const _item = item as ItemFunction;
@@ -92,9 +114,7 @@ export const useTRPC = <
                 return _item();
             }
         };
-        useEffect(() => {
-            return returnValue();
-        }, [...(args?.useEffectDependencies ?? [])]);
+
 
         return returnValue();
     };
@@ -104,5 +124,7 @@ export const useTRPC = <
         start: startTRPC,
     };
 };
+
+useTRPC('GET', 'tweet', 'getLikesFromUser').start({params: [{username: 'adajsd'}]})
 
 export default useTRPC;
