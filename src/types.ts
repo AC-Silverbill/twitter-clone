@@ -85,6 +85,7 @@ const TweetType = {
  * @param id: string
  * @param type: "tweet" | "retweet" | "reply"
  * @param content?: string
+ * @param attachments?: string[]
  * @param timeCreated: Date
  * @param reference: Tweet, which isn't the current one
  * @param retweets: number
@@ -97,6 +98,7 @@ export interface Tweet {
     author: Profile;
     type: keyof typeof TweetType;
     content?: string;
+    attachments: string[];
     timeCreated: Date;
     reference?: ReferenceTweet;
     retweets: number;

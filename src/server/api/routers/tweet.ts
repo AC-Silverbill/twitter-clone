@@ -37,6 +37,7 @@ const tweetMapper = (tweet: TweetPayload): Tweet => {
         author: tweet.author as Profile,
         type: tweet.type,
         content: tweet.content!,
+        attachments: tweet.attachments,
         timeCreated: tweet.timeCreated,
         retweets: tweet._count.retweets,
         replies: tweet._count.replies,
@@ -142,14 +143,16 @@ export const tweetRouter = createTRPCRouter({
         .input(
             z.object({
                 content: z.string(),
+                attachments: z.string().array().max(4),
             })
         )
         .use(getProfile)
-        .mutation(async ({ ctx, input: { content } }) => {
+        .mutation(async ({ ctx, input: { content, attachments } }) => {
             await ctx.db.tweet.create({
                 data: {
                     authorUsername: ctx.profile.username,
                     content,
+                    attachments,
                 },
             });
         }),
@@ -159,16 +162,18 @@ export const tweetRouter = createTRPCRouter({
             z.object({
                 referenceId: z.string().cuid(),
                 content: z.string(),
+                attachments: z.string().array().max(4),
             })
         )
         .use(getProfile)
         .mutation(async ({ ctx, input }) => {
-            const { referenceId, content } = input;
+            const { referenceId, content, attachments } = input;
             await ctx.db.tweet.create({
                 data: {
                     authorUsername: ctx.profile.username,
                     retweetReferenceId: referenceId,
                     content,
+                    attachments,
                     type: "RETWEET",
                 },
             });
@@ -188,16 +193,18 @@ export const tweetRouter = createTRPCRouter({
             z.object({
                 referenceId: z.string().cuid(),
                 content: z.string(),
+                attachments: z.string().array().max(4),
             })
         )
         .use(getProfile)
         .mutation(async ({ ctx, input }) => {
-            const { referenceId, content } = input;
+            const { referenceId, content, attachments } = input;
             await ctx.db.tweet.create({
                 data: {
                     authorUsername: ctx.profile.username,
                     replyReferenceId: referenceId,
                     content,
+                    attachments,
                     type: "REPLY",
                 },
             });
@@ -333,6 +340,27 @@ export const tweetRouter = createTRPCRouter({
             });
             await updateScore(ctx.db, ctx.profile.username, username, 20);
             return likes.map((like): Tweet => tweetMapper(like.tweet));
+        }),
+
+    getMediaFromUser: protectedProcedure
+        .input(
+            z.object({
+                username: z.string(),
+            })
+        )
+        .use(getProfile)
+        .query(async ({ ctx, input: { username } }) => {
+            const mediaTweets: TweetPayload[] = await ctx.db.tweet.findMany({
+                where: {
+                    authorUsername: username,
+                    attachments: {
+                        isEmpty: false,
+                    },
+                },
+                include: tweetInclude,
+            });
+            await updateScore(ctx.db, ctx.profile.username, username, 20);
+            return mediaTweets.map((tweet) => tweetMapper(tweet));
         }),
 
     getRepliesFromTweet: protectedProcedure
