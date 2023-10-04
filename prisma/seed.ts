@@ -48,7 +48,7 @@ const getRandomIndex = (length: number, i: number): number => {
     }
     await db.$transaction([db.user.createMany({ data: users }), db.profile.createMany({ data: profiles })]);
 
-    // ################# Generate random tweets#################
+    // ################# Generate random tweets #################
     const tweets = [];
     for (const profile of profiles) {
         for (let i = 0; i < Math.floor(Math.random() * 10); i++) {

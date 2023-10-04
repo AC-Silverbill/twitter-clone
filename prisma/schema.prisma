@@ -109,7 +109,7 @@ model Follow {
   follower         Profile @relation("Following", fields: [followerUsername], references: [username], onDelete: Cascade)
   followee         Profile @relation("Followers", fields: [followeeUsername], references: [username], onDelete: Cascade)
 
-  // TODO: unique constraint array
+  @@unique([followerUsername, followeeUsername])
 }
 
 model Like {
@@ -119,7 +119,7 @@ model Like {
   liker         Profile @relation(fields: [likerUsername], references: [username], onDelete: Cascade)
   tweet         Tweet   @relation(fields: [tweetId], references: [id], onDelete: Cascade)
 
-  // TODO: unique constraint array
+  @@unique([likerUsername, tweetId])
 }
 
 model PopularityScore {
@@ -130,7 +130,7 @@ model PopularityScore {
   profile     Profile @relation("PopularityScoreProfile", fields: [profileId], references: [id], onDelete: Cascade)
   following   Profile @relation("PopularityScoreFollowing", fields: [followingId], references: [id], onDelete: Cascade)
 
-  // TODO: unique constraint array
+  @@unique([profileId, followingId])
 }
 
 model Hashtag {
