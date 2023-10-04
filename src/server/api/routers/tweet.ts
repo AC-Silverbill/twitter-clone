@@ -60,85 +60,6 @@ const tweetMapper = (tweet: TweetPayload): Tweet => {
 };
 
 export const tweetRouter = createTRPCRouter({
-    // TODO: will be moved to getAllTweets
-    getFeed: protectedProcedure
-        .input(
-            z.object({
-                skip: z.number(),
-            })
-        )
-        .use(getProfile)
-        .query(async ({ ctx, input: { skip } }): Promise<Tweet[]> => {
-            const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
-            const getRandomIndex = () => {
-                const randomNumber = Math.random();
-                return ranges.findIndex((range, index) => randomNumber > (ranges[index - 1] ?? 0) && randomNumber < ranges[index]!) ?? -1;
-            };
-            // TODO: rather just profile1, profile2
-            const topFollowings = await ctx.db.popularityScore.findMany({
-                where: {
-                    profileUsername: ctx.profile.username,
-                },
-                orderBy: {
-                    score: "desc",
-                },
-                take: 20,
-            });
-            if (topFollowings.length < 20) {
-                // TODO: still involve the followings
-                const topLatestTweets: TweetPayload[] = await ctx.db.tweet.findMany({
-                    orderBy: {
-                        likes: {
-                            _count: "desc",
-                        },
-                    },
-                    skip,
-                    take: 20,
-                    include: tweetInclude,
-                });
-                return topLatestTweets.map((tweet) => tweetMapper(tweet));
-            }
-            const chosenProfileUsernames: string[] = [];
-            for (let i = 0; i < 20; i++) {
-                if (i < 3) chosenProfileUsernames.push(topFollowings[i]!.followingUsername);
-                else {
-                    const index = getRandomIndex();
-                    if (index < 0) {
-                        // TODO: not so much random lol
-                        const randomFollowing = await ctx.db.follow.findFirst({
-                            where: {
-                                followerUsername: ctx.profile.username,
-                            },
-                            select: {
-                                followee: {
-                                    select: {
-                                        username: true,
-                                    },
-                                },
-                            },
-                            skip,
-                        });
-                        if (randomFollowing) if (randomFollowing.followee) chosenProfileUsernames.push(randomFollowing.followee.username);
-                    } else chosenProfileUsernames.push(topFollowings[index]!.followingUsername);
-                }
-            }
-            const feedTweets: TweetPayload[] = [];
-            for (const username of chosenProfileUsernames) {
-                const tweet = await ctx.db.tweet.findFirst({
-                    where: {
-                        authorUsername: username,
-                    },
-                    include: tweetInclude,
-                    orderBy: {
-                        timeCreated: "desc",
-                    },
-                    skip,
-                });
-                if (tweet) feedTweets.push(tweet);
-            }
-            return feedTweets.map((tweet) => tweetMapper(tweet));
-        }),
-
     postTweet: protectedProcedure
         .input(
             z.object({
@@ -244,22 +165,103 @@ export const tweetRouter = createTRPCRouter({
             await updateScore(ctx.db, ctx.profile.username, tweetAuthor.authorUsername, 20);
         }),
 
-    getAllTweets: protectedProcedure.query(async ({ ctx }): Promise<Tweet[]> => {
-        const tweets: TweetPayload[] = await ctx.db.tweet.findMany({
-            where: {
-                OR: [
-                    {
-                        type: "TWEET",
+    getFeedForYou: protectedProcedure
+        .input(
+            z.object({
+                skip: z.number(),
+            })
+        )
+        .use(getProfile)
+        .query(async ({ ctx, input: { skip } }) => {
+            const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
+            const getRandomIndex = () => {
+                const randomNumber = Math.random();
+                return ranges.findIndex((range, index) => randomNumber > (ranges[index - 1] ?? 0) && randomNumber < ranges[index]!) ?? -1;
+            };
+            const topFollowings = await ctx.db.popularityScore.findMany({
+                where: {
+                    profileUsername: ctx.profile.username,
+                },
+                orderBy: {
+                    score: "desc",
+                },
+                take: 20,
+            });
+            if (topFollowings.length < 20) {
+                // TODO: still involve the followings
+                const topLatestTweets: TweetPayload[] = await ctx.db.tweet.findMany({
+                    orderBy: {
+                        likes: {
+                            _count: "desc",
+                        },
                     },
-                    {
-                        type: "RETWEET",
+                    skip,
+                    take: 20,
+                    include: tweetInclude,
+                });
+                return topLatestTweets.map((tweet) => tweetMapper(tweet));
+            }
+            const chosenProfileUsernames: string[] = [];
+            for (let i = 0; i < 20; i++) {
+                if (i < 3) chosenProfileUsernames.push(topFollowings[i]!.followingUsername);
+                else {
+                    const index = getRandomIndex();
+                    if (index < 0) {
+                        // TODO: not so much random lol
+                        const randomFollowing = await ctx.db.follow.findFirst({
+                            where: {
+                                followerUsername: ctx.profile.username,
+                            },
+                            select: {
+                                followee: {
+                                    select: {
+                                        username: true,
+                                    },
+                                },
+                            },
+                            skip,
+                        });
+                        if (randomFollowing) if (randomFollowing.followee) chosenProfileUsernames.push(randomFollowing.followee.username);
+                    } else chosenProfileUsernames.push(topFollowings[index]!.followingUsername);
+                }
+            }
+            const feedTweets: TweetPayload[] = [];
+            for (const username of chosenProfileUsernames) {
+                const tweet = await ctx.db.tweet.findFirst({
+                    where: {
+                        authorUsername: username,
                     },
-                ],
-            },
-            include: tweetInclude,
-        });
-        return tweets.map((tweet) => tweetMapper(tweet));
-    }),
+                    include: tweetInclude,
+                    orderBy: {
+                        timeCreated: "desc",
+                    },
+                    skip,
+                });
+                if (tweet) feedTweets.push(tweet);
+            }
+            return feedTweets.map((tweet) => tweetMapper(tweet));
+        }),
+
+    getFeedTrending: protectedProcedure
+        .input(
+            z.object({
+                skip: z.number(),
+            })
+        )
+        .use(getProfile)
+        .query(async ({ ctx, input: { skip } }) => {
+            const topLatestTweets: TweetPayload[] = await ctx.db.tweet.findMany({
+                orderBy: {
+                    likes: {
+                        _count: "desc",
+                    },
+                },
+                skip,
+                take: 20,
+                include: tweetInclude,
+            });
+            return topLatestTweets.map((tweet) => tweetMapper(tweet));
+        }),
 
     getTweet: protectedProcedure
         .input(z.object({ tweetId: z.string().cuid() }))
