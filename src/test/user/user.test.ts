@@ -35,63 +35,87 @@ describe("User Test", () => {
         ctx2 = await createUserContext("Aerys", "Aerys@Aerys.com");
     });
 
-    it("should create a profile for a new user", async () => {
-        const api = appRouter.user.createCaller(ctx1);
-        await api.createProfile({
-            nickname: "Kat Kat Kat",
-            username: "KattyKat",
-        });
-        const user = await db.user.findUnique({
-            where: {
-                id: ctx1.session?.user.id,
-            },
-        });
-        const profile = await db.profile.count({
-            where: {
-                userId: user?.id,
-            },
-        });
-        expect(user?.isAuthenticated).toBeTruthy();
-        expect(profile).toBe(1);
-    });
-
-    it("should throw if the username already exists", async () => {
-        const api1 = appRouter.user.createCaller(ctx1);
-        const api2 = appRouter.user.createCaller(ctx2);
-        await api1.createProfile({
-            nickname: "Kat Kat Kat",
-            username: "KattyKat",
-        });
-        await expect(
-            api2.createProfile({
-                nickname: "Aerys Aerys Aerys",
+    describe("Profile", () => {
+        it("should create a profile for a new user", async () => {
+            const api = appRouter.user.createCaller(ctx1);
+            await api.createProfile({
+                nickname: "Kat Kat Kat",
                 username: "KattyKat",
-            })
-        ).rejects.toThrow(
-            new TRPCError({
-                code: "CONFLICT",
-                message: "username already used",
-            })
-        );
-    });
-
-    it("shouldn't allow users to create more than 1 profile", async () => {
-        const api = appRouter.user.createCaller(ctx1);
-        await api.createProfile({
-            nickname: "Kat Kat Kat Kat",
-            username: "KattyKat",
+            });
+            const user = await db.user.findUnique({
+                where: {
+                    id: ctx1.session?.user.id,
+                },
+            });
+            const profile = await db.profile.count({
+                where: {
+                    userId: user?.id,
+                },
+            });
+            expect(user?.isAuthenticated).toBeTruthy();
+            expect(profile).toBe(1);
         });
-        await expect(
-            api.createProfile({
+
+        it("should throw if the username already exists", async () => {
+            const api1 = appRouter.user.createCaller(ctx1);
+            const api2 = appRouter.user.createCaller(ctx2);
+            await api1.createProfile({
+                nickname: "Kat Kat Kat",
+                username: "KattyKat",
+            });
+            await expect(
+                api2.createProfile({
+                    nickname: "Aerys Aerys Aerys",
+                    username: "KattyKat",
+                })
+            ).rejects.toThrow(
+                new TRPCError({
+                    code: "CONFLICT",
+                    message: "username already used",
+                })
+            );
+        });
+
+        it("shouldn't allow users to create more than 1 profile", async () => {
+            const api = appRouter.user.createCaller(ctx1);
+            await api.createProfile({
                 nickname: "Kat Kat Kat Kat",
                 username: "KattyKat",
-            })
-        ).rejects.toThrow(
-            new TRPCError({
-                code: "CONFLICT",
-                message: "username already used",
-            })
-        );
+            });
+            await expect(
+                api.createProfile({
+                    nickname: "Kat Kat Kat Kat",
+                    username: "KattyKat",
+                })
+            ).rejects.toThrow(
+                new TRPCError({
+                    code: "CONFLICT",
+                    message: "username already used",
+                })
+            );
+        });
+
+        it("should update a profile", function () {});
+
+        it("should throw when updating a profile if username is already used", function () {});
+
+        it("should get a profile", function () {});
+    });
+
+    describe("Follow", () => {
+        it("should follow a user", function () {});
+
+        it("shouldn't allow someone to follow a user more than once", function () {});
+
+        it("shouldn't allow you to follow yourself", function () {});
+
+        it("should unfollow a user", function () {});
+
+        it("should throw when unfollowing if a user isn't already followed", function () {});
+
+        it("should get followers", function () {});
+
+        it("should get followings", function () {});
     });
 
     it("should error from zod validation", async () => {

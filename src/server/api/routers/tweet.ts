@@ -2,6 +2,7 @@ import { createTRPCRouter, getProfile, protectedProcedure } from "~/server/api/t
 import { z } from "zod";
 import { type Profile, type Tweet } from "~/types";
 import { type Prisma } from "@prisma/client";
+import { updateScore } from "~/server/api/routers/user";
 
 const tweetInclude = {
     author: true,
@@ -66,7 +67,7 @@ export const tweetRouter = createTRPCRouter({
             })
         )
         .use(getProfile)
-        .query(async ({ ctx, input: { skip } }) => {
+        .query(async ({ ctx, input: { skip } }): Promise<Tweet[]> => {
             const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
             const getRandomIndex = () => {
                 const randomNumber = Math.random();
@@ -75,7 +76,7 @@ export const tweetRouter = createTRPCRouter({
             // TODO: rather just profile1, profile2
             const topFollowings = await ctx.db.popularityScore.findMany({
                 where: {
-                    profileId: ctx.profile.id,
+                    profileUsername: ctx.profile.username,
                 },
                 orderBy: {
                     score: "desc",
@@ -83,23 +84,58 @@ export const tweetRouter = createTRPCRouter({
                 take: 20,
             });
             if (topFollowings.length < 20) {
-                // TODO: get latest liked tweets
+                // TODO: still involve the followings
+                const topLatestTweets: TweetPayload[] = await ctx.db.tweet.findMany({
+                    orderBy: {
+                        likes: {
+                            _count: "desc",
+                        },
+                    },
+                    skip,
+                    take: 20,
+                    include: tweetInclude,
+                });
+                return topLatestTweets.map((tweet) => tweetMapper(tweet));
             }
-            const chosenProfileIds: string[] = [];
+            const chosenProfileUsernames: string[] = [];
             for (let i = 0; i < 20; i++) {
-                if (i < 3) chosenProfileIds.push(topFollowings[i]!.followingId);
+                if (i < 3) chosenProfileUsernames.push(topFollowings[i]!.followingUsername);
                 else {
                     const index = getRandomIndex();
                     if (index < 0) {
+                        // TODO: not so much random lol
                         const randomFollowing = await ctx.db.follow.findFirst({
                             where: {
                                 followerUsername: ctx.profile.username,
                             },
-                            skip: 123, // TODO: random
+                            select: {
+                                followee: {
+                                    select: {
+                                        username: true,
+                                    },
+                                },
+                            },
+                            skip,
                         });
-                    } else chosenProfileIds.push(topFollowings[index]!.followingId);
+                        if (randomFollowing) if (randomFollowing.followee) chosenProfileUsernames.push(randomFollowing.followee.username);
+                    } else chosenProfileUsernames.push(topFollowings[index]!.followingUsername);
                 }
             }
+            const feedTweets: TweetPayload[] = [];
+            for (const username of chosenProfileUsernames) {
+                const tweet = await ctx.db.tweet.findFirst({
+                    where: {
+                        authorUsername: username,
+                    },
+                    include: tweetInclude,
+                    orderBy: {
+                        timeCreated: "desc",
+                    },
+                    skip,
+                });
+                if (tweet) feedTweets.push(tweet);
+            }
+            return feedTweets.map((tweet) => tweetMapper(tweet));
         }),
 
     postTweet: protectedProcedure
@@ -136,6 +172,15 @@ export const tweetRouter = createTRPCRouter({
                     type: "RETWEET",
                 },
             });
+            const retweetAuthor = await ctx.db.tweet.findUniqueOrThrow({
+                where: {
+                    id: referenceId,
+                },
+                select: {
+                    authorUsername: true,
+                },
+            });
+            await updateScore(ctx.db, ctx.profile.username, retweetAuthor.authorUsername, 20);
         }),
 
     postReply: protectedProcedure
@@ -156,6 +201,15 @@ export const tweetRouter = createTRPCRouter({
                     type: "REPLY",
                 },
             });
+            const tweetAuthor = await ctx.db.tweet.findUniqueOrThrow({
+                where: {
+                    id: referenceId,
+                },
+                select: {
+                    authorUsername: true,
+                },
+            });
+            await updateScore(ctx.db, ctx.profile.username, tweetAuthor.authorUsername, 20);
         }),
 
     postLike: protectedProcedure
@@ -172,6 +226,15 @@ export const tweetRouter = createTRPCRouter({
                     tweetId,
                 },
             });
+            const tweetAuthor = await ctx.db.tweet.findUniqueOrThrow({
+                where: {
+                    id: tweetId,
+                },
+                select: {
+                    authorUsername: true,
+                },
+            });
+            await updateScore(ctx.db, ctx.profile.username, tweetAuthor.authorUsername, 20);
         }),
 
     getAllTweets: protectedProcedure.query(async ({ ctx }): Promise<Tweet[]> => {
@@ -193,6 +256,7 @@ export const tweetRouter = createTRPCRouter({
 
     getTweet: protectedProcedure
         .input(z.object({ tweetId: z.string().cuid() }))
+        .use(getProfile)
         .query(async ({ ctx, input: { tweetId } }): Promise<Tweet> => {
             const tweet: TweetPayload = await ctx.db.tweet.findUniqueOrThrow({
                 where: {
@@ -200,6 +264,7 @@ export const tweetRouter = createTRPCRouter({
                 },
                 include: tweetInclude,
             });
+            await updateScore(ctx.db, ctx.profile.username, tweet.authorUsername, 20);
             return tweetMapper(tweet);
         }),
 
@@ -209,6 +274,7 @@ export const tweetRouter = createTRPCRouter({
                 username: z.string(),
             })
         )
+        .use(getProfile)
         .query(async ({ ctx, input: { username } }): Promise<Tweet[]> => {
             const tweets: TweetPayload[] = await ctx.db.tweet.findMany({
                 where: {
@@ -224,7 +290,7 @@ export const tweetRouter = createTRPCRouter({
                 },
                 include: tweetInclude,
             });
-            console.log("tweets", tweets);
+            await updateScore(ctx.db, ctx.profile.username, username, 20);
             return tweets.map((tweet) => tweetMapper(tweet));
         }),
 
@@ -234,6 +300,7 @@ export const tweetRouter = createTRPCRouter({
                 username: z.string(),
             })
         )
+        .use(getProfile)
         .query(async ({ ctx, input: { username } }): Promise<Tweet[]> => {
             const replies: TweetPayload[] = await ctx.db.tweet.findMany({
                 where: {
@@ -242,6 +309,7 @@ export const tweetRouter = createTRPCRouter({
                 },
                 include: tweetInclude,
             });
+            await updateScore(ctx.db, ctx.profile.username, username, 20);
             return replies.map((reply) => tweetMapper(reply));
         }),
 
@@ -251,6 +319,7 @@ export const tweetRouter = createTRPCRouter({
                 username: z.string(),
             })
         )
+        .use(getProfile)
         .query(async ({ ctx, input: { username } }): Promise<Tweet[]> => {
             const likes = await ctx.db.like.findMany({
                 where: {
@@ -262,6 +331,7 @@ export const tweetRouter = createTRPCRouter({
                     },
                 },
             });
+            await updateScore(ctx.db, ctx.profile.username, username, 20);
             return likes.map((like): Tweet => tweetMapper(like.tweet));
         }),
 
@@ -271,6 +341,7 @@ export const tweetRouter = createTRPCRouter({
                 tweetId: z.string().cuid(),
             })
         )
+        .use(getProfile)
         .query(async ({ ctx, input: { tweetId } }): Promise<Tweet[]> => {
             const replies: TweetPayload[] = await ctx.db.tweet.findMany({
                 where: {
@@ -279,6 +350,12 @@ export const tweetRouter = createTRPCRouter({
                 },
                 include: tweetInclude,
             });
+            const tweet = await ctx.db.tweet.findUniqueOrThrow({
+                where: {
+                    id: tweetId,
+                },
+            });
+            await updateScore(ctx.db, ctx.profile.username, tweet.authorUsername, 20);
             return replies.map((reply) => tweetMapper(reply));
         }),
 });

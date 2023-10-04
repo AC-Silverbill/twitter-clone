@@ -1,7 +1,7 @@
 import { parseArgs } from "node:util";
 import { db } from "~/server/db";
 import { faker } from "@faker-js/faker";
-import { resetDB } from "~/test/helpers/reset-db";
+import { resetDB } from "./reset-db";
 
 const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
 const getRandomIndexInRange = () => {
@@ -48,7 +48,7 @@ const getRandomIndex = (length: number, i: number): number => {
     }
     await db.$transaction([db.user.createMany({ data: users }), db.profile.createMany({ data: profiles })]);
 
-    // ################# Generate random tweets#################
+    // ################# Generate random tweets #################
     const tweets = [];
     for (const profile of profiles) {
         for (let i = 0; i < Math.floor(Math.random() * 10); i++) {
@@ -83,8 +83,8 @@ const getRandomIndex = (length: number, i: number): number => {
         for (let j = 0; j < 30; j++) {
             const randomIndex = getRandomIndex(profiles.length, i);
             scores.push({
-                profileId: profiles[i]!.id,
-                followingId: profiles[randomIndex]!.id,
+                profileUsername: profiles[i]!.username,
+                followingUsername: profiles[randomIndex]!.username,
                 score: Math.floor(Math.random() * (1000 - 100 + 1)) + 100,
             });
         }
