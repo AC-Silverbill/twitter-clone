@@ -31,7 +31,6 @@ export const styles = {
 
 export const routes = {
     YOUR_HOME: "/home",
-    YOUR_EXPLORE: "/explore",
     YOUR_NOTIFICATIONS: "/notifications",
     YOUR_BOOKMARKS: "/i/bookmarks",
     USER_HOME: (username: string): AnyRoute<string> => `/${username}`,

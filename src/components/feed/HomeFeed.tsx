@@ -14,7 +14,10 @@ import StickyHeader from "../StickyHeader";
 
 const HomeFeed = () => {
     const [tweets, setTweets] = useState<TweetType[]>([]);
-    const getTweets = api.tweet.getAllTweets.useQuery();
+    const [category, setCategory] = useState<"Trending" | "Following">("Trending");
+
+    //TODO: add the 2 different routes
+    const getTweets = api.tweet.getFeed.useQuery({ skip: 2 });
     const data = getTweets.data;
     //TODO: have something in dependency for useEffect
     useEffect(() => {

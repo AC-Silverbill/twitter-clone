@@ -26,13 +26,11 @@ const Sidebar = () => {
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
     const selectedColor = getLocal("colors", "COLOR_SELECTED");
     const homeRoute = getLocal("routes", "YOUR_HOME");
-    const exploreRoute = getLocal("routes", "YOUR_EXPLORE");
     const notificationsRoute = getLocal("routes", "YOUR_NOTIFICATIONS");
     const bookmarksRoute = getLocal("routes", "YOUR_BOOKMARKS");
     const profileRoute = getLocal("routes", "USER_HOME")(twitterProfile.username);
 
     const HomeIcon = router.pathname === homeRoute ? AiTwotoneHome : AiOutlineHome;
-    const ExploreIcon = GoHash; //theres no good slightly bolder one
     const NotificationsIcon = router.pathname === notificationsRoute ? AiTwotoneBell : AiOutlineBell;
     const BookmarksIcon = router.pathname === bookmarksRoute ? FaBookmark : FaRegBookmark;
     const ProfileIcon = router.asPath.includes(profileRoute) ? BsPersonFill : BsPerson;
@@ -53,7 +51,6 @@ const Sidebar = () => {
             <nav className="sticky p-4 px-10 pb-20 border border-gray-100 h-[100vh] top-0 left-0 z-[0]">
                 <ul className="flex flex-col">
                     <SideItem icon={<HomeIcon />} route={homeRoute} title="Home" />
-                    <SideItem icon={<ExploreIcon />} route={exploreRoute} title="Explore" />
                     <SideItem icon={<NotificationsIcon />} route={notificationsRoute} title="Notifications" />
                     <SideItem icon={<BookmarksIcon />} route={bookmarksRoute} title="Bookmarks" />
                     <SideItem icon={<ProfileIcon />} route={profileRoute} title="Profile" />

@@ -17,7 +17,7 @@ const NotificationsFeed = () => {
                     <Tab title="Mentions" onClick={() => {}} />
                 </div>
             </StickyHeader>
-            <div className="h-[100vh]">asdasd</div>
+            <div className="h-[100vh]">notifications</div>
         </div>
     );
 };

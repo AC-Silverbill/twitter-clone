@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import getLocal from "~/utils/getLocal";
 
 import { BsSearch } from "react-icons/bs";
@@ -8,6 +8,8 @@ const SearchBar = () => {
     const [value, setValue] = useState("");
     const secondaryColor = getLocal("colors", "COLOR_BORDER");
     const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {});
     const setFocus = (e: any) => {
         inputRef.current?.focus();
     };

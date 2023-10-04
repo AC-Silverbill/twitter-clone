@@ -22,7 +22,6 @@ COLOR_ERROR: <div className="text-#f4212e"></div>
 ##### profile layout #####
 /
 /home                            => your home
-/explore                         => your explore
 /notifications                   => your notifications
 /i/bookmarks                     => your bookmarks
 
