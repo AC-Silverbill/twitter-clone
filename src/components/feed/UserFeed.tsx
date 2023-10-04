@@ -30,11 +30,10 @@ const UserFeed = ({ twitterProfile, children }: UserFeedProps) => {
     const { openEditProfileModal } = useEditProfileModal();
     const { twitterProfile: myProfile, isLoading } = useUser();
     const { COLOR_WHITE_HIGHLIGHTED, COLOR_BORDER, COLOR_SECONDARY } = getLocals("colors");
-    const { USER_HOME, USER_REPLIES, USER_HIGHLIGHTS, USER_MEDIA, USER_LIKES } = getLocals("routes");
+    const { USER_HOME, USER_REPLIES, USER_MEDIA, USER_LIKES } = getLocals("routes");
     const userRoutes = {
         USER_HOME: USER_HOME(twitterProfile.username),
         USER_REPLIES: USER_REPLIES(twitterProfile.username),
-        USER_HIGHLIGHTS: USER_HIGHLIGHTS(twitterProfile.username),
         USER_MEDIA: USER_MEDIA(twitterProfile.username),
         USER_LIKES: USER_LIKES(twitterProfile.username),
     };
@@ -112,7 +111,6 @@ const UserFeed = ({ twitterProfile, children }: UserFeedProps) => {
                         <div className="flex">
                             <Tab route={USER_HOME(twitterProfile.username)} title="Posts" className="" />
                             <Tab route={USER_REPLIES(twitterProfile.username)} title="Replies" />
-                            <Tab route={USER_HIGHLIGHTS(twitterProfile.username)} title="Highlights" />
                             <Tab route={USER_MEDIA(twitterProfile.username)} title="Media" />
                             <Tab route={USER_LIKES(twitterProfile.username)} title="Likes" />
                         </div>

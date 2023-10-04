@@ -36,7 +36,6 @@ export const routes = {
     YOUR_BOOKMARKS: "/i/bookmarks",
     USER_HOME: (username: string): AnyRoute<string> => `/${username}`,
     USER_REPLIES: (username: string): AnyRoute<string> => `/${username}/with_replies`,
-    USER_HIGHLIGHTS: (username: string): AnyRoute<string> => `/${username}/highlights`,
     USER_MEDIA: (username: string): AnyRoute<string> => `/${username}/media`,
     USER_LIKES: (username: string): AnyRoute<string> => `/${username}/likes`,
     USER_TWEET: (username: string, id: number): AnyRoute<string> => `/${username}/status/${id}`,

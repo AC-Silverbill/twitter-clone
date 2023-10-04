@@ -1,23 +1,64 @@
 import react from "react";
 import { useRouter } from "next/router";
 import { Profile } from "~/types";
+import Image from "next/image";
 import { api } from "~/utils/api";
-import useUser from "~/hooks/useUser";
 import placeholderProfile from "~/utils/example";
+import useUser from "~/hooks/useUser";
 
 import Content from "~/components/Content";
+import ErrorFeed from "~/components/ErrorFeed";
 import UserFeed from "~/components/feed/UserFeed";
+import LoadingFeed from "~/components/LoadingFeed";
+import ErrorFeedChild from "~/components/ErrorFeedChild";
+import LoadingFeedChild from "~/components/LoadingFeedChild";
 
 export default function Home() {
     const router = useRouter();
-    const username = router.asPath.replace(/\//, "");
-    const test = api.user.getProfile.useQuery({ username: username });
-    const { twitterProfile, isLoading } = useUser();
+    const username = router.query.user as string;
+    const profileTRPC = api.user.getProfile.useQuery({ username: username });
 
+    // TODO: rewrite this to be directed to getMedia route
+    const mediaTRPC = api.tweet.getRepliesFromUser.useQuery({ username: username });
+
+    if (profileTRPC.isLoading) {
+        return <LoadingFeed />;
+    }
+
+    //TODO: mirror twitter's error message with no profile is found
+    if (profileTRPC.isError) {
+        return (
+            <ErrorFeed>
+                <div>Error getting profile</div>
+            </ErrorFeed>
+        );
+    }
+
+    const Posts = () => {
+        if (mediaTRPC.isLoading) {
+            return <LoadingFeedChild />;
+        }
+
+        if (profileTRPC.isError) {
+            return (
+                <ErrorFeedChild>
+                    <div>Error getting media</div>
+                </ErrorFeedChild>
+            );
+        }
+
+        if (mediaTRPC.data?.length === 0) {
+            return <div className="flex justify-center items-center p-2">No media found :(</div>;
+        } else {
+            return mediaTRPC.data?.map((post) => (
+                <Image src={post.content ?? ""} alt={`Image of ${profileTRPC.data?.nickname ?? "a user"}'s tweet.`} fill />
+            ));
+        }
+    };
     return (
         <Content>
-            <UserFeed twitterProfile={isLoading ? placeholderProfile : twitterProfile!}>
-                <div>media</div>
+            <UserFeed twitterProfile={profileTRPC.isSuccess ? profileTRPC.data! : placeholderProfile}>
+                <Posts />
             </UserFeed>
         </Content>
     );

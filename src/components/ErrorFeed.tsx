@@ -13,8 +13,8 @@ const ErrorFeed = ({ children, className }: ErrorFeedProps) => {
     return (
         <Content>
             <div className={twMerge(`h-full w-full flex justify-center items-center`, className)}>
-                <div className="flex flex-col">
-                    <BiError size={100} />
+                <div className="flex flex-col justify-center items-center">
+                    <BiError size={100} color={"red"} />
                     {children}
                 </div>
             </div>

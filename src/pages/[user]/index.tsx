@@ -15,7 +15,7 @@ import Tweet from "~/components/Tweet";
 
 export default function Home() {
     const router = useRouter();
-    const username = router.asPath.replace(/\//, "");
+    const username = router.query.user as string;
     const profileTRPC = api.user.getProfile.useQuery({ username: username });
     const postsTRPC = api.tweet.getTweetsFromUser.useQuery({ username: username });
 
@@ -23,6 +23,7 @@ export default function Home() {
         return <LoadingFeed />;
     }
 
+    //TODO: mirror twitter's error message with no profile is found
     if (profileTRPC.isError) {
         return (
             <ErrorFeed>
@@ -44,7 +45,11 @@ export default function Home() {
             );
         }
 
-        return postsTRPC.data?.map((post) => <Tweet tweet={post} />);
+        if (postsTRPC.data?.length === 0) {
+            return <div className="flex justify-center items-center p-2">No posts found :(</div>;
+        } else {
+            return postsTRPC.data?.map((post) => <Tweet tweet={post} />);
+        }
     };
     return (
         <Content>
