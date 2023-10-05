@@ -4,7 +4,7 @@ import { type Profile, type Tweet } from "~/types";
 import { type Prisma } from "@prisma/client";
 import { updateScore } from "~/server/api/routers/user";
 
-const tweetInclude = {
+export const tweetInclude = {
     author: true,
     retweetReference: {
         select: {
@@ -29,9 +29,9 @@ const tweetInclude = {
     },
 } satisfies Prisma.TweetInclude;
 
-type TweetPayload = Prisma.TweetGetPayload<{ include: typeof tweetInclude }>;
+export type TweetPayload = Prisma.TweetGetPayload<{ include: typeof tweetInclude }>;
 
-const tweetMapper = (tweet: TweetPayload): Tweet => {
+export const tweetMapper = (tweet: TweetPayload): Tweet => {
     return {
         id: tweet.id,
         author: tweet.author as Profile,
