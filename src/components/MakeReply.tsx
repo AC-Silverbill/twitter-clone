@@ -24,10 +24,10 @@ const MakeReply = ({ tweetReply }: MakeReplyProps) => {
     //TODO: import MaxContent from a global settings list. maybe throw it in constants?
     const maxContent = 300;
 
-    //TODO: make this generic to call for the user's Profile (with a getTwittterUser() maybe)
     const { twitterProfile } = useUser();
     const [isExpanded, setIsExpanded] = useState(false);
     const [tweetContent, setTweetContent] = useState("");
+    const [attachments, setAttachments] = useState<File[]>([]);
     const { closeReplyModal, reply, isOpen } = useReplyModal();
     const { COLOR_PRIMARY, COLOR_PRIMARY_DISABLED, COLOR_WHITE_HIGHLIGHTED, COLOR_WARNING, COLOR_ERROR } = getLocals("colors");
 
@@ -45,7 +45,7 @@ const MakeReply = ({ tweetReply }: MakeReplyProps) => {
     //TODO: work on postReply
     const replyMutation = api.tweet.postReply.useMutation();
     const postReply = () => {
-        replyMutation.mutate({ referenceId: tweetReply.id, content: tweetContent });
+        replyMutation.mutate({ referenceId: tweetReply.id, content: tweetContent, attachments: attachments });
     };
 
     return (
@@ -62,7 +62,7 @@ const MakeReply = ({ tweetReply }: MakeReplyProps) => {
                 {isExpanded && <WhoCanReply onClick={() => {}} />}
                 <div className={`${isExpanded && `border-b py-1`}`}></div>
                 <div className="pt-2 flex w-full">
-                    <BottomIcons />
+                    <BottomIcons useStateAttachments={{ attachments: attachments, setAttachments: setAttachments }} />
                     <div className="flex ml-auto gap-2">
                         {isExpanded && (
                             <>

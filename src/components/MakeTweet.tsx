@@ -24,10 +24,12 @@ interface MakeTweetProps {
 
 const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
     const { twitterProfile } = useUser();
-    const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const [tweetContent, setTweetContent] = useState("");
+    const [attachments, setAttachments] = useState<File[]>([]);
+    const [isExpanded, setIsExpanded] = useState(defaultExpanded);
     const { COLOR_ERROR } = getLocals("colors");
-    //TODO: import MaxContent from a global settings list. maybe throw it in constants?
+
+    //TODO: import maxContent from a global settings list. maybe throw it in constants?
     const maxContent = 400;
     const percentage = Math.round((tweetContent.length / maxContent) * 100);
     const postDisabled = tweetContent.length === 0 || tweetContent.length > maxContent;
@@ -75,7 +77,7 @@ const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
                 {isExpanded && <WhoCanReply onClick={() => {}} />}
                 <div className={`${isExpanded && `border-b py-1`}`}></div>
                 <div className="pt-2 flex w-full">
-                    <BottomIcons />
+                    <BottomIcons useStateAttachments={{ attachments: attachments, setAttachments: setAttachments }} />
                     <div className="flex ml-auto gap-2">
                         {isExpanded && (
                             <>
