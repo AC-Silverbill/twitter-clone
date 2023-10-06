@@ -52,21 +52,9 @@ export const tweetRouter = createTRPCRouter({
             })
         )
         .mutation(async ({ ctx, input: { tweetId } }) => {
-            await ctx.db.like.create({
-                data: {
-                    likerUsername: ctx.profile.username,
-                    tweetId,
-                },
-            });
-            const tweetAuthor = await ctx.db.tweet.findUniqueOrThrow({
-                where: {
-                    id: tweetId,
-                },
-                select: {
-                    authorUsername: true,
-                },
-            });
-            await updateScore(ctx.db, ctx.profile.username, tweetAuthor.authorUsername, 20);
+            await ctx.repository.like.likeTweet(tweetId);
+            const tweet = await ctx.repository.tweet.getTweet(tweetId);
+            if (tweet.authorUsername !== ctx.profile.username) await updateScore(ctx.db, ctx.profile.username, tweet.authorUsername, 20);
         }),
 
     getFeedForYou: protectedProcedure
@@ -205,18 +193,9 @@ export const tweetRouter = createTRPCRouter({
             })
         )
         .query(async ({ ctx, input: { username } }): Promise<Tweet[]> => {
-            const likes = await ctx.db.like.findMany({
-                where: {
-                    likerUsername: username,
-                },
-                include: {
-                    tweet: {
-                        include: tweetInclude,
-                    },
-                },
-            });
-            await updateScore(ctx.db, ctx.profile.username, username, 20);
-            return likes.map((like): Tweet => tweetMapper(like.tweet));
+            const likedTweets = await ctx.repository.like.getLikesFromUser(username);
+            if (username !== ctx.profile.username) await updateScore(ctx.db, ctx.profile.username, username, 20);
+            return likedTweets.map((tweet): Tweet => tweetMapper(tweet));
         }),
 
     getMediaFromUser: protectedProcedure
