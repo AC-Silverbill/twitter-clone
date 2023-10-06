@@ -52,11 +52,11 @@ const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
     };
 
     const postQuote = () => {
-        retweetMutation.mutate({ referenceId: quote!.id, content: tweetContent });
+        retweetMutation.mutate({ referenceId: quote!.id, content: tweetContent, attachments: [] });
     };
 
     const postTweet = () => {
-        tweetMutation.mutate({ content: tweetContent });
+        tweetMutation.mutate({ content: tweetContent, attachments: [] });
     };
 
     const clearTweet = () => {};

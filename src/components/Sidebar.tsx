@@ -61,6 +61,8 @@ const Sidebar = () => {
                     >
                         Post
                     </Button>
+                    <label htmlFor="fileTest">Click Me</label>
+                    <input id="fileTest" type="file" />
                 </ul>
             </nav>
         );
