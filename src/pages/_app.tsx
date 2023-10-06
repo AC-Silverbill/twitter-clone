@@ -4,8 +4,8 @@ import { type AppType } from "next/app";
 
 import { api } from "~/utils/api";
 
-import "~/styles/globals.css";
 import "@uploadthing/react/styles.css";
+import "~/styles/globals.css";
 import UserProvider from "~/providers/UserProvider";
 import ModalProvider from "~/providers/ModalProvider";
 
