@@ -1,5 +1,5 @@
 import { Repository } from "~/server/repositories/Repository";
-import { tweetInclude, TweetPayload } from "~/server/data-model";
+import { tweetInclude, type TweetPayload } from "~/server/data-model";
 
 export class LikeRepository extends Repository {
     async likeTweet(tweetId: string) {
@@ -12,7 +12,6 @@ export class LikeRepository extends Repository {
     }
 
     async getLikesFromUser(username: string): Promise<TweetPayload[]> {
-        // TODO: order by time liked
         const likedTweets = await this.db.like.findMany({
             where: {
                 likerUsername: username,
@@ -21,6 +20,9 @@ export class LikeRepository extends Repository {
                 tweet: {
                     include: tweetInclude,
                 },
+            },
+            orderBy: {
+                timeLiked: "desc",
             },
         });
         return likedTweets.map((likedTweet) => likedTweet.tweet);

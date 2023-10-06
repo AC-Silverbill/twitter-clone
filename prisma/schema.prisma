@@ -116,11 +116,12 @@ model Follow {
 }
 
 model Like {
-  id            String  @id @default(cuid())
+  id            String   @id @default(cuid())
   likerUsername String
   tweetId       String
-  liker         Profile @relation(fields: [likerUsername], references: [username], onDelete: Cascade)
-  tweet         Tweet   @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+  timeLiked     DateTime @default(now())
+  liker         Profile  @relation(fields: [likerUsername], references: [username], onDelete: Cascade)
+  tweet         Tweet    @relation(fields: [tweetId], references: [id], onDelete: Cascade)
 
   @@unique([likerUsername, tweetId])
 }
