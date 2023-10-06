@@ -1,63 +1,8 @@
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
-import { type Profile, type Tweet } from "~/types";
-import { type Prisma } from "@prisma/client";
 import { updateScore } from "~/server/api/routers/user";
-
-export const tweetInclude = {
-    author: true,
-    retweetReference: {
-        select: {
-            id: true,
-            author: true,
-            content: true,
-        },
-    },
-    replyReference: {
-        select: {
-            id: true,
-            author: true,
-            content: true,
-        },
-    },
-    _count: {
-        select: {
-            retweets: true,
-            replies: true,
-            likes: true,
-        },
-    },
-} satisfies Prisma.TweetInclude;
-
-export type TweetPayload = Prisma.TweetGetPayload<{ include: typeof tweetInclude }>;
-
-export const tweetMapper = (tweet: TweetPayload): Tweet => {
-    return {
-        id: tweet.id,
-        author: tweet.author as Profile,
-        type: tweet.type,
-        content: tweet.content!,
-        attachments: tweet.attachments,
-        timeCreated: tweet.timeCreated,
-        retweets: tweet._count.retweets,
-        replies: tweet._count.replies,
-        likes: tweet._count.likes,
-        reference:
-            tweet.type === "RETWEET"
-                ? {
-                      id: tweet.retweetReference!.id,
-                      author: tweet.retweetReference!.author as Profile,
-                      content: tweet.retweetReference!.content!,
-                  }
-                : tweet.type === "REPLY"
-                ? {
-                      id: tweet.replyReference!.id,
-                      author: tweet.replyReference!.author as Profile,
-                      content: tweet.replyReference!.content!,
-                  }
-                : undefined,
-    };
-};
+import { tweetInclude, tweetMapper, type TweetPayload } from "~/server/data-model";
+import { type Tweet } from "~/types";
 
 export const tweetRouter = createTRPCRouter({
     postTweet: protectedProcedure
