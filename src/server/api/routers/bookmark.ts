@@ -5,6 +5,10 @@ import { tweetInclude, tweetMapper, type TweetPayload } from "~/server/api/route
 import { type Tweet } from "~/types";
 
 export const bookmarkRouter = createTRPCRouter({
+    usingRepo: protectedProcedure.mutation(async ({ ctx }) => {
+        console.log(await ctx.repository.bookmark.getBookmark());
+    }),
+
     postBookmark: protectedProcedure
         .input(
             z.object({
