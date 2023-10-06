@@ -1,4 +1,4 @@
-import { createTRPCRouter, getProfile, protectedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { updateScore } from "~/server/api/routers/user";
 import { tweetInclude, tweetMapper, type TweetPayload } from "~/server/api/routers/tweet";
@@ -15,7 +15,6 @@ export const bookmarkRouter = createTRPCRouter({
                 tweetId: z.string(),
             })
         )
-        .use(getProfile)
         .mutation(async ({ ctx, input: { tweetId } }) => {
             await ctx.db.bookmark.create({
                 data: {
@@ -34,7 +33,7 @@ export const bookmarkRouter = createTRPCRouter({
             await updateScore(ctx.db, ctx.profile.username, tweetAuthor.authorUsername, 20);
         }),
 
-    getBookmarks: protectedProcedure.use(getProfile).query(async ({ ctx }): Promise<Tweet[]> => {
+    getBookmarks: protectedProcedure.query(async ({ ctx }): Promise<Tweet[]> => {
         const bookmarkedTweets = await ctx.db.bookmark.findMany({
             where: {
                 bookmarkerUsername: ctx.profile.username,

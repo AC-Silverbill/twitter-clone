@@ -1,4 +1,4 @@
-import { createTRPCRouter, getProfile, protectedProcedure, publicProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure, publicProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { resetDB } from "../../../../prisma/reset-db";
 import { type Profile } from "~/types";
@@ -51,7 +51,6 @@ export const userRouter = createTRPCRouter({
                 website: z.string().optional(),
             })
         )
-        .use(getProfile)
         .mutation(async ({ ctx, input }) => {
             const { nickname, username, bio, location, website } = input;
             if (username) {
@@ -76,7 +75,7 @@ export const userRouter = createTRPCRouter({
             });
         }),
 
-    getMe: protectedProcedure.use(getProfile).query(({ ctx }): Profile => {
+    getMe: protectedProcedure.query(({ ctx }): Profile => {
         return ctx.profile;
     }),
 
@@ -100,7 +99,6 @@ export const userRouter = createTRPCRouter({
                 username: z.string(),
             })
         )
-        .use(getProfile)
         .mutation(async ({ ctx, input }) => {
             const alreadyFollowing = await ctx.db.follow.count({
                 where: {
@@ -126,7 +124,6 @@ export const userRouter = createTRPCRouter({
                 username: z.string(),
             })
         )
-        .use(getProfile)
         .mutation(async ({ ctx, input }) => {
             const following = await ctx.db.follow.findFirst({
                 where: {
@@ -152,7 +149,7 @@ export const userRouter = createTRPCRouter({
             });
         }),
 
-    getFollowers: protectedProcedure.use(getProfile).query(async ({ ctx }): Promise<Profile[]> => {
+    getFollowers: protectedProcedure.query(async ({ ctx }): Promise<Profile[]> => {
         const followers = await ctx.db.follow.findMany({
             where: {
                 followeeUsername: ctx.profile.username,
@@ -164,7 +161,7 @@ export const userRouter = createTRPCRouter({
         return followers.map((follower): Profile => follower.follower as Profile);
     }),
 
-    getFollowings: protectedProcedure.use(getProfile).query(async ({ ctx }) => {
+    getFollowings: protectedProcedure.query(async ({ ctx }) => {
         const followings = await ctx.db.follow.findMany({
             where: {
                 followerUsername: ctx.profile.username,

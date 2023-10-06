@@ -1,4 +1,4 @@
-import { createTRPCRouter, getProfile, protectedProcedure } from "~/server/api/trpc";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 import { z } from "zod";
 import { type Profile, type Tweet } from "~/types";
 import { type Prisma } from "@prisma/client";
@@ -67,7 +67,6 @@ export const tweetRouter = createTRPCRouter({
                 attachments: z.string().array().max(4),
             })
         )
-        .use(getProfile)
         .mutation(async ({ ctx, input: { content, attachments } }) => {
             await ctx.db.tweet.create({
                 data: {
@@ -86,7 +85,6 @@ export const tweetRouter = createTRPCRouter({
                 attachments: z.string().array().max(4),
             })
         )
-        .use(getProfile)
         .mutation(async ({ ctx, input }) => {
             const { referenceId, content, attachments } = input;
             await ctx.db.tweet.create({
@@ -117,7 +115,6 @@ export const tweetRouter = createTRPCRouter({
                 attachments: z.string().array().max(4),
             })
         )
-        .use(getProfile)
         .mutation(async ({ ctx, input }) => {
             const { referenceId, content, attachments } = input;
             await ctx.db.tweet.create({
@@ -146,7 +143,6 @@ export const tweetRouter = createTRPCRouter({
                 tweetId: z.string().cuid(),
             })
         )
-        .use(getProfile)
         .mutation(async ({ ctx, input: { tweetId } }) => {
             await ctx.db.like.create({
                 data: {
@@ -171,7 +167,6 @@ export const tweetRouter = createTRPCRouter({
                 skip: z.number(),
             })
         )
-        .use(getProfile)
         .query(async ({ ctx, input: { skip } }) => {
             const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
             const getRandomIndex = () => {
@@ -248,7 +243,6 @@ export const tweetRouter = createTRPCRouter({
                 skip: z.number(),
             })
         )
-        .use(getProfile)
         .query(async ({ ctx, input: { skip } }) => {
             const topLatestTweets: TweetPayload[] = await ctx.db.tweet.findMany({
                 orderBy: {
@@ -265,7 +259,6 @@ export const tweetRouter = createTRPCRouter({
 
     getTweet: protectedProcedure
         .input(z.object({ tweetId: z.string().cuid() }))
-        .use(getProfile)
         .query(async ({ ctx, input: { tweetId } }): Promise<Tweet> => {
             const tweet: TweetPayload = await ctx.db.tweet.findUniqueOrThrow({
                 where: {
@@ -283,7 +276,6 @@ export const tweetRouter = createTRPCRouter({
                 username: z.string(),
             })
         )
-        .use(getProfile)
         .query(async ({ ctx, input: { username } }): Promise<Tweet[]> => {
             const tweets: TweetPayload[] = await ctx.db.tweet.findMany({
                 where: {
@@ -309,7 +301,6 @@ export const tweetRouter = createTRPCRouter({
                 username: z.string(),
             })
         )
-        .use(getProfile)
         .query(async ({ ctx, input: { username } }): Promise<Tweet[]> => {
             const replies: TweetPayload[] = await ctx.db.tweet.findMany({
                 where: {
@@ -328,7 +319,6 @@ export const tweetRouter = createTRPCRouter({
                 username: z.string(),
             })
         )
-        .use(getProfile)
         .query(async ({ ctx, input: { username } }): Promise<Tweet[]> => {
             const likes = await ctx.db.like.findMany({
                 where: {
@@ -350,7 +340,6 @@ export const tweetRouter = createTRPCRouter({
                 username: z.string(),
             })
         )
-        .use(getProfile)
         .query(async ({ ctx, input: { username } }) => {
             const mediaTweets: TweetPayload[] = await ctx.db.tweet.findMany({
                 where: {
@@ -371,7 +360,6 @@ export const tweetRouter = createTRPCRouter({
                 tweetId: z.string().cuid(),
             })
         )
-        .use(getProfile)
         .query(async ({ ctx, input: { tweetId } }): Promise<Tweet[]> => {
             const replies: TweetPayload[] = await ctx.db.tweet.findMany({
                 where: {

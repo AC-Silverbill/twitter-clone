@@ -125,26 +125,13 @@ const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
             userId: ctx.session?.user.id,
         },
     })) as Profile;
-    // const bookmarkRepository = new BookmarkRepository(ctx.db, profile);
     const repository = new RepositoryFactory(ctx.db, profile);
     return next({
         ctx: {
             // infers the `session` as non-nullable
             session: { ...ctx.session, user: ctx.session.user },
-            repository,
-        },
-    });
-});
-
-export const getProfile = t.middleware(async ({ ctx, next }) => {
-    const profile = (await ctx.db.profile.findUniqueOrThrow({
-        where: {
-            userId: ctx.session?.user.id,
-        },
-    })) as Profile;
-    return next({
-        ctx: {
             profile,
+            repository,
         },
     });
 });
