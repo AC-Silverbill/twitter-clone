@@ -9,13 +9,14 @@ import useUser from "~/hooks/useUser";
 import useTweetModal from "~/hooks/useTweetModal";
 import useAuthModal from "~/hooks/useAuthModal";
 
+import Button from "./Button";
+import Signout from "./Signout";
+import SideItem from "./SideItem";
 import { AiOutlineHome, AiTwotoneHome, AiOutlineBell, AiTwotoneBell } from "react-icons/ai";
 import { BsPerson, BsPersonFill } from "react-icons/bs";
-import { GoHash } from "react-icons/go";
 import { FaRegBookmark, FaBookmark } from "react-icons/fa";
-import SideItem from "./SideItem";
-import Signout from "./Signout";
-import Button from "./Button";
+import { UploadButton, UploadDropzone, Uploader } from "~/utils/uploadthing";
+import UploadImage from "./messaging/UploadFile";
 
 const Sidebar = () => {
     const router = useRouter();
@@ -61,8 +62,19 @@ const Sidebar = () => {
                     >
                         Post
                     </Button>
-                    <label htmlFor="fileTest">Click Me</label>
-                    <input id="fileTest" type="file" />
+                    <UploadButton
+                        endpoint="imageUploader"
+                        onClientUploadComplete={(res) => {
+                            // Do something with the response
+                            console.log("Files: ", res);
+                            alert("Upload Completed");
+                        }}
+                        onUploadError={(error: Error) => {
+                            // Do something with the error.
+                            alert(`ERROR! ${error.message}`);
+                        }}
+                        className="p-2"
+                    />
                 </ul>
             </nav>
         );
