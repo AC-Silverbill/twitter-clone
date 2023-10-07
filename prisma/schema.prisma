@@ -80,7 +80,7 @@ model Profile {
   popularityScoreFollowings PopularityScore[] @relation("PopularityScoreFollowing")
   bookmarks                 Bookmark[]
   SendedNotifications       Notification[]    @relation("SenderProfile")
-  ReceivedNotifications     Notification[]    @relation("RecieverProfile")
+  ReceivedNotifications     Notification[]    @relation("ReceiverProfile")
 }
 
 model Tweet {
@@ -152,11 +152,11 @@ model Notification {
   id                      String            @id @default(cuid())
   action                  NotifcationAction
   senderProfileUsername   String
-  recieverProfileUsername String
+  receiverProfileUsername String
   isSeen                  Boolean           @default(false)
   sentAt                  DateTime          @default(now())
   senderProfile           Profile           @relation("SenderProfile", fields: [senderProfileUsername], references: [username])
-  recieverProfile         Profile           @relation("RecieverProfile", fields: [recieverProfileUsername], references: [username])
+  recieverProfile         Profile           @relation("ReceiverProfile", fields: [receiverProfileUsername], references: [username])
 }
 
 enum NotifcationAction {
