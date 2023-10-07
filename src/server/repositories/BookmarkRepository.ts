@@ -11,6 +11,17 @@ export class BookmarkRepository extends Repository {
         });
     }
 
+    async removeBookmark(tweetId: string) {
+        await this.db.bookmark.delete({
+            where: {
+                bookmarkerUsername_tweetId: {
+                    bookmarkerUsername: this.profile.username,
+                    tweetId,
+                },
+            },
+        });
+    }
+
     async getBookmarks(): Promise<TweetPayload[]> {
         const bookmarksWithTweets = await this.db.bookmark.findMany({
             where: {

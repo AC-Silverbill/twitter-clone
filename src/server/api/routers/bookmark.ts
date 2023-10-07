@@ -17,8 +17,18 @@ export const bookmarkRouter = createTRPCRouter({
             await updateScore(ctx.db, ctx.profile.username, tweet.authorUsername, 20);
         }),
 
+    removeBookmark: protectedProcedure
+        .input(
+            z.object({
+                tweetId: z.string(),
+            })
+        )
+        .mutation(async ({ ctx, input: { tweetId } }) => {
+            await ctx.repository.bookmark.removeBookmark(tweetId);
+        }),
+
     getBookmarks: protectedProcedure.query(async ({ ctx }): Promise<Tweet[]> => {
-        const bookmarkedTweets = await ctx.repository.bookmark.getBookmarks()
+        const bookmarkedTweets = await ctx.repository.bookmark.getBookmarks();
         return bookmarkedTweets.map((bookmarkedTweet) => {
             return tweetMapper(bookmarkedTweet);
         });

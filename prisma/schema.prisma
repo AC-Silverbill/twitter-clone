@@ -146,6 +146,8 @@ model Bookmark {
   timeBookmarked     DateTime @default(now())
   bookmarker         Profile  @relation(fields: [bookmarkerUsername], references: [username], onDelete: Cascade)
   tweet              Tweet    @relation(fields: [tweetId], references: [id], onDelete: Cascade)
+
+  @@unique([bookmarkerUsername, tweetId])
 }
 
 model Notification {
