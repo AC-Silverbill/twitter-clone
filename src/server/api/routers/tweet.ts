@@ -45,7 +45,11 @@ export const tweetRouter = createTRPCRouter({
             if (reply.authorUsername !== ctx.profile.username) await updateScore(ctx.db, ctx.profile.username, reply.authorUsername, 20);
         }),
 
-    postLike: protectedProcedure
+    removeTweet: protectedProcedure.input(z.object({ tweetId: z.string() })).mutation(async ({ ctx, input: { tweetId } }) => {
+        await ctx.repository.tweet.removeTweet(tweetId);
+    }),
+
+    likeTweet: protectedProcedure
         .input(
             z.object({
                 tweetId: z.string().cuid(),
@@ -55,6 +59,16 @@ export const tweetRouter = createTRPCRouter({
             await ctx.repository.like.likeTweet(tweetId);
             const tweet = await ctx.repository.tweet.getTweet(tweetId);
             if (tweet.authorUsername !== ctx.profile.username) await updateScore(ctx.db, ctx.profile.username, tweet.authorUsername, 20);
+        }),
+
+    unlikeTweet: protectedProcedure
+        .input(
+            z.object({
+                tweetId: z.string().cuid(),
+            })
+        )
+        .mutation(async ({ ctx, input: { tweetId } }) => {
+            await ctx.repository.like.unlikeTweet(tweetId);
         }),
 
     getFeedForYou: protectedProcedure
@@ -210,6 +224,17 @@ export const tweetRouter = createTRPCRouter({
             return mediaTweets.map((tweet) => tweetMapper(tweet));
         }),
 
+    getRetweetsFromTweet: protectedProcedure
+        .input(
+            z.object({
+                tweetId: z.string().cuid(),
+            })
+        )
+        .query(async ({ ctx, input: { tweetId } }) => {
+            const retweets = await ctx.repository.tweet.getRetweetsFromTweet(tweetId);
+            return retweets.map((retweet) => tweetMapper(retweet));
+        }),
+
     getRepliesFromTweet: protectedProcedure
         .input(
             z.object({
@@ -221,5 +246,18 @@ export const tweetRouter = createTRPCRouter({
             const tweet = await ctx.repository.tweet.getTweet(tweetId);
             if (tweet.authorUsername !== ctx.profile.username) await updateScore(ctx.db, ctx.profile.username, tweet.authorUsername, 20);
             return replies.map((reply) => tweetMapper(reply));
+        }),
+
+    getLikesFromTweet: protectedProcedure
+        .input(
+            z.object({
+                tweetId: z.string().cuid(),
+            })
+        )
+        .query(async ({ ctx, input: { tweetId } }) => {
+            const likerProfiles = await ctx.repository.like.getLikesFromTweet(tweetId);
+            const tweet = await ctx.repository.tweet.getTweet(tweetId);
+            if (tweet.authorUsername !== ctx.profile.username) await updateScore(ctx.db, ctx.profile.username, tweet.authorUsername, 20);
+            return likerProfiles;
         }),
 });

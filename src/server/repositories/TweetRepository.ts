@@ -32,12 +32,34 @@ export class TweetRepository extends Repository {
         });
     }
 
+    async removeTweet(tweetId: string) {
+        await this.db.tweet.delete({
+            where: {
+                id: tweetId,
+                authorUsername: this.profile.username,
+            },
+        });
+    }
+
     async getTweet(tweetId: string): Promise<TweetPayload> {
         return await this.db.tweet.findUniqueOrThrow({
             where: {
                 id: tweetId,
             },
             include: tweetInclude,
+        });
+    }
+
+    async getRetweetsFromTweet(tweetId: string): Promise<TweetPayload[]> {
+        return await this.db.tweet.findMany({
+            where: {
+                retweetReferenceId: tweetId,
+                type: "RETWEET",
+            },
+            include: tweetInclude,
+            orderBy: {
+                timeCreated: "desc",
+            },
         });
     }
 
