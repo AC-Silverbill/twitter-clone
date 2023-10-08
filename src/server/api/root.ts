@@ -4,6 +4,7 @@ import { userRouter } from "~/server/api/routers/user";
 import { tweetRouter } from "~/server/api/routers/tweet";
 import { bookmarkRouter } from "~/server/api/routers/bookmark";
 import { notificationRouter } from "~/server/api/routers/notification";
+import { likeRouter } from "~/server/api/routers/like";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
     example: exampleRouter,
     user: userRouter,
     tweet: tweetRouter,
+    like: likeRouter,
     bookmark: bookmarkRouter,
     notification: notificationRouter,
 });
