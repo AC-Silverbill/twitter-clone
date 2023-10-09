@@ -15,3 +15,16 @@
     content: attr(placeholder);
     color: #6d8291;
 }
+
+.custom-class > *[data-ut-element="button"][data-state="readying"] {
+}
+
+.custom-class > *[data-ut-element="button"][data-state="uploading"] {
+    background: none;
+    background-color: transparent;
+}
+
+.custom-class > *[data-ut-element="button"][data-state="uploading"]::after {
+    background: none;
+    background-color: transparent;
+}

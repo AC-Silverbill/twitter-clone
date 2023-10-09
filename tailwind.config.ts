@@ -1,6 +1,7 @@
+import { withUt } from "uploadthing/tw";
 import { type Config } from "tailwindcss";
 
-export default {
+export default withUt({
     content: ["./src/**/*.{js,ts,jsx,tsx}"],
     theme: {
         extend: {
@@ -38,4 +39,4 @@ export default {
             variants: ["lg", "focus", "hover", "lg:hover", "group-hover", "disabled", "group-disabled", "group-focus-within", "group-focus"],
         },
     ],
-} satisfies Config;
+}) satisfies Config;

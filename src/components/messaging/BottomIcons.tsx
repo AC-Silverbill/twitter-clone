@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { UploadFileResponse } from "uploadthing/client";
 import getLocal from "~/utils/getLocal";
 
 import Icon from "../Icon";
@@ -10,32 +11,26 @@ import { BsEmojiSmile } from "react-icons/bs";
 import { LuCalendarClock } from "react-icons/lu";
 
 interface BottomIconsProps {
-    useStateAttachments: { attachments: File[]; setAttachments: React.Dispatch<React.SetStateAction<File[]>> };
+    useStateAttachments: { attachments: UploadFileResponse[]; setAttachments: React.Dispatch<React.SetStateAction<UploadFileResponse[]>> };
 }
 
 const BottomIcons = ({ useStateAttachments: { attachments, setAttachments } }: BottomIconsProps) => {
     const COLOR_PRIMARY = getLocal("colors", "COLOR_PRIMARY");
 
-    //TODO: make unique verification better
-    const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] ?? null;
-        if (file) {
-            const duplicate = attachments.find((a) => a.lastModified === file.lastModified && a.length === file.length);
-
-            if (!duplicate) {
-                setAttachments([...attachments, file]);
-            }
-        }
+    const handleUpload = (newFile: UploadFileResponse) => {
+        setAttachments([...attachments, newFile]);
     };
 
     return (
         <>
-            <UploadImage onChange={(e) => handleImage(e)} />
-            <Icon key={"addgif"} onClick={() => {}} className={`cursor-pointer`}>
+            <UploadImage afterUploadCallback={handleUpload} />
+
+            <Icon key={"addgif"} onClick={() => {}} className={``}>
                 <div className={`border-2 border-${COLOR_PRIMARY} scale-90`}>
                     <AiOutlineGif className={`text-${COLOR_PRIMARY}`} />
                 </div>
             </Icon>
+
             <Icon key={"createpoll"} onClick={() => {}} className={`cursor-pointer`}>
                 <HiListBullet className={`text-${COLOR_PRIMARY}`} />
             </Icon>

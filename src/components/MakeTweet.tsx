@@ -2,10 +2,12 @@
 
 import React, { useRef, useState } from "react";
 import { ReferenceTweet } from "~/types";
+import { UploadFileResponse } from "uploadthing/client";
 import useUser from "~/hooks/useUser";
 import { api } from "~/utils/api";
 import getLocals from "~/utils/getLocals";
 
+import Image from "next/image";
 import Message from "./Message";
 import MiddleBar from "./MiddleBar";
 import MakeTweetArea from "./MakeTweetArea";
@@ -16,6 +18,7 @@ import WhoCanReply from "./messaging/WhoCanReply";
 import AddAnotherPost from "./messaging/AddAnotherPost";
 import AudienceDropdown from "./messaging/AudienceDropdown";
 import CircleProgressBar from "./messaging/CircleProgressBar";
+import { useRouter } from "next/router";
 
 interface MakeTweetProps {
     quote?: ReferenceTweet;
@@ -25,8 +28,9 @@ interface MakeTweetProps {
 const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
     const { twitterProfile } = useUser();
     const [tweetContent, setTweetContent] = useState("");
-    const [attachments, setAttachments] = useState<File[]>([]);
     const [isExpanded, setIsExpanded] = useState(defaultExpanded);
+    const [attachments, setAttachments] = useState<UploadFileResponse[]>([]);
+    const router = useRouter();
     const { COLOR_ERROR } = getLocals("colors");
 
     //TODO: import maxContent from a global settings list. maybe throw it in constants?
@@ -54,14 +58,23 @@ const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
     };
 
     const postQuote = () => {
-        retweetMutation.mutate({ referenceId: quote!.id, content: tweetContent, attachments: [] });
+        retweetMutation.mutate({
+            referenceId: quote!.id,
+            content: tweetContent,
+            attachments: attachments.map((attachment) => attachment.url),
+        });
     };
 
     const postTweet = () => {
-        tweetMutation.mutate({ content: tweetContent, attachments: [] });
+        tweetMutation.mutate({ content: tweetContent, attachments: attachments.map((attachment) => attachment.url) });
     };
 
     const clearTweet = () => {};
+
+    //TODO: make openingImage similar to twitter, as a modal
+    const openImage = (e: React.MouseEvent<HTMLImageElement, MouseEvent>) => {};
+
+    //TODO: add dynamic sizes for images
     return (
         <div className={`p-4 flex border-b-[1px] w-full`}>
             <ProfilePicture twitterProfile={twitterProfile} />
@@ -73,6 +86,17 @@ const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
                     onFocus={() => setIsExpanded(true)}
                     tweetContent={tweetContent}
                 />
+                {attachments.map((attachment) => (
+                    <a target="_blank" href={attachment.url}>
+                        <Image
+                            src={attachment.url}
+                            alt={`attachment image of ${attachment.name}`}
+                            className="object-contain border rounded-3xl"
+                            width={200}
+                            height={200}
+                        />
+                    </a>
+                ))}
                 {quote && <div className="border flex justify-center items-center">{<Message tweet={quote} />}</div>}
                 {isExpanded && <WhoCanReply onClick={() => {}} />}
                 <div className={`${isExpanded && `border-b py-1`}`}></div>
