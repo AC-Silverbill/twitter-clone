@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { ReferenceTweet } from "~/types";
+import { ReferenceTweet, Tweet } from "~/types";
 import { UploadFileResponse } from "uploadthing/client";
 import useUser from "~/hooks/useUser";
 import { api } from "~/utils/api";
@@ -20,7 +20,7 @@ import AudienceDropdown from "./messaging/AudienceDropdown";
 import CircleProgressBar from "./messaging/CircleProgressBar";
 
 interface MakeTweetProps {
-    quote?: ReferenceTweet;
+    quote?: Tweet;
     defaultExpanded?: boolean;
 }
 

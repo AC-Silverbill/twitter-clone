@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { ReferenceTweet } from "~/types";
+import { ReferenceTweet, Tweet } from "~/types";
 import getLocals from "~/utils/getLocals";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
 import useAuthModal from "~/hooks/useAuthModal";
@@ -9,7 +9,7 @@ import ProfilePicture from "./ProfilePicture";
 import ProfileHandle from "./ProfileHandle";
 
 interface MessageProps {
-    tweet: ReferenceTweet;
+    tweet: Tweet;
 }
 
 const Message = ({ tweet: { id, author, content } }: MessageProps) => {

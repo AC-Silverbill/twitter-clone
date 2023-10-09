@@ -41,7 +41,7 @@ const Tweet = ({ tweet, testMode = false }: TweetProps) => {
                 {tweet.attachments && tweet.attachments.map((attachment) => <TweetImage attachment={attachment} />)}
                 {tweet.reference && (
                     <div className="border rounded-2xl mt-2">
-                        <Message tweet={tweet.reference} />
+                        <Message tweet={tweet} />
                     </div>
                 )}
                 <div className="pt-2 flex justify-evenly w-full">

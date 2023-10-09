@@ -65,9 +65,7 @@ const MakeReply = ({ tweetReply }: MakeReplyProps) => {
                     onFocus={() => setIsExpanded(true)}
                     tweetContent={tweetContent}
                 />
-                {attachments.map((attachment) => (
-                    <TweetImage attachment={attachment} />
-                ))}
+                {attachments && attachments.map((attachment) => <TweetImage attachment={attachment} />)}
                 {isExpanded && <WhoCanReply onClick={() => {}} />}
                 <div className={`${isExpanded && `border-b py-1`}`}></div>
                 <div className="pt-2 flex w-full">

@@ -15,18 +15,21 @@ const FollowUser = ({ twitterProfile }: FollowUserProps) => {
     }, [isFollowed]);
 
     const handleClick = () => {
+        const followMutationTRPC = api.user.followUser.useMutation();
+        const unfollowMutationTRPC = api.user.unfollowUser.useMutation();
+
         if (isFollowed) {
-            const unfollowTRPC = api.user.unfollowUser.useQuery({ username: twitterProfile.username });
+            followMutationTRPC.mutate({ username: twitterProfile.username });
             setIsFollowed(false);
         } else {
-            const followTRPC = api.user.followUser.useQuery({ username: twitterProfile.username });
+            followMutationTRPC.mutate({ username: twitterProfile.username });
             setIsFollowed(true);
         }
     };
 
     return (
         <Button buttonTemplate="PRIMARY_BG" onClick={handleClick}>
-            {}
+            {isFollowed ? "Unfollow" : "Follow"}
         </Button>
     );
 };

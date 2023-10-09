@@ -1,5 +1,5 @@
 import React from "react";
-import { Tweet as TweetType } from "~/types";
+import { ReferenceTweet, Tweet as TweetType } from "~/types";
 import { getTwitterProfile } from "~/utils/getTwitterUser";
 
 import Tweet from "../Tweet";
@@ -16,6 +16,7 @@ const ExampleTweets = () => {
         retweets: 42,
         replies: 52,
         timeCreated: new Date(Date.now()),
+        attachments: [],
     };
 
     const exampleTweet2: TweetType = {
@@ -28,6 +29,14 @@ const ExampleTweets = () => {
         retweets: 2,
         replies: 76,
         timeCreated: new Date(Date.now() - 10000),
+        attachments: [],
+    };
+
+    const referenceTweet2: ReferenceTweet = {
+        id: "dkqdnojm",
+        author: user2,
+        content:
+            "Once upon a time, there was a horse named Course. He loved to eat, of course. Then one night, when he was eating, of course, he came across a porch. He sat on the porch, then died. The end.",
     };
 
     const exampleTweet3: TweetType = {
@@ -39,7 +48,14 @@ const ExampleTweets = () => {
         retweets: 123,
         replies: 42,
         timeCreated: new Date(Date.now() - 10000),
-        reference: exampleTweet2,
+        reference: referenceTweet2,
+        attachments: [],
+    };
+
+    const referenceTweet3: ReferenceTweet = {
+        id: "sfvkoqgqowrwkgmq",
+        author: user1,
+        content: "below me is an original post, unlike this",
     };
 
     const exampleTweet4: TweetType = {
@@ -51,7 +67,8 @@ const ExampleTweets = () => {
         retweets: 42,
         replies: 52,
         timeCreated: new Date(Date.now() - 10000),
-        reference: exampleTweet3,
+        reference: referenceTweet3,
+        attachments: [],
     };
 
     return (
