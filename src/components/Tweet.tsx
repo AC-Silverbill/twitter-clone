@@ -12,6 +12,7 @@ import LikeIcon from "./icons/LikeIcon";
 import StatsIcon from "./icons/StatsIcon";
 import ProfileHandle from "./ProfileHandle";
 import ProfilePicture from "./ProfilePicture";
+import TweetImage from "./TweetImage";
 
 interface TweetProps {
     tweet: Tweet;
@@ -37,6 +38,7 @@ const Tweet = ({ tweet, testMode = false }: TweetProps) => {
                     {testMode && <div className="text-red-400">TESTING</div>}
                 </div>
                 <div className="_line-break-anywhere flex justify-self-end">{tweet.content}</div>
+                {tweet.attachments && tweet.attachments.map((attachment) => <TweetImage attachment={attachment} />)}
                 {tweet.reference && (
                     <div className="border rounded-2xl mt-2">
                         <Message tweet={tweet.reference} />

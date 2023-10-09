@@ -98,7 +98,7 @@ export interface Tweet {
     author: Profile;
     type: keyof typeof TweetType;
     content?: string;
-    attachments: File[];
+    attachments: string[];
     timeCreated: Date;
     reference?: ReferenceTweet;
     retweets: number;

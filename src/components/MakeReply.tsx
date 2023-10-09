@@ -2,12 +2,14 @@
 
 import React, { useRef, useState } from "react";
 import { Tweet } from "~/types";
+import { UploadFileResponse } from "uploadthing/client";
 import { api } from "~/utils/api";
 import getLocals from "~/utils/getLocals";
 import useUser from "~/hooks/useUser";
 import useReplyModal from "~/hooks/useReplyModal";
 
 import MiddleBar from "./MiddleBar";
+import TweetImage from "./TweetImage";
 import MakeTweetArea from "./MakeTweetArea";
 import ProfilePicture from "./ProfilePicture";
 import BottomIcons from "./messaging/BottomIcons";
@@ -27,7 +29,7 @@ const MakeReply = ({ tweetReply }: MakeReplyProps) => {
     const { twitterProfile } = useUser();
     const [isExpanded, setIsExpanded] = useState(false);
     const [tweetContent, setTweetContent] = useState("");
-    const [attachments, setAttachments] = useState<File[]>([]);
+    const [attachments, setAttachments] = useState<string[]>([]);
     const { closeReplyModal, reply, isOpen } = useReplyModal();
     const { COLOR_PRIMARY, COLOR_PRIMARY_DISABLED, COLOR_WHITE_HIGHLIGHTED, COLOR_WARNING, COLOR_ERROR } = getLocals("colors");
 
@@ -45,7 +47,11 @@ const MakeReply = ({ tweetReply }: MakeReplyProps) => {
     //TODO: work on postReply
     const replyMutation = api.tweet.postReply.useMutation();
     const postReply = () => {
-        replyMutation.mutate({ referenceId: tweetReply.id, content: tweetContent, attachments: attachments });
+        replyMutation.mutate({
+            replyReferenceId: tweetReply.id,
+            content: tweetContent,
+            attachments: attachments,
+        });
     };
 
     return (
@@ -59,6 +65,9 @@ const MakeReply = ({ tweetReply }: MakeReplyProps) => {
                     onFocus={() => setIsExpanded(true)}
                     tweetContent={tweetContent}
                 />
+                {attachments.map((attachment) => (
+                    <TweetImage attachment={attachment} />
+                ))}
                 {isExpanded && <WhoCanReply onClick={() => {}} />}
                 <div className={`${isExpanded && `border-b py-1`}`}></div>
                 <div className="pt-2 flex w-full">
