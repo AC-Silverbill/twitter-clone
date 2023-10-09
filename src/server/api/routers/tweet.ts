@@ -73,11 +73,16 @@ export const tweetRouter = createTRPCRouter({
             if (topFollowings.length < 20) {
                 // TODO: still involve the followings
                 const topLatestTweets: TweetPayload[] = await ctx.db.tweet.findMany({
-                    orderBy: {
-                        likes: {
-                            _count: "desc",
+                    orderBy: [
+                        {
+                            likes: {
+                                _count: "desc",
+                            },
                         },
-                    },
+                        {
+                            timeCreated: "desc",
+                        },
+                    ],
                     skip,
                     take: 20,
                     include: tweetInclude,
@@ -134,11 +139,16 @@ export const tweetRouter = createTRPCRouter({
         .query(async ({ ctx, input: { skip } }) => {
             // TODO: maybe use cursor
             const topLatestTweets: TweetPayload[] = await ctx.db.tweet.findMany({
-                orderBy: {
-                    likes: {
-                        _count: "desc",
+                orderBy: [
+                    {
+                        likes: {
+                            _count: "desc",
+                        },
                     },
-                },
+                    {
+                        timeCreated: "desc",
+                    },
+                ],
                 skip,
                 take: 20,
                 include: tweetInclude,
