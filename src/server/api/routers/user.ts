@@ -173,6 +173,16 @@ export const userRouter = createTRPCRouter({
         return followings.map((following): Profile => following.followee as Profile);
     }),
 
+    searchUsers: protectedProcedure.input(z.object({ username: z.string() })).query(async ({ ctx, input: { username } }) => {
+        return (await ctx.db.profile.findMany({
+            where: {
+                username: {
+                    contains: username,
+                },
+            },
+        })) as Profile[];
+    }),
+
     resetDB: publicProcedure.mutation(async () => {
         await resetDB();
     }),
