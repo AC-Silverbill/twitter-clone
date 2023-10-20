@@ -16,7 +16,9 @@ const SearchBar = () => {
     const secondaryColor = getLocal("colors", "COLOR_BORDER");
     const inputRef = useRef<HTMLInputElement>(null);
     const { twitterProfile } = useUser();
-    useEffect(() => setSearchValue(debouncedValue), [debouncedValue]);
+    useEffect(() => {
+        setSearchValue(debouncedValue);
+    }, [debouncedValue]);
 
     const setFocus = (e: any) => {
         inputRef.current?.focus();
@@ -27,7 +29,6 @@ const SearchBar = () => {
         setIsFocused(false);
     };
 
-    return <></>;
     return (
         <div className="p-2 sticky top-0">
             <div

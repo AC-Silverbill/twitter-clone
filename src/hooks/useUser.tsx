@@ -15,6 +15,7 @@ export type UserContextType = {
     isLoading: boolean;
 };
 
+export const UserContext = createContext<UserContextType>({ twitterProfile: placeholderProfile, isLoading: true });
 export const UserContextProvider = (props: Props) => {
     //TODO: add case for unauthenticated
 
@@ -32,8 +33,6 @@ export const UserContextProvider = (props: Props) => {
         />
     );
 };
-
-export const UserContext = createContext<UserContextType>({ twitterProfile: placeholderProfile, isLoading: true });
 
 const useUser = () => {
     const user = useContext(UserContext);
