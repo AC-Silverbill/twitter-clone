@@ -48,7 +48,9 @@ export default function Home() {
         if (repliesTRPC.data?.length === 0) {
             return <div className="flex justify-center items-center p-2">No replies found :(</div>;
         } else {
-            return repliesTRPC.data?.map((reply) => <Tweet tweet={reply} />);
+            return repliesTRPC.data?.map((reply) => (
+                <Tweet tweet={reply} key={`a replied message to ${reply.author.username} [${reply.id}]`} />
+            ));
         }
     };
 

@@ -38,7 +38,6 @@ const SearchBar = () => {
     };
 
     const isPartOfGroup = (target: EventTarget & Element): boolean => {
-        console.log("test", target.closest(GROUP_CLASSNAME));
         return !!target.closest(`.${GROUP_CLASSNAME}`);
     };
 
@@ -56,7 +55,7 @@ const SearchBar = () => {
     };
 
     return (
-        <div className="p-2 sticky top-0" onBlur={handleBlur}>
+        <div className={`p-2 sticky top-0 ${GROUP_CLASSNAME}`} onBlur={handleBlur}>
             <div
                 className={`group flex items-center bg-${COLOR_BORDER} rounded-2xl p-2 focus-within:bg-white focus:translate-x-2 border-2 border-transparent focus-within:border-black caret-transparent`}
                 onClick={setFocus}
@@ -71,14 +70,13 @@ const SearchBar = () => {
                     onChange={(e) => setValue(e.target.value)}
                 />
             </div>
-            <div className="p-4">child div</div>
             {isFocused && searchValue.length !== 0 && (
                 <div className="rounded-2xl border" onClick={setFocus}>
                     <div className={`flex justify-center align-center border-b-[1px] py-4 p-2 text-${COLOR_SECONDARY}`}>
                         <h3>{`Searching for "${searchValue}"`}</h3>
                     </div>
                     {searchResults.map((profile) => (
-                        <SearchBarUser profile={profile} />
+                        <SearchBarUser profile={profile} key={`${profile.username}'s searchbar result`} />
                     ))}
                 </div>
             )}

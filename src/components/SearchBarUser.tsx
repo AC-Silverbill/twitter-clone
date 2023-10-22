@@ -17,7 +17,6 @@ const SearchBarUser = ({ profile }: SearchBarUserProps) => {
     const router = useRouter();
 
     const handleClick = () => {
-        console.log("im clicking", userRoute);
         router.push(userRoute);
     };
 

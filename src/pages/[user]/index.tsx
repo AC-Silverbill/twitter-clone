@@ -48,7 +48,7 @@ export default function Home() {
         if (postsTRPC.data?.length === 0) {
             return <div className="flex justify-center items-center p-2">No posts found :(</div>;
         } else {
-            return postsTRPC.data?.map((post) => <Tweet tweet={post} />);
+            return postsTRPC.data?.map((post) => <Tweet tweet={post} key={`post from ${post.author.username}[${post.id}]`} />);
         }
     };
     return (

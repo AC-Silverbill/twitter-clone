@@ -6,11 +6,9 @@ when done, just add 2 ~~ on each side of title
 
 
 
-
-
 ### FRONTEND
 # TIER ONE
-- fix searchbar onClick with proper onBlur
+- ~~fix searchbar onClick with proper onBlur~~
 - turn retweet to proper retweet, not a quote (i kinda didnt realize this lol), 
 - add <MiniModal/> for page
 - - add <MiniModal/> for chooseing to retweet, or quote (retweet is instant)
@@ -22,7 +20,7 @@ when done, just add 2 ~~ on each side of title
 
 # TIER TWO
 - fix padding on pacman loading on minifeeds on profile
-- remove 'child div'
+- ~~remove 'child div'~~
 - add notifications
 - - remove verified tab
 - add emojis to tweet

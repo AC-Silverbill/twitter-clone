@@ -19,7 +19,7 @@ export default function Home() {
     const profileTRPC = api.user.getProfile.useQuery({ username: username });
 
     // TODO: rewrite this to be directed to getMedia route
-    const mediaTRPC = api.tweet.getRepliesFromUser.useQuery({ username: username });
+    const mediaTRPC = api.tweet.getMediaFromUser.useQuery({ username: username });
 
     if (profileTRPC.isLoading) {
         return <LoadingFeed />;
@@ -50,9 +50,20 @@ export default function Home() {
         if (mediaTRPC.data?.length === 0) {
             return <div className="flex justify-center items-center p-2">No media found :(</div>;
         } else {
-            return mediaTRPC.data?.map((post) => (
-                <Image src={post.content ?? ""} alt={`Image of ${profileTRPC.data?.nickname ?? "a user"}'s tweet.`} fill />
-            ));
+            return mediaTRPC.data?.map((mediaTweet) => {
+                return (
+                    <div key={`${mediaTweet.id}'s attachments`}>
+                        {mediaTweet.attachments.map((media, index) => (
+                            <Image
+                                src={media}
+                                alt={`Image of ${profileTRPC.data?.nickname ?? "a user"}'s tweet.`}
+                                fill
+                                key={`an attachment [${media}](${index})`}
+                            />
+                        ))}
+                    </div>
+                );
+            });
         }
     };
     return (
