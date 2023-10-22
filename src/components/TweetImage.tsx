@@ -12,8 +12,8 @@ const TweetImage = ({ attachment }: TweetImageProps) => {
         <a target="_blank" href={attachment}>
             <Image
                 src={attachment}
-                alt={`attachment image from ${attachment}`}
-                className="object-contain border rounded-3xl"
+                alt={`attachment image from ${attachment}. if you are seeing this, we are unable to retrieve the image :(`}
+                className="object-contain border rounded-3xl text-xs"
                 width={200}
                 height={200}
             />

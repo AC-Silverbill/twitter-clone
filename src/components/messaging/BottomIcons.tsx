@@ -25,16 +25,6 @@ const BottomIcons = ({ useStateAttachments: { attachments, setAttachments } }: B
     return (
         <>
             <UploadImage afterUploadCallback={handleUpload} />
-
-            <Icon key={"addgif"} onClick={() => {}} className={``}>
-                <div className={`border-2 border-${COLOR_PRIMARY} scale-90`}>
-                    <AiOutlineGif className={`text-${COLOR_PRIMARY}`} />
-                </div>
-            </Icon>
-
-            <Icon key={"createpoll"} onClick={() => {}} className={`cursor-pointer`}>
-                <HiListBullet className={`text-${COLOR_PRIMARY}`} />
-            </Icon>
             <Icon key={"addemoji"} onClick={() => {}} className="cursor-pointer">
                 <BsEmojiSmile className={`text-${COLOR_PRIMARY}`} />
             </Icon>

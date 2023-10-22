@@ -32,6 +32,7 @@ export default function Home() {
     }
 
     const Posts = () => {
+        //TODO: fix likes feed
         if (repliesTRPC.isLoading) {
             return <LoadingFeedChild />;
         }
@@ -50,6 +51,7 @@ export default function Home() {
             return repliesTRPC.data?.map((reply) => <Tweet tweet={reply} />);
         }
     };
+
     return (
         <Content>
             <UserFeed twitterProfile={profileTRPC.isSuccess ? profileTRPC.data! : placeholderProfile}>

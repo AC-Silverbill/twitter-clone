@@ -15,11 +15,12 @@ interface QuoteIconProps {
 const LikeIcon = ({ tweet }: QuoteIconProps) => {
     const [isLiked, setIsLiked] = useState(false);
     const { data } = useSession();
-    const { openAuthModal } = useAuthModal();
+    const { openAuthModal, setDetails } = useAuthModal();
     const { COLOR_PINK, COLOR_PINK_LIGHTER } = getLocals("colors");
 
     const onClick = () => {
         if (!isValidSession(data)) {
+            setDetails({ profile: tweet.author });
             return openAuthModal("like");
         } else {
             setIsLiked(!isLiked);

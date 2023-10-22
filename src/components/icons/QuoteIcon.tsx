@@ -15,12 +15,13 @@ interface QuoteIconProps {
 
 const QuoteIcon = ({ tweet }: QuoteIconProps) => {
     const { data } = useSession();
-    const { openAuthModal } = useAuthModal();
+    const { openAuthModal, setDetails } = useAuthModal();
     const { openQuoteModal } = useQuoteModal();
     const { COLOR_GREEN, COLOR_GREEN_LIGHTER } = getLocals("colors");
 
     const onClick = () => {
         if (!isValidSession(data)) {
+            setDetails({ profile: tweet.author });
             return openAuthModal("retweet");
         } else {
             return openQuoteModal(tweet);

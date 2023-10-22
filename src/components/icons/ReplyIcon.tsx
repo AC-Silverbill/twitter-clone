@@ -15,12 +15,13 @@ interface ReplyIconProps {
 
 const ReplyIcon = ({ tweet }: ReplyIconProps) => {
     const { data } = useSession();
-    const { openAuthModal } = useAuthModal();
+    const { openAuthModal, setDetails } = useAuthModal();
     const { openReplyModal } = useReplyModal();
     const COLOR_PRIMARY = getLocal("colors", "COLOR_PRIMARY");
 
     const onClick = () => {
         if (!isValidSession(data)) {
+            setDetails({ profile: tweet.author });
             return openAuthModal("reply");
         } else {
             return openReplyModal(tweet);

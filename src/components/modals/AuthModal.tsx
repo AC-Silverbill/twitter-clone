@@ -25,7 +25,7 @@ interface ProviderButtonProps {
 }
 
 const AuthModal = () => {
-    const { isOpen, headerType, openAuthModal, closeAuthModal } = useAuthModal();
+    const { isOpen, headerType, details, closeAuthModal } = useAuthModal();
     const [viewAuths, setViewAuths] = useState(false);
     const primaryColor = getLocal("colors", "COLOR_PRIMARY");
     const primaryHighlighted = getLocal("colors", "COLOR_PRIMARY_HIGHLIGHTED");
@@ -56,14 +56,14 @@ const AuthModal = () => {
             <AuthModalHeader
                 Icon={FaMessage}
                 header="Reply to join the conversation."
-                description={`Once you join twitter, you can reply to ${"test"}'s post.`}
+                description={`Once you join twitter, you can reply to ${details?.profile}'s post.`}
             />
         ),
         retweet: (
             <AuthModalHeader
                 Icon={HiArrowPathRoundedSquare}
                 header="Repost to spread the word."
-                description={`When you join X, you can share ${"test"}'s post with your followers.`}
+                description={`When you join X, you can share ${details?.profile}'s post with your followers.`}
             />
         ),
         like: (
@@ -71,13 +71,13 @@ const AuthModal = () => {
                 Icon={AiFillHeart}
                 className="fill-pink-400"
                 header="Like a post to share the love."
-                description={`Join X now to let ${"test"} know you like their post.`}
+                description={`Join X now to let ${details?.profile} know you like their post.`}
             />
         ),
         follow: (
             <AuthModalHeader
                 Icon={FiUserPlus}
-                header={`Follow ${"test"} to see what they share on X.`}
+                header={`Follow ${details?.profile} to see what they share on X.`}
                 description="Sign up so you never miss their posts."
             />
         ),

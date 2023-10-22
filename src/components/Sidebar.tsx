@@ -40,7 +40,7 @@ const Sidebar = () => {
         return (
             <nav className="sticky flex flex-col p-4 px-10 pb-20 border border-gray-100 h-[100vh] min-w-[150px] top-0 left-0">
                 <Button
-                    className={`mt-2 rounded-3xl font-bold text-xl px-4 p-2 text-white bg-${primaryColor}`}
+                    className={`mt-2 rounded-3xl font-bold text-xl p-2 px-4 text-white bg-${primaryColor}`}
                     onClick={() => openAuthModal("default")}
                 >
                     Login
