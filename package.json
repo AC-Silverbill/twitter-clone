@@ -36,6 +36,7 @@
     "superjson": "^1.13.1",
     "tailwind-merge": "^1.14.0",
     "uploadthing": "^5.7.1",
+    "validator": "^13.11.0",
     "zod": "^3.22.4",
     "zustand": "^4.4.1"
   },
