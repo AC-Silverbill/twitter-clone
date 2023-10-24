@@ -110,6 +110,7 @@ export interface ReferenceTweet {
     id: string;
     author: Profile;
     content: string;
+    timeCreated: Date;
 }
 
 export interface Like {
