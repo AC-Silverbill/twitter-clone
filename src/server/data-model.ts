@@ -8,6 +8,7 @@ export const tweetInclude = {
             id: true,
             author: true,
             content: true,
+            timeCreated: true,
         },
     },
     replyReference: {
@@ -15,6 +16,7 @@ export const tweetInclude = {
             id: true,
             author: true,
             content: true,
+            timeCreated: true,
         },
     },
     _count: {
@@ -45,12 +47,14 @@ export const tweetMapper = (tweet: TweetPayload): Tweet => {
                       id: tweet.retweetReference!.id,
                       author: tweet.retweetReference!.author as Profile,
                       content: tweet.retweetReference!.content!,
+                      timeCreated: tweet.retweetReference!.timeCreated,
                   }
                 : tweet.type === "REPLY"
                 ? {
                       id: tweet.replyReference!.id,
                       author: tweet.replyReference!.author as Profile,
                       content: tweet.replyReference!.content!,
+                      timeCreated: tweet.replyReference!.timeCreated,
                   }
                 : undefined,
     };
