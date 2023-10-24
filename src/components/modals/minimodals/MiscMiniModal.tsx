@@ -4,6 +4,9 @@ import useMiniModal from "~/hooks/useMiniModal";
 import MiniModal from "./MiniModal";
 
 const MiscMiniModal = () => {
+    // 2 WAYS TO DO
+    // absolute position with js
+    // find out how accessible popover is with html/css (better tbh)
     const { isOpen, contents, closeMiniModal } = useMiniModal();
 
     return (
