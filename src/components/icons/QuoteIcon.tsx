@@ -8,6 +8,7 @@ import useQuoteModal from "~/hooks/useQuoteModal";
 
 import Icon from "../Icon";
 import { HiOutlineArrowPathRoundedSquare } from "react-icons/hi2";
+import useMiniModal from "~/hooks/useMiniModal";
 
 interface QuoteIconProps {
     tweet: Tweet;
@@ -16,6 +17,7 @@ interface QuoteIconProps {
 const QuoteIcon = ({ tweet }: QuoteIconProps) => {
     const { data } = useSession();
     const { openAuthModal, setDetails } = useAuthModal();
+    const { openMiniModal } = useMiniModal();
     const { openQuoteModal } = useQuoteModal();
     const { COLOR_GREEN, COLOR_GREEN_LIGHTER } = getLocals("colors");
 
@@ -24,7 +26,8 @@ const QuoteIcon = ({ tweet }: QuoteIconProps) => {
             setDetails({ profile: tweet.author });
             return openAuthModal("retweet");
         } else {
-            return openQuoteModal(tweet);
+            return openMiniModal(<div>hello</div>);
+            // return openQuoteModal(tweet);
         }
     };
 

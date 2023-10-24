@@ -12,6 +12,7 @@ import UserFeed from "~/components/feed/UserFeed";
 import LoadingFeed from "~/components/LoadingFeed";
 import ErrorFeedChild from "~/components/ErrorFeedChild";
 import LoadingFeedChild from "~/components/LoadingFeedChild";
+import Attachment from "~/components/Attachment";
 
 export default function Home() {
     const router = useRouter();
@@ -54,12 +55,7 @@ export default function Home() {
                 return (
                     <div key={`${mediaTweet.id}'s attachments`}>
                         {mediaTweet.attachments.map((media, index) => (
-                            <Image
-                                src={media}
-                                alt={`Image of ${profileTRPC.data?.nickname ?? "a user"}'s tweet.`}
-                                fill
-                                key={`an attachment [${media}](${index})`}
-                            />
+                            <Attachment imageSource={media} key={`${media}[${index}]`} />
                         ))}
                     </div>
                 );

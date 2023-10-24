@@ -12,6 +12,7 @@ import MakeTweet from "../MakeTweet";
 import ContentTitle from "../ContentTitle";
 import StickyHeader from "../StickyHeader";
 import ExampleTweets from "../testing/ExampleTweets";
+import { Random } from "~/utils/Random";
 
 const HomeFeed = () => {
     const [tweets, setTweets] = useState<TweetType[]>([]);
@@ -52,7 +53,7 @@ const HomeFeed = () => {
                 </div>
             </StickyHeader>
             <MakeTweet />
-            {tweets.length !== 0 && tweets.map((tweet) => <Tweet tweet={tweet} />)}
+            {tweets.length !== 0 && tweets.map((tweet) => <Tweet tweet={tweet} key={Random.createRandomNumber(1000)} />)}
             <ExampleTweets />
         </Feed>
     );

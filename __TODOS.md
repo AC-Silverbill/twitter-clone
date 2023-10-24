@@ -13,10 +13,12 @@ when done, just add 2 ~~ on each side of title
 - add <MiniModal/> for page
 - - add <MiniModal/> for chooseing to retweet, or quote (retweet is instant)
 - add like functionality
-- add proper time since post (current is 1hr default)
+- ~~add proper time since post (current is 1hr default)~~
 - fix /media crashing page since the image no longer exists
 - add 'Edit Profile' functionality
 - update following tweets
+- add `validator` for checking invalid URLs
+- - add real validator logic for when an image url isnt valid
 
 # TIER TWO
 - fix padding on pacman loading on minifeeds on profile
@@ -25,6 +27,8 @@ when done, just add 2 ~~ on each side of title
 - - remove verified tab
 - add emojis to tweet
 - add scheduling to tweet
+- change `MAX_TIME_BEFORE_LITERAL_DATE` to proper 24hrs 
+- remove '!' on line 32 of `Tweet.ts` (needs function on line done first)
 
 ### NEED FROM BACKEND
 # TIER ONE

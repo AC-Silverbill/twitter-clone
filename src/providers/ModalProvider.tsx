@@ -6,6 +6,7 @@ import ReplyModal from "~/components/modals/ReplyModal";
 import QuoteModal from "~/components/modals/QuoteModal";
 import TweetModal from "~/components/modals/TweetModal";
 import EditProfileModal from "~/components/modals/EditProfileModal";
+import MiscMiniModal from "~/components/modals/minimodals/MiscMiniModal";
 
 const ModalProvider = () => {
     const [mountedOnce, setMountedOnce] = useState(false);
@@ -25,6 +26,7 @@ const ModalProvider = () => {
             <ReplyModal />
             <MiscModal />
             <EditProfileModal />
+            <MiscMiniModal />
         </>
     );
 };
