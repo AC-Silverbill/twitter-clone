@@ -2,6 +2,7 @@ import { parseArgs } from "node:util";
 import { db } from "~/server/db";
 import { faker } from "@faker-js/faker";
 import { resetDB } from "./reset-db";
+import { createId as createCUID } from "@paralleldrive/cuid2";
 
 const ranges = [0.2, 0.35, 0.4, 0.45, 0.5, 0.55, 0.6, 0.65, 0.7, 0.75] as const;
 const getRandomIndexInRange = () => {
@@ -37,13 +38,13 @@ const randomNumberInRange = (min: number, max: number) => {
     for (let i = 0; i < PROFILE_NUM; i++) {
         // TODO: use cuid instead
         const user = {
-            id: faker.string.nanoid(),
+            id: createCUID(),
             name: faker.person.firstName(),
             email: faker.internet.email(),
             isAuthenticated: true,
         };
         const profile = {
-            id: faker.string.nanoid(),
+            id: createCUID(),
             userId: user.id,
             nickname: faker.person.firstName(),
             username: faker.internet.userName(),
@@ -58,7 +59,7 @@ const randomNumberInRange = (min: number, max: number) => {
     for (const profile of profiles) {
         for (let i = 0; i < randomNumberInRange(10, 20); i++) {
             tweets.push({
-                id: faker.string.nanoid(),
+                id: createCUID(),
                 authorUsername: profile.username,
                 content: faker.lorem.lines(3),
                 timeCreated: faker.date.anytime(),

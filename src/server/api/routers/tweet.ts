@@ -3,6 +3,7 @@ import { z } from "zod";
 import { updateScore } from "~/server/api/routers/user";
 import { tweetInclude, tweetMapper, type TweetPayload } from "~/server/data-model";
 import { type Tweet } from "~/types";
+import { faker } from "@faker-js/faker";
 
 export const tweetRouter = createTRPCRouter({
     postTweet: protectedProcedure
@@ -153,7 +154,7 @@ export const tweetRouter = createTRPCRouter({
                 take: 20,
                 include: tweetInclude,
             });
-            return topLatestTweets.map((tweet) => tweetMapper(tweet));
+            return faker.helpers.shuffle(topLatestTweets.map((tweet) => tweetMapper(tweet)));
         }),
 
     getTweet: protectedProcedure
