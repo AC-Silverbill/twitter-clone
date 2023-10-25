@@ -17,7 +17,7 @@ export default function Home() {
     const router = useRouter();
     const username = router.query.user as string;
     const profileTRPC = api.user.getProfile.useQuery({ username: username });
-    const likesTRPC = api.tweet.getLikesFromUser.useQuery({ username: username });
+    const likesTRPC = api.like.getLikesFromUser.useQuery({ username: username });
 
     if (profileTRPC.isLoading) {
         return <LoadingFeed />;
