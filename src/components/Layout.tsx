@@ -1,7 +1,9 @@
 import React from "react";
-import { Head } from "~/components";
+import UserProvider from "~/providers/UserProvider";
+import { api } from "~/utils/api";
 
-//include providers here when needed
+import Head from "./Head";
+import Content from "./Content";
 interface LayoutProps {
     children: React.ReactNode;
 }

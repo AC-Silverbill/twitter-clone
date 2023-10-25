@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "next/head";
+
 const Head = () => {
     return (
         <Header>

@@ -1,3 +1,30 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+._line-break-anywhere {
+    line-break: anywhere;
+    backface-visibility: hidden;
+}
+
+.progress-bar {
+    background: radial-gradient(closest-side, white 79%, transparent 80% 100%), conic-gradient(hotpink 75%, pink 0);
+}
+
+[contentEditable="true"]:empty:before {
+    content: attr(placeholder);
+    color: #6d8291;
+}
+
+.custom-class > *[data-ut-element="button"][data-state="readying"] {
+}
+
+.custom-class > *[data-ut-element="button"][data-state="uploading"] {
+    background: none;
+    background-color: transparent;
+}
+
+.custom-class > *[data-ut-element="button"][data-state="uploading"]::after {
+    background: none;
+    background-color: transparent;
+}
