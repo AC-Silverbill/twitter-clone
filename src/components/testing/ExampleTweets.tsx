@@ -37,6 +37,7 @@ const ExampleTweets = () => {
         author: user2,
         content:
             "Once upon a time, there was a horse named Course. He loved to eat, of course. Then one night, when he was eating, of course, he came across a porch. He sat on the porch, then died. The end.",
+        timeCreated: new Date(),
     };
 
     const exampleTweet3: TweetType = {
@@ -56,6 +57,7 @@ const ExampleTweets = () => {
         id: "sfvkoqgqowrwkgmq",
         author: user1,
         content: "below me is an original post, unlike this",
+        timeCreated: new Date(),
     };
 
     const exampleTweet4: TweetType = {
