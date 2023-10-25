@@ -25,6 +25,10 @@ const getRandomIndex = (length: number, i: number): number => {
     return index;
 };
 
+const randomNumberInRange = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+};
+
 (async () => {
     if (reset) await resetDB();
     // ################# Create users and profiles #################
@@ -32,26 +36,27 @@ const getRandomIndex = (length: number, i: number): number => {
     const profiles = [];
     for (let i = 0; i < PROFILE_NUM; i++) {
         // TODO: use cuid instead
-        const userId = faker.string.nanoid();
-        users.push({
-            id: userId,
+        const user = {
+            id: faker.string.nanoid(),
             name: faker.person.firstName(),
             email: faker.internet.email(),
             isAuthenticated: true,
-        });
-        profiles.push({
+        };
+        const profile = {
             id: faker.string.nanoid(),
-            userId,
+            userId: user.id,
             nickname: faker.person.firstName(),
             username: faker.internet.userName(),
-        });
+        };
+        users.push(user);
+        profiles.push(profile);
     }
     await db.$transaction([db.user.createMany({ data: users }), db.profile.createMany({ data: profiles })]);
 
     // ################# Generate random tweets #################
     const tweets = [];
     for (const profile of profiles) {
-        for (let i = 0; i < Math.floor(Math.random() * 10); i++) {
+        for (let i = 0; i < randomNumberInRange(10, 20); i++) {
             tweets.push({
                 id: faker.string.nanoid(),
                 authorUsername: profile.username,
@@ -64,32 +69,35 @@ const getRandomIndex = (length: number, i: number): number => {
     await db.$transaction([db.tweet.createMany({ data: tweets })]);
 
     // ################# Generate likes for random tweets #################
-    const likes = [];
-
+    const likes: { tweetId: string; likerUsername: string }[] = [];
     for (const tweet of tweets) {
-        for (let j = 0; j < Math.floor(Math.random() * profiles.length); j++) {
-            likes.push({
-                tweetId: tweet.id,
-                likerUsername: profiles[Math.floor(Math.random() * profiles.length)]!.username,
-            });
+        for (let i = 0; i < randomNumberInRange(1, 200); i++) {
+            const randomProfile = profiles[Math.floor(Math.random() * profiles.length)];
+            if (!randomProfile) continue;
+            const matchLike = likes.filter((like) => like.tweetId === tweet.id && like.likerUsername === randomProfile.username);
+            if (!matchLike.length)
+                likes.push({
+                    tweetId: tweet.id,
+                    likerUsername: randomProfile.username,
+                });
         }
     }
 
     await db.$transaction([db.like.createMany({ data: likes })]);
 
     // ################# Generate scores for random users #################
-    const scores = [];
-    for (let i = 0; i < profiles.length; i++) {
-        for (let j = 0; j < 30; j++) {
-            const randomIndex = getRandomIndex(profiles.length, i);
-            scores.push({
-                profileUsername: profiles[i]!.username,
-                followingUsername: profiles[randomIndex]!.username,
-                score: Math.floor(Math.random() * (1000 - 100 + 1)) + 100,
-            });
-        }
-    }
-    await db.$transaction([db.popularityScore.createMany({ data: scores })]);
+    // const scores = [];
+    // for (let i = 0; i < profiles.length; i++) {
+    //     for (let j = 0; j < 30; j++) {
+    //         const randomIndex = getRandomIndex(profiles.length, i);
+    //         scores.push({
+    //             profileUsername: profiles[i]!.username,
+    //             followingUsername: profiles[randomIndex]!.username,
+    //             score: Math.floor(Math.random() * (1000 - 100 + 1)) + 100,
+    //         });
+    //     }
+    // }
+    // await db.$transaction([db.popularityScore.createMany({ data: scores })]);
 
     // const topFollowings = await db.popularityScore.findMany({
     //     where: {
