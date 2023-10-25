@@ -27,7 +27,6 @@ const Tab = ({ title, className, selectable = true, route, onClick, style = "TAB
     useEffect(() => {
         if (selectable) {
             const path = router.asPath;
-            console.log(path, route, path === route);
             if (path === route) setIsSelected(true);
         }
     }, [router.asPath]);

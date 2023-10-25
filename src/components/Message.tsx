@@ -35,9 +35,8 @@ const Message = ({ tweet, reference }: MessageProps) => {
                     <div className="flex gap-2">
                         <h2 className="font-bold">{tweet.author.nickname ?? tweet.author.username}</h2>
                         <ProfileHandle twitterProfile={tweet.author} className="self-center" />
-
                         <div>·</div>
-                        <div>1hr</div>
+                        <div>{timeSinceString}</div>
                     </div>
                     <div className="_line-break-anywhere flex justify-self-end">{tweet.content}</div>
                 </div>
@@ -46,6 +45,10 @@ const Message = ({ tweet, reference }: MessageProps) => {
     }
 
     if (reference) {
+        useEffect(() => {
+            // console.log(reference);
+            // setTimeSinceString(Actions.convertDateToLastCreatedTwitterTime(reference.timeCreated));
+        }, []);
         return (
             <div className={`p-4 flex cursor-pointer w-full border-${COLOR_BORDER}  hover:bg-${COLOR_LIGHT_GRAY_DARKER}`}>
                 <ProfilePicture twitterProfile={reference.author} />
@@ -53,6 +56,8 @@ const Message = ({ tweet, reference }: MessageProps) => {
                     <div className="flex gap-2">
                         <h2 className="font-bold">{reference.author.nickname ?? reference.author.username}</h2>
                         <ProfileHandle twitterProfile={reference.author} className="self-center" />
+                        <div>·</div>
+                        <div>{timeSinceString}</div>
                     </div>
                     <div className="_line-break-anywhere flex justify-self-end">{reference.content}</div>
                 </div>
