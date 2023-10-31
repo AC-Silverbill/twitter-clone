@@ -17,22 +17,24 @@ interface QuoteIconProps {
 const QuoteIcon = ({ tweet }: QuoteIconProps) => {
     const { data } = useSession();
     const { openAuthModal, setDetails } = useAuthModal();
-    const { openMiniModal } = useMiniModal();
+    const { setPosition, openMiniModal } = useMiniModal();
     const { openQuoteModal } = useQuoteModal();
     const { COLOR_GREEN, COLOR_GREEN_LIGHTER } = getLocals("colors");
 
-    const onClick = () => {
+    const onClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         if (!isValidSession(data)) {
             setDetails({ profile: tweet.author });
-            return openAuthModal("retweet");
+            openAuthModal("retweet");
         } else {
-            return openMiniModal(<div>hello</div>);
-            // return openQuoteModal(tweet);
+            const x = e.currentTarget.getBoundingClientRect().x;
+            const y = e.currentTarget.getBoundingClientRect().y;
+            setPosition({ x: x, y: y });
+            openMiniModal(<div>hello</div>);
         }
     };
 
     return (
-        <div className="group flex cursor-pointer" onClick={onClick}>
+        <div className="group flex cursor-pointer" onClick={(e) => onClick}>
             <Icon key={"retweet"} className={`hover:bg-${COLOR_GREEN_LIGHTER}`}>
                 <HiOutlineArrowPathRoundedSquare className={`transform flex-1 scale-110 group-hover:text-${COLOR_GREEN}`} />
             </Icon>

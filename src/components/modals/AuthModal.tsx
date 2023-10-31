@@ -10,6 +10,7 @@ import { AiFillHeart } from "react-icons/ai";
 import { FaMessage } from "react-icons/fa6";
 import { HiArrowPathRoundedSquare } from "react-icons/hi2";
 import { FiUserPlus } from "react-icons/fi";
+import { signIn } from "next-auth/react";
 
 interface ModalAuthHeaderProps {
     Icon?: IconType;
@@ -88,7 +89,7 @@ const AuthModal = () => {
     };
 
     const ProviderButton = ({ onClick, provider }: ProviderButtonProps) => (
-        <Button>
+        <Button onClick={onClick}>
             <div className={`flex border w-[200px] p-2 gap-1 rounded-3xl hover:bg-${whiteHighlighted} transition`}>
                 <div className="flex items-center justify-center">
                     <Image
@@ -107,9 +108,16 @@ const AuthModal = () => {
         <Modal isOpen={isOpen} onChange={() => closeAuthModal()} closeButton={false}>
             {viewAuths && (
                 <div className="flex flex-col justify-center items-center p-2 gap-2">
-                    <ProviderButton key={"Discord"} provider="Discord" onClick={() => {}} />
-                    <ProviderButton key={"Github"} provider="Github" onClick={() => {}} />
-                    <ProviderButton key={"Google"} provider="Google" onClick={() => {}} />
+                    <ProviderButton
+                        key={"Discord"}
+                        provider="Discord"
+                        onClick={() => {
+                            console.log("im clicked");
+                            signIn("discord");
+                        }}
+                    />
+                    <ProviderButton key={"Github"} provider="Github" onClick={() => signIn("github")} />
+                    <ProviderButton key={"Google"} provider="Google" onClick={() => signIn("google")} />
                 </div>
             )}
             {!viewAuths && (

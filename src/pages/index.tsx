@@ -68,7 +68,7 @@ export default function Home() {
                             <Button
                                 className="border-2 rounded-xl p-2 w-full"
                                 onClick={() => {
-                                    void signIn("discord");
+                                    signIn("discord");
                                 }}
                             >
                                 Sign in with Discord

@@ -1,18 +1,20 @@
 import React from "react";
 import useMiniModal from "~/hooks/useMiniModal";
 
-import MiniModal from "./MiniModal";
-
 const MiscMiniModal = () => {
     // 2 WAYS TO DO
     // absolute position with js
     // find out how accessible popover is with html/css (better tbh)
-    const { isOpen, contents, closeMiniModal } = useMiniModal();
+    const { isOpen, contents, position, closeMiniModal } = useMiniModal();
+
+    if (!isOpen) {
+        return <></>;
+    }
 
     return (
-        <MiniModal isOpen={isOpen} onChange={() => closeMiniModal()}>
-            {<div className="flex flex-col justify-center items-center gap-2">{contents}</div>}
-        </MiniModal>
+        <div className="absolute z-10" style={{ left: position.x }}>
+            Hello
+        </div>
     );
 };
 
