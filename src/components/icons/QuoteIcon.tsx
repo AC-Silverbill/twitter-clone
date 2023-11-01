@@ -9,6 +9,7 @@ import useQuoteModal from "~/hooks/useQuoteModal";
 import Icon from "../Icon";
 import { HiOutlineArrowPathRoundedSquare } from "react-icons/hi2";
 import useMiniModal from "~/hooks/useMiniModal";
+import getAbsolutePosition from "~/utils/getAbsolutePosition";
 
 interface QuoteIconProps {
     tweet: Tweet;
@@ -26,15 +27,14 @@ const QuoteIcon = ({ tweet }: QuoteIconProps) => {
             setDetails({ profile: tweet.author });
             openAuthModal("retweet");
         } else {
-            const x = e.currentTarget.getBoundingClientRect().x;
-            const y = e.currentTarget.getBoundingClientRect().y;
-            setPosition({ x: x, y: y });
+            const position = getAbsolutePosition(e.currentTarget);
+            setPosition({ x: position.left, y: position.top });
             openMiniModal(<div>hello</div>);
         }
     };
 
     return (
-        <div className="group flex cursor-pointer" onClick={(e) => onClick}>
+        <div className="group flex cursor-pointer" onClick={onClick}>
             <Icon key={"retweet"} className={`hover:bg-${COLOR_GREEN_LIGHTER}`}>
                 <HiOutlineArrowPathRoundedSquare className={`transform flex-1 scale-110 group-hover:text-${COLOR_GREEN}`} />
             </Icon>

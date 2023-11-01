@@ -19,7 +19,10 @@ const useMiniModal = create<MiniModalStore>((set) => ({
         set({ contents: newContents });
         set({ isOpen: true });
     },
-    closeMiniModal: () => set({ isOpen: false }),
+    closeMiniModal: () => {
+        console.log("im closing");
+        set({ isOpen: false });
+    },
 }));
 
 export default useMiniModal;
