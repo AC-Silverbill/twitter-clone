@@ -31,7 +31,14 @@ const HomeFeed = () => {
     }
 
     useEffect(() => {
-        if (data) setTweets(data);
+        if (data && data?.length && data.length > 0) {
+            const reversedData: TweetType[] = [];
+            for (let i = 0; i < data.length; i++) {
+                reversedData.push(data[data.length - i]);
+            }
+
+            setTweets(data);
+        }
     }, [data, category]);
 
     return (

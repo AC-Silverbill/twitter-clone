@@ -21,8 +21,6 @@ export const tweetRouter = createTRPCRouter({
         .input(
             z.object({
                 retweetReferenceId: z.string().cuid(),
-                content: z.string(),
-                attachments: z.string().array().max(4),
             })
         )
         .mutation(async ({ ctx, input }) => {

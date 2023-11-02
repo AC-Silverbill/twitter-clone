@@ -18,7 +18,7 @@ interface QuoteIconProps {
 const QuoteIcon = ({ tweet }: QuoteIconProps) => {
     const { data } = useSession();
     const { openAuthModal, setDetails } = useAuthModal();
-    const { setPosition, openMiniModal } = useMiniModal();
+    const { setPosition, openMiniModal, setDetails: setMiniDetails } = useMiniModal();
     const { openQuoteModal } = useQuoteModal();
     const { COLOR_GREEN, COLOR_GREEN_LIGHTER } = getLocals("colors");
 
@@ -29,6 +29,7 @@ const QuoteIcon = ({ tweet }: QuoteIconProps) => {
         } else {
             const position = getAbsolutePosition(e.currentTarget);
             setPosition({ x: position.left, y: position.top });
+            setMiniDetails(tweet);
             openMiniModal(<div>hello</div>);
         }
     };

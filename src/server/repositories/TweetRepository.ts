@@ -12,7 +12,7 @@ export class TweetRepository extends Repository {
         });
     }
 
-    async createRetweet(input: { content: string; attachments: string[]; retweetReferenceId: string }) {
+    async createRetweet(input: { retweetReferenceId: string }) {
         await this.db.tweet.create({
             data: {
                 authorUsername: this.profile.username,

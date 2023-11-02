@@ -45,7 +45,7 @@ const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
     };
 
     const tweetMutation = api.tweet.postTweet.useMutation();
-    const retweetMutation = api.tweet.postRetweet.useMutation();
+    const replyMutation = api.tweet.postReply.useMutation();
 
     const handlePost = () => {
         if (quote) {
@@ -56,8 +56,8 @@ const MakeTweet = ({ quote, defaultExpanded = false }: MakeTweetProps) => {
     };
 
     const postQuote = () => {
-        retweetMutation.mutate({
-            retweetReferenceId: quote!.id,
+        replyMutation.mutate({
+            replyReferenceId: quote!.id,
             content: tweetContent,
             attachments: attachments,
         });

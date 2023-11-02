@@ -10,8 +10,8 @@ when done, just add 2 ~~ on each side of title
 # TIER ONE
 - ~~fix searchbar onClick with proper onBlur~~
 - turn retweet to proper retweet, not a quote (i kinda didnt realize this lol), 
-- add <MiniModal/> for page
-- - add <MiniModal/> for chooseing to retweet, or quote (retweet is instant)
+- ~~add <MiniModal/> for page~~
+- - ~~add <MiniModal/> for chooseing to retweet, or quote (retweet is instant)~~
 - add like functionality
 - ~~add proper time since post (current is 1hr default)~~
 - add 'Edit Profile' functionality
